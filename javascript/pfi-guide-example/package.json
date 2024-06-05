@@ -1,0 +1,14 @@
+{
+  "name": "pfi-guide-example",
+  "version": "1.0.0",
+  "description": "The source code for the PFI guides on the TBD Developer website",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Giglio",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@tbdex/http-server": "^0.18.0"
+  }
+}

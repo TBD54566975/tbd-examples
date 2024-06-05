@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Payment Form</title>
+        <link
+            href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+                    Arial, sans-serif;
+                background-color: #fff; /* White background for a clean look */
+                color: #333; /* Use darker text for better readability */
+            }
+
+            .form-input {
+                background-color: #ffffff; /* Light gray background similar to iOS */
+                border: 1px solid #c7c7cc; /* Light border for inputs */
+                border-radius: 20px; /* More pronounced rounded corners */
+                color: #333; /* Dark text for visibility */
+                padding: 10px 20px; /* Vertical and horizontal padding */
+                margin: 5px 0; /* Add some margin for spacing between fields */
+                font-size: 16px; /* Slightly larger font size for readability */
+                width: calc(
+                    100% - 40px
+                ); /* Adjust width to account for padding */
+                box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            }
+
+            /* Style adjustments for focus state to maintain consistent padding */
+            .form-input:focus {
+                outline: none; /* Remove default focus outline */
+                box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
+            }
+
+            button {
+                background-color: #007aff; /* Use the standard iOS blue for buttons */
+                color: #fff;
+                border: none;
+                border-radius: 14px; /* More rounded corners for buttons */
+                padding: 10px 20px; /* Add padding for a taller, wider button */
+                box-shadow: none; /* No shadow for a flatter iOS look */
+            }
+
+            button:hover {
+                background-color: #005ecb; /* A darker blue on hover */
+            }
+
+            .bg-gray-100 {
+                background-color: #efeff4; /* Use the iOS group background color */
+                border: none; /* No border for a cleaner look */
+            }
+
+            .text-gray-700 {
+                color: #333; /* Darker text for better contrast */
+            }
+
+            .text-lg,
+            .text-sm,
+            label {
+                color: #333; /* Ensure all text is legible */
+            }
+
+            .rounded-md {
+                border-radius: 12px; /* iOS usually has larger border radii for elements like cards */
+            }
+
+            .shadow-md {
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for card-like elements */
+            }
+
+            /* Use system-like icons and increase the font size for legibility */
+            .icon {
+                font-size: 20px; /* Bigger icons for a touch-friendly interface */
+            }
+
+            /* Add more padding and space to match the iOS look */
+            .padding {
+                padding: 20px;
+            }
+
+            .space-y-4 > * + * {
+                margin-top: 16px; /* More space between elements */
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container mx-auto px-4 py-5">
+            <div class="mx-auto w-full max-w-2xl">
+                <form class="mb-4 rounded bg-white px-4 pb-4 pt-4 shadow-md">
+                    <!-- Offerings Section -->
+                    <div id="offeringsContainer">
+                        <!-- Offerings will be loaded here -->
+                    </div>
+                    <!-- Credit Card Information Section -->
+                    <div class="mb-5 rounded-md bg-gray-100 p-4 shadow-sm">
+                        <fieldset>
+                            <legend class="mb-3 text-lg font-bold">
+                                Credit Card Information
+                            </legend>
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <!-- Card Number -->
+                                <div>
+                                    <label
+                                        class="mb-1 block text-sm font-bold text-gray-700"
+                                        for="number"
+                                        >Card Number</label
+                                    >
+                                    <input
+                                        class="form-input"
+                                        type="text"
+                                        id="number"
+                                        value="5520000000000000"
+                                    />
+                                </div>
+                                <!-- Expiry Month -->
+                                <div>
+                                    <label
+                                        class="mb-1 block text-sm font-bold text-gray-700"
+                                        for="expiry_month"
+                                        >Expiry Month</label
+                                    >
+                                    <input
+                                        class="form-input"
+                                        type="text"
+                                        id="expiry_month"
+                                        value="05"
+                                    />
+                                </div>
+                                <!-- Expiry Year -->
+                                <div>
+                                    <label
+                                        class="mb-1 block text-sm font-bold text-gray-700"
+                                        for="expiry_year"
+                                        >Expiry Year</label
+                                    >
+                                    <input
+                                        class="form-input"
+                                        type="text"
+                                        id="expiry_year"
+                                        value="2024"
+                                    />
+                                </div>
+                                <!-- CVC -->
+                                <div>
+                                    <label
+                                        class="mb-1 block text-sm font-bold text-gray-700"
+                                        for="cvc"
+                                        >CVC</label
+                                    >
+                                    <input
+                                        class="form-input"
+                                        type="text"
+                                        id="cvc"
+                                        value="123"
+                                    />
+                                </div>
+                                <!-- Name on Card -->
+                                <div class="col-span-1 md:col-span-2">
+                                    <label
+                                        class="mb-1 block text-sm font-bold text-gray-700"
+                                        for="name"
+                                        >Name on Card</label
+                                    >
+                                    <input
+                                        class="form-input"
+                                        type="text"
+                                        id="name"
+                                        value="Roland Robot"
+                                    />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <!-- Funds Recipient Section -->
+                    <div class="mb-5 rounded-md bg-gray-100 p-4 shadow-sm">
+                        <fieldset>
+                            <legend class="mb-3 text-lg font-bold">
+                                Funds Recipient
+                            </legend>
+                            <div class="grid grid-cols-1 gap-4">
+                                <!-- Account Number, BSB Number, Account Name -->
+                                <div>
+                                    <label
+                                        class="mb-1 block text-sm font-bold text-gray-700"
+                                        for="accountNumber"
+                                        >Account Number</label
+                                    >
+                                    <input
+                                        class="form-input"
+                                        type="text"
+                                        id="accountNumber"
+                                        value="987654321"
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        class="mb-1 block text-sm font-bold text-gray-700"
+                                        for="bsbNumber"
+                                        >BSB Number</label
+                                    >
+                                    <input
+                                        class="form-input"
+                                        type="text"
+                                        id="bsbNumber"
+                                        value="123456"
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        class="mb-1 block text-sm font-bold text-gray-700"
+                                        for="accountName"
+                                        >Account Name</label
+                                    >
+                                    <input
+                                        class="form-input"
+                                        type="text"
+                                        id="accountName"
+                                        value="Mr Roland Robot"
+                                    />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <!-- Amount to Transfer Section -->
+                    <div class="mb-5 rounded-md bg-gray-100 p-4 shadow-sm">
+                        <fieldset>
+                            <legend class="mb-3 text-lg font-bold">
+                                Amount to Send
+                            </legend>
+                            <div>
+                                <label
+                                    class="mb-1 block text-sm font-bold text-gray-700"
+                                    for="transferAmount"
+                                    >US Dollars</label
+                                >
+                                <input
+                                    class="form-input"
+                                    type="number"
+                                    id="transferAmount"
+                                    placeholder="Enter amount"
+                                    value="42.42"
+                                />
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <!-- RFQ Button -->
+                    <div class="mt-4 flex items-center justify-between">
+                        <button
+                            class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+                            type="submit"
+                        >
+                            Request Quote
+                        </button>
+                    </div>
+
+                    <!-- Quote Section -->
+                    <div id="quoteContainer">
+                        <!-- Quote will be loaded here -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+
+    <script type="module">
+        import {
+            TbdexHttpClient,
+            Rfq,
+            Quote,
+            Order,
+            Close,
+            OrderStatus
+        } from "https://cdn.jsdelivr.net/npm/@tbdex/http-client@1.0.2/dist/browser.mjs";
+
+        import { DidDht } from "https://cdn.jsdelivr.net/npm/@web5/dids@1.0.0/dist/browser.mjs";
+        import { PresentationExchange } from "https://cdn.jsdelivr.net/npm/@web5/credentials@1.0.0/dist/browser.mjs";
+        console.log(TbdexHttpClient);
+        
+        // create a did for the customer "wallet"
+        const did = await DidDht.create();
+        console.log("customer id", did.did);
+
+        // load the PFI (liquidity node) did from http://localhost:9000/did
+        const pfiDid = await fetch("http://localhost:9000/did").then((r) =>
+            r.text(),
+        );
+        console.log("pfi did", pfiDid);
+
+        // load the offerings from the PFI
+        const offerings = await TbdexHttpClient.getOfferings({
+            pfiDid: pfiDid,
+        });
+
+        console.log("offerings", offerings);
+
+        // show the offerings on the page
+        async function showOfferings(data) {
+            console.log(data)
+            const offeringsContainer =
+                document.getElementById("offeringsContainer");
+            data.forEach((offering) => {
+                const offeringElement = document.createElement("div");
+                offeringElement.className =
+                    "bg-gray-100 p-4 rounded-md shadow-sm mb-5";
+
+                const flagImage = document.createElement("img");
+                flagImage.src = `https://flagcdn.com/w160/au.png`; // Update with correct path
+                flagImage.alt = "Flag";
+                flagImage.style = "width: 50px; height: 30px;";
+                offeringElement.appendChild(flagImage);
+
+                const description = document.createElement("p");
+                description.textContent = offering.data.description;
+                offeringElement.appendChild(description);
+
+                const payoutCurrency = document.createElement("p");
+                payoutCurrency.textContent = `Payout Currency: ${offering.data.payout.currencyCode}`;
+                offeringElement.appendChild(payoutCurrency);
+
+                const payinMethods = document.createElement("p");
+                payinMethods.textContent = `Pay-in Methods: ${offering.data.payin.methods.map((m) => m.kind).join(", ")}`;
+                offeringElement.appendChild(payinMethods);
+
+                offeringsContainer.appendChild(offeringElement);
+            });
+        }
+
+        showOfferings(offerings);
+
+        // Function to get Verifiable Credential
+        async function getVerifiableCredential(name) {
+            return await fetch(
+                `http://localhost:9000/vc?name=${name}&country=Australia&did=${did.uri}`,
+            ).then((r) => r.text());
+        }
+
+        // Process the Request for Quote
+        async function handleRFQRequest(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            const name = document.getElementById("name").value; // Get the name from the form
+            const credential = await getVerifiableCredential(name); // Get the Verifiable Credential
+
+            console.log('credential', credential)
+
+            // print out as json:
+            console.log('requiredClaims', JSON.stringify(offerings[0].data.requiredClaims, null, 2))
+            
+
+            
+            PresentationExchange.satisfiesPresentationDefinition({
+                vcJwts: [credential],
+                presentationDefinition: offerings[0].data.requiredClaims,
+            });
+            
+
+            const transferAmount =
+                document.getElementById("transferAmount").value; // Get the transfer amount from the form
+            const rfq = Rfq.create({
+                metadata: { from: did.uri, 
+                            to: offerings[0].metadata.from,
+                            protocol: "1.0" },
+                data: {
+                    offeringId: offerings[0].metadata.id,
+                    payin: {
+                        amount: transferAmount,
+                        kind: "CREDIT_CARD",
+                        paymentDetails: {
+                            cc_number: document.getElementById("number").value,
+                            expiry_month:
+                                document.getElementById("expiry_month").value,
+                            expiry_year:
+                                document.getElementById("expiry_year").value,
+                            cvc: document.getElementById("cvc").value,
+                            name: document.getElementById("name").value,
+                        },
+                    },
+                    payout: {
+                        kind: "AUSTRALIAN_BANK_ACCOUNT",
+                        paymentDetails: {
+                            accountNumber: "987654321", // replace with actual account number
+                            bsbNumber: "123456", // replace with actual BSB number
+                            accountName: "Mr Roland Robot", // replace with actual account name
+                        },
+                    },
+                    claims: [credential],
+                },
+            });
+
+            await rfq.sign(did);
+
+            await TbdexHttpClient.createExchange(
+                rfq,
+            );
+            console.log("sent RFQ: ", JSON.stringify(rfq, null, 2));
+
+            let quote;
+
+            //Wait for Quote message to appear in the exchange
+            while (!quote) {
+                console.log("rfq", rfq.metadata.exchangeId)
+                console.log("did", did)
+                console.log("exchangeId", rfq.metadata.exchangeId)
+
+                
+                const exchange = await TbdexHttpClient.getExchange({
+                    pfiDid: pfiDid,
+                    did: did,
+                    exchangeId: rfq.metadata.exchangeId
+                });
+
+                console.log("exchange", exchange);
+
+                quote = exchange.find(msg => msg instanceof Quote);
+
+                if (!quote) {
+                    // Wait 2 seconds before making another request
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+            }
+
+            console.log("quote", quote);
+            // show the quote on the page
+            const quoteContainer = document.getElementById("quoteContainer");
+            const quoteElement = document.createElement("div");
+            quoteElement.className =
+                "bg-gray-100 p-4 rounded-md shadow-sm mb-5";
+            const quoteText = document.createElement("p");
+            quoteText.textContent = `Pay recipient \$${quote.data.payout.amount} ${quote.data.payout.currencyCode}.`;
+            quoteElement.appendChild(quoteText);
+            quoteContainer.appendChild(quoteElement);
+
+            // add a button to accept the quote
+            const acceptButton = document.createElement("button");
+            acceptButton.className =
+                "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline";
+            acceptButton.textContent = "Accept Quote";
+            acceptButton.addEventListener("click", async (event) => {
+                event.preventDefault();
+
+                const order = Order.create({
+                    metadata: {
+                        from: did.uri,
+                        to: pfiDid,
+                        exchangeId: quote.exchangeId,
+                    },
+                });
+
+                await order.sign(did);
+                const orderResponse = await TbdexHttpClient.submitOrder(order);
+                
+                console.log("we have an order response");
+                console.log(
+                    "orderResponse",
+                    JSON.stringify(orderResponse, null, 2),
+                );
+
+                // now poll for the order status
+                while (true) {
+                    const exchanges = await TbdexHttpClient.getExchanges({
+                        pfiDid: pfiDid,
+                        filter: { id: rfq.exchangeId },
+                        did,
+                    });
+                    const [exchange] = exchanges;
+                    // find the quote
+                    const close = exchange.find(
+                        (message) => message instanceof Close,
+                    );
+                    if (close) {
+                        console.log("we have a close");
+                        console.log("close", JSON.stringify(close, null, 2));
+
+                        // appent the close to the page
+                        const closeElement = document.createElement("div");
+                        closeElement.className =
+                            "bg-gray-100 p-4 rounded-md shadow-sm mb-5";
+                        const closeText = document.createElement("p");
+                        closeText.textContent = `💸💸💸 Result: ${close.data.reason}`;
+                        closeElement.appendChild(closeText);
+                        quoteContainer.appendChild(closeElement);
+                        break;
+                    }
+
+                    // rest for a bit
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                }
+            });
+            quoteElement.appendChild(acceptButton);
+        }
+
+        const rfqButton = document.querySelector('form button[type="submit"]');
+        rfqButton.addEventListener("click", handleRFQRequest);
+    </script>
+</html>

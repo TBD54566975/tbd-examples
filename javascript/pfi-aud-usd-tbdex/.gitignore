@@ -1,0 +1,11 @@
+dist
+node_modules/
+.env
+.DS_STORE
+alice.json
+issuer.json
+server-did.txt
+signed-credential.txt
+issuer-did.txt
+alice-did.txt
+pfi.json
