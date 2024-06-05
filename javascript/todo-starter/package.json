@@ -2,7 +2,6 @@
   "name": "todo-starter",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -15,16 +14,17 @@
     "@heroicons/vue": "1.0.6",
     "@noble/ed25519": "1.7.1",
     "@vueuse/core": "9.6.0",
+    "@web5/api": "0.9.4",
     "multiformats": "10.0.2",
     "uuid": "9.0.0",
     "varint": "6.0.0",
     "vue": "3.3.4",
-    "vue-toastification": "2.0.0-rc.5",
-    "@web5/api": "0.9.4"
+    "vue-toastification": "2.0.0-rc.5"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "0.2.2",
+    "@playwright/test": "^1.44.1",
     "@tailwindcss/forms": "0.5.3",
     "@vitejs/plugin-vue": "4.2.3",
     "autoprefixer": "10.4.13",
@@ -33,6 +33,7 @@
     "eslint-plugin-vue": "9.4.0",
     "postcss": "8.4.31",
     "rollup-plugin-polyfill-node": "0.12.0",
+    "start-server-and-test": "^2.0.4",
     "tailwindcss": "3.2.4",
     "vite": "4.3.7",
     "vite-plugin-node-stdlib-browser": "0.2.1"
