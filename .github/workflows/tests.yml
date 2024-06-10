@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   all:
+    name: Find all examples
     runs-on: ubuntu-latest
     outputs:
       languages: ${{ steps.build-matrix.outputs.languages }}
@@ -14,6 +15,7 @@ jobs:
         run: node .github/generate-test-steps.js >> "$GITHUB_OUTPUT"
   
   javascript:
+    name: JavaScript (${{ matrix.example.name }})
     needs: all
     runs-on: ubuntu-latest
     strategy:
@@ -34,6 +36,7 @@ jobs:
         working-directory: javascript/${{ matrix.example.name }}
 
   kotlin:
+    name: Kotlin (${{ matrix.example.name }})
     needs: all
     runs-on: ubuntu-latest
     strategy:
