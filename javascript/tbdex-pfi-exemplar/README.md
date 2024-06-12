@@ -1,4 +1,5 @@
 # Example tbDEX implementation
+
 This is a starter kit for building a **Participating Financial Institution (PFI)**
 gateway to provide liquidity services on the
 **[tbDEX](https://developer.tbd.website/projects/tbdex/) network**. You can fork
@@ -11,15 +12,14 @@ Mock TypeScript PFI implementation for example purposes using:
 * [@tbdex/http-server](https://www.npmjs.com/package/@tbdex/http-server)
 * PostgreSQL as underlying DB
 
-
 ## Running in codesandbox
+
 You can run try this example in codesandbox, or locally.
 
 To run in codesandbox, use the link below and then open a terminal. Then
 continue on from the preparing server section below.
 
-<a href="https://githubbox.com/TBD54566975/tbdex-pfi-exemplar">Open sandbox</a>
-
+[Open sandbox](https://githubbox.com/TBD54566975/tbdex-pfi-exemplar)
 
 ### Local Development Prerequisites
 
@@ -28,6 +28,7 @@ continue on from the preparing server section below.
 * [`dbmate`](#dbmate)
 
 #### `node` and `npm`
+
 This project is using `node v20.3.1` and `npm >=v7.0.0`. You can verify your
 `node` and `npm` installation via the terminal:
 
@@ -51,11 +52,13 @@ Once you have installed `nvm`, install the desired node version with `nvm
 install`, defined in the `.nvmrc` file in the root of the project.
 
 #### Docker
+
 Docker is used to spin up a local PostgreSQL container. Most major platforms
 are supported and you can find the installation instructions
 [here](https://docs.docker.com/engine/install/) .
 
 #### `dbmate`
+
 `dbmate` is used to run database migrations.
 
 Follow these [install
@@ -63,6 +66,7 @@ instructions](https://github.com/amacneil/dbmate?tab=readme-ov-file#installation
 based on your OS' package manager.
 
 ## Preparing the server database (one time)
+>
 > [!IMPORTANT]
 > Make sure you have all the [prerequisites](#development-prerequisites)
 
@@ -79,18 +83,21 @@ based on your OS' package manager.
 6. `npm run server` and ensure this is running
 
 > [!NOTE]
-> (optional) If you want to run this over a network, please set HOST environment to an appropriate name that clients can connect to, as this will be set in the PFIs did as a `serviceEndpoint` (otherwise it defaults to http://localhost:9000)
+> (optional) If you want to run this over a network, please set HOST environment to an appropriate name that clients can connect to, as this will be set in the PFIs did as a `serviceEndpoint` (otherwise it defaults to <http://localhost:9000>)
 
 ## Running end-to-end PFI tutorial
+
 In this tutorial we will set up an issuer to issue Sanction Check VCs, as well
 as create a customer called "Alice" to interact with the PFI server.
 
 ### Step 1: Local development is setup
+
 Ensure [prerequisites](#local-development-prerequisites) are installed and
 check the database [prepared and
 running](#preparing-the-server-database-one-time)).
 
 ### Step 2: Create a VC issuer
+
 ```bash
 npm run example-create-issuer
 ```
@@ -98,19 +105,22 @@ npm run example-create-issuer
 Creates a new VC issuer, which will be needed by the PFI.
 
 > [!NOTE]
->`issuer.json` stores the private key info for the issuer, `issuerDid.txt` has the public did which will be trusted by the PFI. 
+>`issuer.json` stores the private key info for the issuer, `issuerDid.txt` has the public did which will be trusted by the PFI.
 
 ### Step 3: Configure the PFI database with offerings and VC issuer
 
 ```bash
 npm run seed-offerings
 ```
+
 Prepares the PFI with the issuer DID and the offerings it will provide, and what issuer it will trust for the VC.
 
 ### Step 4: Create the identity for customer "Alice"
+
 ```bash
 npm run example-create-customer
 ```
+
 Create a new "customer" DID (customer is called Alice, think of it as her
 wallet). **Take note of her DID which will be used in the next step**.
 
@@ -118,6 +128,7 @@ wallet). **Take note of her DID which will be used in the next step**.
 > Alice's private wallet info is stored in `alice.json`, and her public DID is in `aliceDid.txt`
 
 ### Step 5: Issue a sanctions check VC to "Alice"
+
 Issue the credential to Alice, which ensures Alice is a non-sanctioned
 individual. Use the DID from in Step 4. **Take note of the signed VC that is
 returned.**
@@ -127,6 +138,7 @@ npm run example-issue-credential
 ```
 
 ### Step 6: Run the PFI server
+
 Run the server (or restart it) in another terminal window:
 
 ```bash
@@ -134,8 +146,8 @@ npm run server
 ```
 
 ### Step 7: Run a tbDEX exchange
-Run a tbDEX transaction (or exchange):
 
+Run a tbDEX transaction (or exchange):
 
 ```bash
 npm run example-e2e-exchange
@@ -148,11 +160,12 @@ a quote, place an order, and finally check for status.
 Each interaction happens in the context of an "Exchange" which is a record of
 the interaction between the customer and the PFI.
 
-
 ## Implementing a PFI
 
 ### The PFI server
+
 Start the server with
+
 ```bash
 npm run server
 ```
@@ -178,13 +191,14 @@ for the client to be able to make a request for a quote.
 You also should use a non-ephemeral DID (using the `env` vars config as
 described above).
 
-
 ## DB stuff
+
 Contains sections that highlight convenience scripts that'll help start a
 PostgreSQL, create/run migration scripts, and a `psql` shell that's useful for
 debugging.
 
 ### Convenience Scripts
+
 | Script                       | Description                                                                               |
 | ---------------------------- | ----------------------------------------------------------------------------------------- |
 | `./db/scripts/start-pg`   | Starts dockerized `psql` if it isn't already running.                                      |
@@ -194,10 +208,12 @@ debugging.
 | `./db/scripts/migrate`       | Runs DB migrations.                                                                       |
 
 ### Migration files
+
 Migration files live in the `db/migrations` directory. This is where all of our
 database schemas live.
 
 #### Adding a migration file
+
 To create a new migration file, run the following command from the command
 line:
 
@@ -218,11 +234,14 @@ This will generate a barebones migration template file for you.
 > with a timestamp so they can be applied linearly.
 
 #### Running migrations
+
 Migrations can be applied by running `./db/scripts/migrate` from the command
 line.
 
 #### Running Manual Queries & Debugging
+
 From the command line, run:
+
 ```bash
 ./db/scripts/use-pg
 ```
@@ -230,10 +249,12 @@ From the command line, run:
 This will drop you into an interactive db session.
 
 ## Configuration
+
 Configuration can be set using environment variables. Defaults are set in
 `src/config.ts`.
 
 ## Project Resources
+
 | Resource                                   | Description                                                                    |
 | ------------------------------------------ | ------------------------------------------------------------------------------ |
 | [CODEOWNERS](./CODEOWNERS)                 | Outlines the project lead(s)                                                   |
