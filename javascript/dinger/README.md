@@ -1,15 +1,44 @@
-# Dinger - progressive web app to show DID to DID communication
+# Web5 Chat App - Dinger - Completed
 
-_Ping a DID_
+This is a self-sovereign, modern day pager that allows users to send short text-based messages or "dings" to each other. It is a demo application that demonstrates peer-to-peer communication in the Web5 ecosystem.
 
-# How to use
+[![Edit in CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/TBD54566975/developer.tbd.website/tree/main/examples/tutorials/dinger-completed)
 
-Browse to https://dinger.web5.website on your favourite device of choice. 
+Technologies:
+- Next.js
+- CSS
+- React
+- Web5.js
 
-You can use it in a browser, or on a mobile you can add it to your home screen. Once you add it to your home screen it is "installed" and you get a nice icon, and you can share your DID with others so they can ding you.
+## Setup
 
-# How it works
+Install dependencies:
 
-Check out manifest.json and read about PWAs: https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps 
+```bash
+# npm
+npm install
 
-dinger.js has all the code - index.html the front end. That's it.
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+```
+
+## Run Development Server
+
+Start the development server on `http://localhost:8080`:
+
+```bash
+# npm
+npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
+```
+
+## Want to learn how to build this on your own?
+Check out the [tutorial](https://developer.tbd.website/docs/web5/build/apps/dinger-tutorial) and [starter code](https://codesandbox.io/p/sandbox/github/TBD54566975/developer.tbd.website/tree/main/examples/tutorials/dinger-starter).

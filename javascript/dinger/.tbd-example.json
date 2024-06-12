@@ -1,5 +1,5 @@
 {
-  "name": "Dinger (completed)",
+  "name": "Dinger",
   "tests": {
     "pre": ["npm install", "npx playwright install --with-deps"],
     "command": "npm run test:browser"
