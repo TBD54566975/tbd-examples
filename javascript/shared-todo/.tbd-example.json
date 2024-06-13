@@ -1,5 +1,5 @@
 {
-  "name": "Shared TODO (completed)",
+  "name": "Shared TODO",
   "tests": {
     "pre": ["npm install", "npx playwright install --with-deps"],
     "command": "npm run test:browser"
