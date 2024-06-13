@@ -1,6 +1,6 @@
 const { readdirSync, readFileSync, existsSync, statSync } = require('node:fs');
 
-const stepsByLanguage = {
+const defaultSteps = {
     javascript: {
         preTest: ["npm install"],
         test: ["npm test"],
@@ -33,7 +33,7 @@ for (const language of readdirSync('.')) {
 
         const config = JSON.parse(readFileSync(directory + '/.tbd-example.json', 'utf8'));
 
-        var preTestCommands = stepsByLanguage[language].preTest
+        var preTestCommands = defaultSteps[language].preTest
         if (config.tests && config.tests.pre) {
             preTestCommands = config.tests.pre;
         }
@@ -41,7 +41,7 @@ for (const language of readdirSync('.')) {
             preTestCommands = formatCommands(preTestCommands);
         }
 
-        var testCommands = stepsByLanguage[language].test
+        var testCommands = defaultSteps[language].test
         if (config.tests && config.tests.command) {
             testCommands = [config.tests.command];
         } else if (config.tests && config.tests.commands) {
@@ -52,7 +52,8 @@ for (const language of readdirSync('.')) {
         }
 
         examples.push({
-            name: example,
+            name: config.name || example,
+            directory: directory,
             preTestCommands: preTestCommands,
             testCommands: testCommands
         });
