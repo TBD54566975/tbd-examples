@@ -9,6 +9,6 @@
   "author": "Chris Giglio",
   "license": "Apache-2.0",
   "dependencies": {
-    "@tbdex/http-server": "^0.18.0"
+    "@tbdex/http-server": "^1.0.2"
   }
 }
