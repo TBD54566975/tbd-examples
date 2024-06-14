@@ -93,6 +93,15 @@ try {
 const presentationResult = PresentationExchange.createPresentationFromCredentials({ vcJwts: [signedVcJwt], presentationDefinition: presentationDefinition });
 console.log('\nPresentation Result: ' + JSON.stringify(presentationResult));
 
+
+/** 
+ * Storing a self signed VC in a DWN
+ */
+
+// const { web5, did: userDid } = await Web5.connect();
+
+
+
 /** 
  * Storing a self signed VC in a DWN
  */
@@ -104,10 +113,9 @@ const userAgent = await Web5UserAgent.create();
 if (await userAgent.firstLaunch()) {
   // The vault has not been initialized yet.
   await userAgent.initialize({ password: 'insecure-static-phrase' });
-} else {
-  // The vault is already initialized, so just unlock/start it.
-  await userAgent.start({ password: 'insecure-static-phrase' });
 }
+
+await userAgent.start({ password: 'insecure-static-phrase' });
 
 // Import Alice's DID as an agent-managed Identity.
 const identity = await userAgent.identity.import({
