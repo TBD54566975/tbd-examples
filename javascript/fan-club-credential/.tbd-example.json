@@ -1,0 +1,6 @@
+{
+  "name": "Fan Club Credential",
+  "tests": {
+    "command": "node index.js"
+  }
+}
