@@ -1,0 +1,9 @@
+{
+  "name": "Fan Club Credential",
+  "tests": {
+    "command": "node index.js"
+  },
+  "misc": {
+    "node-version": "v22.2.0"
+  }
+}

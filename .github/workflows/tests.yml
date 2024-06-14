@@ -27,13 +27,13 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '20.4.0'
+          node-version: ${{ matrix.example.misc.node-version || '20.4.0' }}
       - name: test setup
-        run: ${{ matrix.example.preTestCommands }}
+        run: ${{ matrix.example.tests.pre }}
         working-directory: ${{ matrix.example.directory }}
-        if: matrix.example.preTestCommands != null
+        if: matrix.example.tests.pre != null
       - name: test
-        run: ${{ matrix.example.testCommands }}
+        run: ${{ matrix.example.tests.command }}
         working-directory: ${{ matrix.example.directory }}
 
   kotlin:
@@ -69,12 +69,12 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@00854ea68c109d98c75d956347303bf7c45b0277 # v3.2.1
       - name: test setup
-        run: ${{ matrix.example.preTestCommands }}
+        run: ${{ matrix.example.tests.pre }}
         working-directory: ${{ matrix.example.directory }}
-        if: matrix.example.preTestCommands != null
+        if: matrix.example.test.pre != null
       - name: test in android emulator
         uses: reactivecircus/android-emulator-runner@77986be26589807b8ebab3fde7bbf5c60dabec32 # v2.31.0
         with:
           api-level: 29
-          script: ${{ matrix.example.testCommands }}
+          script: ${{ matrix.example.tests.command }}
           working-directory: ${{ matrix.example.directory }}

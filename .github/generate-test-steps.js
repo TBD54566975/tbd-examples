@@ -1,12 +1,16 @@
 const { readdirSync, readFileSync, existsSync, statSync } = require('node:fs');
 
-const defaultSteps = {
+const defaults = {
     javascript: {
-        preTest: ["npm install"],
-        test: ["npm test"],
+        tests: {
+            pre: ["npm install"],
+            command: ["npm test"]
+        },
     },
     kotlin: {
-        test: ["./gradlew connectedCheck"],
+        tests: {
+            command: ["./gradlew connectedCheck"],
+        }
     }
 }
 
@@ -33,30 +37,32 @@ for (const language of readdirSync('.')) {
 
         const config = JSON.parse(readFileSync(directory + '/.tbd-example.json', 'utf8'));
 
-        var preTestCommands = defaultSteps[language].preTest
+        const entry = {
+            name: config.name || example,
+            directory: directory,
+            tests: {},
+            misc: config.misc || {},
+        };
+
+        var preTestCommands = defaults[language].tests ? defaults[language].tests.pre : null;
         if (config.tests && config.tests.pre) {
             preTestCommands = config.tests.pre;
         }
         if (preTestCommands) {
-            preTestCommands = formatCommands(preTestCommands);
+            entry.tests.pre = formatCommands(preTestCommands);
         }
 
-        var testCommands = defaultSteps[language].test
+        var testCommands = defaults[language].tests ? defaults[language].tests.command : null;
         if (config.tests && config.tests.command) {
             testCommands = [config.tests.command];
         } else if (config.tests && config.tests.commands) {
             testCommands = config.tests.commands;
         }
         if (testCommands) {
-            testCommands = formatCommands(testCommands);
+            entry.tests.command = formatCommands(testCommands);
         }
 
-        examples.push({
-            name: config.name || example,
-            directory: directory,
-            preTestCommands: preTestCommands,
-            testCommands: testCommands
-        });
+        examples.push(entry);
     }
 
     if (examples.length > 0) {
