@@ -1,0 +1,9 @@
+{
+  "name": "Book Reviews",
+  "tests": {
+    "command": "node book-reviews.js"
+  },
+  "misc": {
+    "node-version": "v22.2.0"
+  }
+}

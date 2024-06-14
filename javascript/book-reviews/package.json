@@ -10,7 +10,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@web5/api": "0.9.4"
+    "@web5/api": "^0.9.4"
   },
   "type": "module"
 }
