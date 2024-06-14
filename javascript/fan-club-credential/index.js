@@ -98,14 +98,6 @@ console.log('\nPresentation Result: ' + JSON.stringify(presentationResult));
  * Storing a self signed VC in a DWN
  */
 
-// const { web5, did: userDid } = await Web5.connect();
-
-
-
-/** 
- * Storing a self signed VC in a DWN
- */
-
 // Create a user agent.
 const userAgent = await Web5UserAgent.create();
 
