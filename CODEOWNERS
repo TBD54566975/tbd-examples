@@ -1,7 +1,7 @@
 # any files outside of examples, and examples that don't yet have a codeowner
 *                                 @finn-tbd
 
-javascript/book-reviews           @acekyd
+javascript/book-reviews           @acekyd @angiejones 
 javascript/dinger                 @blackgirlbytes
 javascript/dinger-starter         @blackgirlbytes
 javascript/fan-club-credential    @nitro-neal
