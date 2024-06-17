@@ -18,7 +18,7 @@ function formatCommands(commands) {
     if (!commands) {
         return null;
     }
-    return commands.map((c) => "echo \"::group::" + c + "\"\n" + c + "\necho \"::endgroup::\"").join("\n");
+    return "set -e\n" + commands.map((c) => "echo \"::group::" + c + "\"\n" + c + "\necho \"::endgroup::\"").join("\n");
 }
 
 const languages = {};

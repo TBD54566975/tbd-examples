@@ -1,0 +1,16 @@
+{
+  "name": "KCC Prototype",
+  "tests": {
+    "pre": [
+      "cd idv-vendor && npm install",
+      "cd ../issuer && npm install && node 0-create-did-dht.js",
+      "cd ../wallet && npm install && node 0-create-did-dht.js"
+    ],
+    "commands": [
+      "cd idv-vendor && node server.js &",
+      "cd issuer && node server.js &",
+      "sleep 1",
+      "cd wallet && ./full-flow.sh"
+    ]
+  }
+}
