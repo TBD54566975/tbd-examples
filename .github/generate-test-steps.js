@@ -18,6 +18,9 @@ function formatCommands(commands) {
     if (!commands) {
         return null;
     }
+    if (typeof commands == "string") {
+        commands = [commands];
+    }
     return "set -e\n" + commands.map((c) => "echo \"::group::" + c + "\"\n" + c + "\necho \"::endgroup::\"").join("\n");
 }
 
