@@ -16,7 +16,7 @@ jobs:
         run: node .github/generate-test-steps.js >> "$GITHUB_OUTPUT"
   
   javascript:
-    name: JavaScript (${{ matrix.example.name }})
+    name: JavaScript / ${{ matrix.example.name }}
     needs: all
     runs-on: ubuntu-latest
     strategy:
@@ -37,7 +37,7 @@ jobs:
         working-directory: ${{ matrix.example.directory }}
 
   kotlin:
-    name: Kotlin (${{ matrix.example.name }})
+    name: Kotlin / ${{ matrix.example.name }}
     needs: all
     runs-on: ubuntu-latest
     strategy:

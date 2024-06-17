@@ -1,0 +1,16 @@
+# any files outside of examples, and examples that don't yet have a codeowner
+*                                 @finn-tbd
+
+javascript/book-reviews           @acekyd @angiejones 
+javascript/dinger                 @blackgirlbytes
+javascript/dinger-starter         @blackgirlbytes
+javascript/fan-club-credential    @nitro-neal @blackgirlbytes
+javascript/kcc-prototype-exemplar @KendallWeihe
+javascript/pfi-aud-usd-tbdex      @michaelneale
+javascript/shared-todo            @acekyd
+javascript/shared-todo-starter    @acekyd
+javascript/tbdex-pfi-exemplar     @michaelneale @mistermoe @phoebe-lew @jiyoontbd @kirahsapong
+javascript/todo                   @acekyd @blackgirlbytes
+javascript/todo-starter           @acekyd @blackgirlbytes
+kotlin/tbdex-example-android      @michaelneale @jiyoontbd
+swift/tbdex-example-ios           @kirahsapong
