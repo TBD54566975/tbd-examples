@@ -23,7 +23,7 @@ jobs:
       matrix:
         include:
           - directory: javascript/tbdex-pfi-exemplar
-            image: ghcr.io/tbd54566975/tbd-developer-pfi-exemplar-test
+            image: ghcr.io/tbd54566975/tbd-examples-tbdex-pfi-exemplar
 
     steps:
       - name: Checkout repository

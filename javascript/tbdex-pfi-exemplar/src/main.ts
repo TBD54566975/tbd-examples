@@ -8,11 +8,14 @@ import {
   Postgres,
   ExchangeRepository,
   OfferingRepository,
+  BalancesRepository,
 } from './db/index.js'
 import { HttpServerShutdownHandler } from './http-shutdown-handler.js'
 import { TbdexHttpServer } from '@tbdex/http-server'
 import { DidDht } from '@web5/dids'
-
+import { BearerDid } from '@web5/dids'
+import { createOrLoadDid } from './example/utils.js'
+import { VerifiableCredential } from '@web5/credentials'
 
 await Postgres.connect()
 
@@ -57,6 +60,7 @@ process.on('SIGTERM', async () => {
 const httpApi = new TbdexHttpServer({
   exchangesApi: ExchangeRepository,
   offeringsApi: OfferingRepository,
+  balancesApi: BalancesRepository,
   pfiDid: config.pfiDid.uri,
 })
 
@@ -70,6 +74,23 @@ httpApi.onSubmitOrder(async (ctx, order) => {
 
 httpApi.onSubmitClose(async (ctx, close) => {
   await ExchangeRepository.addMessage({ message: close as Close })
+})
+
+httpApi.api.post('/get-vc', async function(req, res) {
+  const issuer : BearerDid = await createOrLoadDid('issuer.json')
+
+  // Create a sanctions credential so that the PFI knows that Alice is legit.
+  const vc = await VerifiableCredential.create({
+    type    : 'SanctionCredential',
+    issuer  : issuer.uri,
+    subject : req.body.did,
+    data    : {
+      'beep': 'boop'
+    }
+  })
+
+  const vcJwt = await vc.sign({ did: issuer})
+  res.send(vcJwt)
 })
 
 const server = httpApi.listen(config.port, () => {

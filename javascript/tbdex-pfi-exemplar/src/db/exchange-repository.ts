@@ -1,7 +1,9 @@
-import { Message, Close, Order, OrderStatus, Quote, ExchangesApi, Rfq, Parser, Exchange } from '@tbdex/http-server'
+import { Message, Close, Order, OrderStatus, Quote, ExchangesApi, Rfq, Parser, Exchange, Offering } from '@tbdex/http-server'
 import type { MessageModel, MessageKind, GetExchangesFilter } from '@tbdex/http-server'
+import { OfferingRepository } from './offering-repository.js'
 import { Postgres } from './postgres.js'
 import { config } from '../config.js'
+import { BalancesRepository } from './balances-repository.js'
 
 class _ExchangeRepository implements ExchangesApi {
 
@@ -77,6 +79,8 @@ class _ExchangeRepository implements ExchangesApi {
     return await this.getMessage({ exchangeId: opts.exchangeId, messageKind: 'rfq' }) as Rfq
   }
 
+
+
   async getQuote(opts: { exchangeId: string }): Promise<Quote> {
     return await this.getMessage({ exchangeId: opts.exchangeId, messageKind: 'quote' }) as Quote
   }
@@ -123,6 +127,7 @@ class _ExchangeRepository implements ExchangesApi {
     }
   }
 
+
   async addMessage(opts: { message: Message }) {
     const { message } = opts
     const subject = aliceMessageKinds.has(message.kind) ? message.from : message.to
@@ -140,25 +145,17 @@ class _ExchangeRepository implements ExchangesApi {
     console.log(`Add ${message.kind} Result: ${JSON.stringify(result, null, 2)}`)
 
     if (message.kind == 'rfq') {
-      const quote = Quote.create({
-        metadata: {
-          from: config.pfiDid.uri,
-          to: message.from,
-          exchangeId: message.exchangeId
-        },
-        data: {
-          expiresAt: new Date(new Date().getTime() + 60 * 60000).toISOString(),
-          payin: {
-            currencyCode: 'BTC',
-            amount: '1000.00'
-          },
-          payout: {
-            currencyCode: 'KES',
-            amount: '123456789.00'
-          }
-        }
-      })
-      await quote.sign(config.pfiDid)
+      const rfq = message as Rfq
+      let quote: Quote
+      if (rfq.data.payin.kind == 'STORED_BALANCE' && rfq.data.payout.kind == 'WIRE_TRANSFER') {
+        quote = await this.withdrawalQuote(rfq)
+      }
+      if (rfq.data.payin.kind == 'WIRE_TRANSFER' && rfq.data.payout.kind == 'STORED_BALANCE') {
+        quote = await this.depositQuote(rfq)
+      }
+      else {
+        quote = await this.BtcKesQuote(rfq)
+      }
       this.addMessage({ message: quote as Quote})
     }
 
@@ -175,6 +172,13 @@ class _ExchangeRepository implements ExchangesApi {
       })
       await orderStatus.sign(config.pfiDid)
       this.addMessage({ message: orderStatus as OrderStatus})
+
+      const quote = await this.getQuote({ exchangeId: message.exchangeId })
+      if (quote.data.payout.currencyCode == 'STORED_BALANCE') {
+        BalancesRepository.deposit(quote)
+      } else if (quote.data.payin.currencyCode == 'STORED_BALANCE') {
+        BalancesRepository.withdraw(quote)
+      }
 
       await new Promise(resolve => setTimeout(resolve, 1000)) // 1 second delay
 
@@ -206,6 +210,77 @@ class _ExchangeRepository implements ExchangesApi {
       await close.sign(config.pfiDid)
       this.addMessage({ message: close as Close })
     }
+  }
+
+
+  private async depositQuote(rfq: Rfq) {
+    const quote = Quote.create({
+      metadata: {
+        from: config.pfiDid.uri,
+        to: rfq.from,
+        exchangeId: rfq.exchangeId
+      },
+      data: {
+        expiresAt: new Date(new Date().getTime() + 60 * 60000).toISOString(),
+        payin: {
+          currencyCode: 'WIRE_TRANSFER',
+          amount: rfq.data.payin.amount
+        },
+        payout: {
+          currencyCode: 'STORED_BALANCE',
+          amount: rfq.data.payin.amount
+        }
+      }
+    })
+    await quote.sign(config.pfiDid)
+    return quote
+
+  }
+
+  private async withdrawalQuote(rfq: Rfq) {
+    const quote = Quote.create({
+      metadata: {
+        from: config.pfiDid.uri,
+        to: rfq.from,
+        exchangeId: rfq.exchangeId
+      },
+      data: {
+        expiresAt: new Date(new Date().getTime() + 60 * 60000).toISOString(),
+        payin: {
+          currencyCode: 'STORED_BALANCE',
+          amount: rfq.data.payin.amount
+        },
+        payout: {
+          currencyCode: 'WIRE_TRANSFER',
+          amount: rfq.data.payin.amount
+        }
+      }
+    })
+    await quote.sign(config.pfiDid)
+    return quote
+  }
+
+  private async BtcKesQuote(rfq: Rfq) {
+    const quote = Quote.create({
+      metadata: {
+        from: config.pfiDid.uri,
+        to: rfq.from,
+        exchangeId: rfq.exchangeId
+      },
+      data: {
+        expiresAt: new Date(new Date().getTime() + 60 * 60000).toISOString(),
+        payin: {
+          currencyCode: 'BTC',
+          amount: '1000.00'
+        },
+        payout: {
+          currencyCode: 'KES',
+          amount: '123456789.00'
+        }
+      }
+    })
+    await quote.sign(config.pfiDid)
+    return quote
   }
 }
 

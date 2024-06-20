@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 # this script starts dockerized mysql if it isn't already running.
 
