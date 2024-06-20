@@ -53,6 +53,7 @@
     "example-create-issuer": "npm run _debug -- dist/example/create-issuer.js",
     "example-issue-credential": "npm run _debug -- dist/example/issue-credential.js",
     "example-e2e-exchange": "npm run _debug -- dist/example/full-tbdex-exchange.js",
+    "example-stored-balance": "npm run _debug -- dist/example/full-stored-balances.js",
     "lint": "eslint . --ext .ts --max-warnings 0",
     "lint:fix": "eslint . --ext .ts --fix",
     "seed-offerings": "npm run _start -- dist/seed-offerings.js",

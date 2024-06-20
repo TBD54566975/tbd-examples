@@ -20,8 +20,8 @@ const signedCredential = fs.readFileSync('signedCredential.txt', 'utf-8').trim()
 //
 //  Connect to the PFI and get the list of offerings (offerings are resources - anyone can ask for them)
 //
-const [offering] = await TbdexHttpClient.getOfferings({ pfiDid: pfiDid })
-console.log('got offering:', JSON.stringify(offering, null, 2))
+const offerings = await TbdexHttpClient.getOfferings({ pfiDid: pfiDid })
+console.log('got offerings:', JSON.stringify(offerings, null, 2))
 
 
 //
@@ -31,28 +31,24 @@ const alice = await createOrLoadDid('alice.json')
 
 const [balances] = await TbdexHttpClient.getBalances({ pfiDid: pfiDid, did: alice })
 console.log('got balances:', JSON.stringify(balances, null, 2))
-//
-// And here we go with tbdex-protocol!
-//
 
-// First, Create an RFQ
+// lets make a deposit
+let offering = offerings[1]
+console.log('deposit offering', offering)
 const rfq = Rfq.create({
   metadata: { from: alice.uri, to: pfiDid },
   data: {
-    offeringId: offering.id,
+    offeringId: offerings[1].id,
     payin: {
-      kind: 'USD_LEDGER',
+      kind: 'WIRE_TRANSFER',
       amount: '100.00',
       paymentDetails: {},
     },
     payout: {
-      kind: 'BANK_FIRSTBANK',
-      paymentDetails: {
-        accountNumber: '0x1234567890',
-        reason: 'I got kids',
-      },
+      kind: 'STORED_BALANCE',
+      paymentDetails: {},
     },
-    claims: [signedCredential],
+    claims: [], // no claims for now - will add in kcc soon
   },
 })
 
@@ -94,35 +90,26 @@ const exchange = await TbdexHttpClient.getExchange({
 })
 
 console.log('got exchange:', JSON.stringify(exchange, null, 2))
-//
-// Now lets get the quote out of the returned exchange
-//
 
-for (const message of exchange) {
-  if (message instanceof Quote) {
-    const quote = message as Quote
-    console.log('we have received a quote!', JSON.stringify(quote, null, 2))
+// Place an order against that quote:
+const order = Order.create({
+  metadata: {
+    from: alice.uri,
+    to: pfiDid,
+    exchangeId: quote.exchangeId
+  },
+})
+await order.sign(alice)
+await TbdexHttpClient.submitOrder(order)
+console.log('Sent order: ', JSON.stringify(order, null, 2))
 
-    // Place an order against that quote:
-    const order = Order.create({
-      metadata: {
-        from: alice.uri,
-        to: pfiDid,
-        exchangeId: quote.exchangeId
-      },
-    })
-    await order.sign(alice)
-    await TbdexHttpClient.submitOrder(order)
-    console.log('Sent order: ', JSON.stringify(order, null, 2))
+await pollForStatus(order, pfiDid, alice)
 
-    // poll for order status updates
-    await pollForStatus(order, pfiDid, alice)
-  }
-}
+
 
 /*
- * This is a very simple polling function that will poll for the status of an order.
- */
+   * This is a very simple polling function that will poll for the status of an order.
+   */
 async function pollForStatus(order: Order, pfiDid: string, did: BearerDid) {
   let close: Close
   while (!close) {
@@ -146,3 +133,8 @@ async function pollForStatus(order: Order, pfiDid: string, did: BearerDid) {
     }
   }
 }
+
+const [end_balances] = await TbdexHttpClient.getBalances({ pfiDid: pfiDid, did: alice })
+console.log('starting balances:', JSON.stringify(balances, null, 2))
+console.log('end balances:', JSON.stringify(end_balances, null, 2))
+

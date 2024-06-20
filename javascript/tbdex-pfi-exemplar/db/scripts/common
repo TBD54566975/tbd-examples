@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
 # This script contains variables used in all of the other scripts in this directory
 
 # neckbeard bash used to get the value of _this_ directory.
@@ -18,14 +17,9 @@ export DBMATE_MIGRATIONS_DIR=$THIS_DIR/../migrations
 export DATABASE_URL="postgres://$DP_SEC_DB_USER:$DP_SEC_DB_PASSWORD@$DP_SEC_DB_HOST:$DP_SEC_DB_PORT/$DP_SEC_DB_NAME?sslmode=disable"
 
 # colors that can be used in bash scripts when echoing
-RED=""
-YELLOW=""
-RESET=""
-if [[ "${TERM}" != "dumb" ]]; then # tput doesn't like github CI for some reason
-	RED="$(tput bold && tput setaf 1)"
-	YELLOW="$(tput bold && tput setaf 3)"
-	RESET="$(tput sgr0)"
-fi
+RED="$(tput bold && tput setaf 1)"
+YELLOW="$(tput bold && tput setaf 3)"
+RESET="$(tput sgr0)"
 
 _logger() {
 	local color="$1"

@@ -160,6 +160,14 @@ a quote, place an order, and finally check for status.
 Each interaction happens in the context of an "Exchange" which is a record of
 the interaction between the customer and the PFI.
 
+This PFI has support for "stored balances", to try this out:
+
+```bash
+npm run example-stored-balance
+```
+
+This uses the special "STORED_BALANCE" payin and payout offerings to add/remove/send funds from the PFI's stored balance.
+
 ## Implementing a PFI
 
 ### The PFI server
