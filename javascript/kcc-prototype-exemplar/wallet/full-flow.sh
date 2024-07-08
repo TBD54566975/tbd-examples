@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e pipefail
+set -xe pipefail
 
 ISSUER_DID_URI=$(jq -r '.uri' ../issuer/portable-did.json)
 
