@@ -9,4 +9,8 @@ if (resolution.didResolutionMetadata.error) {
 }
 
 const idvService = resolution.didDocument.service.find(x => x.type === "IDV")
-console.log(idvService.serviceEndpoint)
+var serviceEndpoint = idvService.serviceEndpoint;
+if (idvService.serviceEndpoint instanceof Array) {
+  serviceEndpoint = idvService.serviceEndpoint[0];
+}
+console.log(serviceEndpoint);

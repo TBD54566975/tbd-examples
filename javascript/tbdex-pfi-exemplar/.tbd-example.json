@@ -7,9 +7,8 @@
       "chmod +x dbmate-linux-amd64",
       "sudo mv dbmate-linux-amd64 /usr/bin/dbmate",
       "./db/scripts/start-pg",
-      "./db/scripts/migrate",
-      "npm run server &",
-      "until curl -sf http://localhost:9000 > /dev/null; do echo waiting for server to start; sleep 1; done"
-    ]
+      "./db/scripts/migrate"
+    ],
+    "commands": ["npm run ci"]
   }
 }
