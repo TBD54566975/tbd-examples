@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# This script creates a new migration file
-
-THIS_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-source "$THIS_DIR/common"
-
-dbmate new "$@"

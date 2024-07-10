@@ -11,5 +11,4 @@ These examples use TBD's javascript libraries ([tbdex-js](https://github.com/TBD
 | pfi-aud-usd-tbdex      | tbdex-js, web5-js |  an example remittance PFI implementation using the tbdex protocol which uses a real payment API |
 | pfi-guide-example      | tbdex-js | ?? |
 | shared-todo            | web5-js  | a simple Web5 app to manage a set of todos towards your goals with friends |
-| tbdex-pfi-exemplar     | tbdex-js, web5-js | a starter kit for building a **Participating Financial Institution (PFI)** gateway to provide liquidity services on the **[tbDEX](https://developer.tbd.website/projects/tbdex/) network**. |
 | todo                   | web5-js  | a todo app uses the Web5 JS SDK to create a DWN in your browser and add todos |
