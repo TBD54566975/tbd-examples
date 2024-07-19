@@ -27,10 +27,10 @@ export class InMemoryExchangesApi implements ExchangesApi {
     }
 
     const exchanges: Exchange[] = []
-    if (opts.filter.id) {
+    if (opts.filter.from) {
       // filter has `id` and `from`
 
-      for (const id of opts.filter.id) {
+      for (const id of opts.filter.from) {
         const exchange = this.exchangeMessagesMap.get(id)
         if (exchange?.rfq?.from === opts.filter.from) {
           exchanges.push(exchange)
