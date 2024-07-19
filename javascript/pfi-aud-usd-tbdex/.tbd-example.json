@@ -1,3 +1,6 @@
 {
-  "name": "USD to AUD Remittance"
+  "name": "USD to AUD Remittance",
+  "tests": {
+    "command": "npm run test:ci"
+  }
 }
