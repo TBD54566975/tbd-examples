@@ -42,6 +42,7 @@
     "puppeteer": "^22.6.3",
     "rimraf": "5.0.1",
     "sinon": "15.2.0",
+    "start-server-and-test": "^2.0.4",
     "supertest": "6.3.3",
     "typescript": "5.2.2"
   },
@@ -52,6 +53,7 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "server": "npm run compile && node --enable-source-maps dist/main.js",
     "test": "rimraf dist/tests && npm run compile && node --test",
-    "test:e2e": "node src/test_end2end.cjs"
+    "test:e2e": "node src/test_end2end.cjs",
+    "test:ci": "start-server-and-test server http://localhost:9000 test:e2e"
   }
 }
