@@ -1,0 +1,22 @@
+{
+  "name": "tbd-app-creator",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "global-cache-dir": "^6.0.0",
+    "isomorphic-git": "^1.27.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "typescript": "^5.5.3"
+  }
+}
