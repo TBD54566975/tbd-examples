@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-// const xml2js = require("xml2js");
-// const util = require("util");
+const { exec } = require("child_process");
 
 // Setup
 const sdkVersionsPath = path.resolve(__dirname, "sdk-versions.json");
@@ -17,9 +16,8 @@ const getSdkVersions = async () => {
   }
 };
 
-// Update package.json dependencies
+// Update package.json dependencies and install npm packages
 const updatePackageJsonDependencies = async (dirPath, sdkVersions) => {
-  // Check and update the root or any directory level package.json first
   const packageJsonPath = path.join(dirPath, "package.json");
   if (fs.existsSync(packageJsonPath)) {
     try {
@@ -43,6 +41,15 @@ const updatePackageJsonDependencies = async (dirPath, sdkVersions) => {
           JSON.stringify(packageJson, null, 2)
         );
         console.log(`Updated ${packageJsonPath}`);
+        // Run npm install to update the dependencies
+        exec(`npm install --prefix ${dirPath}`, (err, stdout, stderr) => {
+          if (err) {
+            console.error(`Error running npm install in ${dirPath}:`, err);
+            return;
+          }
+          console.log(`npm install output in ${dirPath}: ${stdout}`);
+          if (stderr) console.error(`npm install stderr in ${dirPath}: ${stderr}`);
+        });
       }
     } catch (error) {
       console.error(`Error updating ${packageJsonPath}:`, error);
