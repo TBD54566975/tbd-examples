@@ -1,5 +1,5 @@
 import globalCacheDir from "global-cache-dir";
-import { intro, outro, spinner, select } from "@clack/prompts";
+import { intro, outro, spinner, select, cancel } from "@clack/prompts";
 import * as fs from "fs";
 import git from "isomorphic-git";
 import http from "isomorphic-git/http/node/index.cjs";
@@ -28,23 +28,81 @@ async function updateCache(gitDir: string) {
   }
 }
 
-async function main() {
-  intro("TBD App Creator");
-  const cacheDir = await globalCacheDir("tbd-app-creator");
-  const gitDir = cacheDir + "/tbd-examples";
+async function pickLanguage(gitDir: string): Promise<string | symbol> {
+  let languages: { value: string; label: string; hint?: string }[] = [];
+  for (let lang of fs.readdirSync(gitDir)) {
+    if (lang.startsWith(".")) {
+      continue;
+    }
+    const stat = fs.statSync(gitDir + "/" + lang);
+    if (!stat.isDirectory()) {
+      continue;
+    }
 
-  await updateCache(gitDir);
+    languages.push({ value: lang, label: lang });
+  }
 
-  const languages = fs.readdirSync(gitDir);
-  const projectType = await select({
+  return await select({
     message: "Select a language.",
-    options: [
-      { value: "javascript", label: "JavaScript" },
-      { value: "kotlin", label: "Kotlin" },
-      { value: "swift", label: "Swift" },
-    ],
+    options: languages,
   });
-  outro("thanks for playing");
+}
+
+async function pickTemplate(langDir: string): Promise<string | symbol | null> {
+  let templates: { value: string; label: string; hint?: string }[] = [];
+  for (let template of fs.readdirSync(langDir)) {
+    if (template.startsWith(".")) {
+      continue;
+    }
+
+    if (!fs.statSync(langDir + "/" + template).isDirectory()) {
+      continue;
+    }
+
+    const templateConfig = langDir + "/" + template + "/.tbd-example.json";
+    try {
+      fs.statSync(templateConfig);
+    } catch (e) {
+      if (e.code === "ENOENT") {
+        continue;
+      }
+      throw e;
+    }
+
+    const config = JSON.parse(fs.readFileSync(templateConfig, "utf-8"));
+
+    templates.push({ value: template, label: config.name || template });
+  }
+
+  if (templates.length == 0) {
+    cancel("language has no templates :(");
+    return null;
+  }
+
+  return await select({
+    message: "Select a template.",
+    options: templates,
+  });
+}
+
+async function main() {
+  try {
+    intro("TBD App Creator");
+    const cacheDir = await globalCacheDir("tbd-app-creator");
+    const gitDir = cacheDir + "/tbd-examples";
+
+    await updateCache(gitDir);
+
+    const language = await pickLanguage(gitDir);
+    const template = await pickTemplate(gitDir + "/" + language.toString());
+    if (template === null) {
+      return;
+    }
+
+    outro("thanks for playing");
+  } catch (e) {
+    console.log("\n", e.stack || e);
+  }
 }
 
 main();
