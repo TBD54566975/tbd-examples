@@ -1,6 +1,7 @@
 import globalCacheDir from "global-cache-dir";
-import { intro, outro, spinner, select, cancel } from "@clack/prompts";
+import { intro, outro, spinner, select, cancel, text } from "@clack/prompts";
 import * as fs from "fs";
+import isInvalid from "is-invalid-path";
 import git from "isomorphic-git";
 import http from "isomorphic-git/http/node/index.cjs";
 
@@ -85,6 +86,54 @@ async function pickTemplate(langDir: string): Promise<string | symbol | null> {
   });
 }
 
+async function renderTemplate(src: string, dest: string) {
+  const s = spinner();
+  s.start("rendering template");
+  try {
+    await renderTemplateRecursive(src, dest, s);
+  } catch (e) {
+    s.stop("failed to rendered template", 1);
+    throw e;
+  } finally {
+    s.stop("rendered template");
+  }
+}
+
+async function renderTemplateRecursive(
+  src: string,
+  dest: string,
+  s: { message: (msg?: string) => void }
+) {
+  try {
+    fs.statSync(dest);
+  } catch (e) {
+    if (e.code == "ENOENT") {
+      fs.mkdirSync(dest);
+    } else {
+      throw e;
+    }
+  }
+
+  const srcFiles = fs.readdirSync(src);
+  for (const srcFile of srcFiles) {
+    if (srcFile == ".tbd-example.json") {
+      continue;
+    }
+
+    const srcPath = src + "/" + srcFile;
+    const destPath = dest + "/" + srcFile;
+    s.message(srcPath + " => " + destPath);
+
+    const stat = fs.statSync(src + "/" + srcFile);
+    if (stat.isDirectory()) {
+      await renderTemplateRecursive(srcPath, destPath, s);
+      continue;
+    }
+
+    fs.copyFileSync(srcPath, destPath);
+  }
+}
+
 async function main() {
   try {
     intro("TBD App Creator");
@@ -98,6 +147,20 @@ async function main() {
     if (template === null) {
       return;
     }
+
+    const dest = await text({
+      message: "Where should we put this?",
+      initialValue: "./" + template.toString(),
+      validate(value) {
+        if (value.length === 0) return `Value is required!`;
+        if (isInvalid(value)) return `invalid path`;
+      },
+    });
+
+    const templateSrc = [gitDir, language.toString(), template.toString()].join(
+      "/"
+    );
+    await renderTemplate(templateSrc, dest.toString());
 
     outro("thanks for playing");
   } catch (e) {
