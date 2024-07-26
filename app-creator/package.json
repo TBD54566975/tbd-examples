@@ -13,6 +13,7 @@
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "global-cache-dir": "^6.0.0",
+    "is-invalid-path": "^1.0.2",
     "isomorphic-git": "^1.27.1"
   },
   "devDependencies": {
