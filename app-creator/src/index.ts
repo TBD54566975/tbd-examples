@@ -1,5 +1,13 @@
 import globalCacheDir from "global-cache-dir";
-import { intro, outro, spinner, select, cancel, text } from "@clack/prompts";
+import {
+  intro,
+  outro,
+  spinner,
+  select,
+  cancel,
+  text,
+  isCancel,
+} from "@clack/prompts";
 import * as fs from "fs";
 import isInvalid from "is-invalid-path";
 import git from "isomorphic-git";
@@ -49,18 +57,28 @@ async function pickLanguage(gitDir: string): Promise<string | symbol> {
   });
 }
 
-async function pickTemplate(langDir: string): Promise<string | symbol | null> {
-  let templates: { value: string; label: string; hint?: string }[] = [];
-  for (let template of fs.readdirSync(langDir)) {
-    if (template.startsWith(".")) {
+class TemplateData {
+  slug: string;
+  location: string;
+  config: any;
+}
+
+async function pickTemplate(
+  langDir: string
+): Promise<TemplateData | Symbol | null> {
+  let templates: { value: TemplateData; label: string; hint?: string }[] = [];
+  for (let slug of fs.readdirSync(langDir)) {
+    if (slug.startsWith(".")) {
       continue;
     }
 
-    if (!fs.statSync(langDir + "/" + template).isDirectory()) {
+    const location = langDir + "/" + slug;
+
+    if (!fs.statSync(location).isDirectory()) {
       continue;
     }
 
-    const templateConfig = langDir + "/" + template + "/.tbd-example.json";
+    const templateConfig = location + "/.tbd-example.json";
     try {
       fs.statSync(templateConfig);
     } catch (e) {
@@ -72,7 +90,10 @@ async function pickTemplate(langDir: string): Promise<string | symbol | null> {
 
     const config = JSON.parse(fs.readFileSync(templateConfig, "utf-8"));
 
-    templates.push({ value: template, label: config.name || template });
+    templates.push({
+      value: { slug, location, config },
+      label: config.name || slug,
+    });
   }
 
   if (templates.length == 0) {
@@ -143,26 +164,37 @@ async function main() {
     await updateCache(gitDir);
 
     const language = await pickLanguage(gitDir);
+    if (isCancel(language)) {
+      outro("cancelled");
+      return;
+    }
+
     const template = await pickTemplate(gitDir + "/" + language.toString());
-    if (template === null) {
+    if (template === null || template instanceof Symbol) {
+      outro("cancelled");
       return;
     }
 
     const dest = await text({
       message: "Where should we put this?",
-      initialValue: "./" + template.toString(),
+      initialValue: "./" + template.slug,
       validate(value) {
         if (value.length === 0) return `Value is required!`;
         if (isInvalid(value)) return `invalid path`;
       },
     });
+    if (isCancel(dest)) {
+      outro("cancelled");
+      return;
+    }
 
-    const templateSrc = [gitDir, language.toString(), template.toString()].join(
-      "/"
+    await renderTemplate(
+      gitDir + "/" + language.toString() + "/" + template.toString(),
+      dest.toString()
     );
-    await renderTemplate(templateSrc, dest.toString());
 
-    outro("thanks for playing");
+    // TODO: customize the post-creation commands by language, allow overriding in the template config
+    outro("Done! Now run:\n\n  cd " + dest.toString() + "\n  npm install");
   } catch (e) {
     console.log("\n", e.stack || e);
   }
