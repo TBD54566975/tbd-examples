@@ -157,8 +157,8 @@ async function renderTemplateRecursive(
 
 async function main() {
   try {
-    intro("TBD App Creator");
-    const cacheDir = await globalCacheDir("tbd-app-creator");
+    intro("Web5 App Creator");
+    const cacheDir = await globalCacheDir("web5-app-creator");
     const gitDir = cacheDir + "/tbd-examples";
 
     await updateCache(gitDir);
@@ -169,7 +169,7 @@ async function main() {
       return;
     }
 
-    const template = await pickTemplate(gitDir + "/" + language.toString());
+    const template = await pickTemplate(gitDir + "/" + language);
     if (template === null || template instanceof Symbol) {
       outro("cancelled");
       return;
@@ -188,10 +188,7 @@ async function main() {
       return;
     }
 
-    await renderTemplate(
-      gitDir + "/" + language.toString() + "/" + template.toString(),
-      dest.toString()
-    );
+    await renderTemplate(template.location, dest);
 
     // TODO: customize the post-creation commands by language, allow overriding in the template config
     outro("Done! Now run:\n\n  cd " + dest.toString() + "\n  npm install");
