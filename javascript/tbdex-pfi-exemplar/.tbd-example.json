@@ -1,0 +1,14 @@
+{
+  "name": "TBDex PFI",
+  "tests": {
+    "pre": [
+      "npm install",
+      "wget https://github.com/amacneil/dbmate/releases/download/v1.12.1/dbmate-linux-amd64 && echo 36430799fa4a4265e05593adf6b5705339c8ddc1d0bcc94040f548c0304c5cf4  dbmate-linux-amd64 | sha256sum -c",
+      "chmod +x dbmate-linux-amd64",
+      "sudo mv dbmate-linux-amd64 /usr/bin/dbmate",
+      "./db/scripts/start-pg",
+      "./db/scripts/migrate"
+    ],
+    "commands": ["npm run test:ci"]
+  }
+}
