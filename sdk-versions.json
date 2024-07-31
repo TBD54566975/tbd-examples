@@ -1,8 +1,8 @@
 {
   "js": {
-    "@tbdex/http-client": "1.1.0",
-    "@tbdex/http-server": "1.1.0",
-    "@tbdex/protocol": "1.1.0",
+    "@tbdex/http-client": "2.0.0",
+    "@tbdex/http-server": "2.0.0",
+    "@tbdex/protocol": "2.0.0",
     "@web5/api": "0.10.0",
     "@web5/credentials": "1.0.3",
     "@web5/crypto": "1.0.2",
