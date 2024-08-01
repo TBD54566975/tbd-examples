@@ -1,12 +1,9 @@
 import './polyfills.js'
 import { OfferingRepository } from './offerings.js'
-
 import { Rfq, Order } from '@tbdex/http-server'
-import { Quote, OrderStatus, Close } from '@tbdex/http-server'
-
+import { Quote, OrderStatus, Close, OrderStatusEnum } from '@tbdex/http-server'
 import log from './logger.js'
 import { config } from './config.js'
-
 import { HttpServerShutdownHandler } from './http-shutdown-handler.js'
 import { TbdexHttpServer } from '@tbdex/http-server'
 import { requestCredential } from './credential-issuer.js'
@@ -28,25 +25,20 @@ process.on('uncaughtException', (err) => {
 // triggered by ctrl+c with no traps in between
 process.on('SIGINT', async () => {
   log.info('exit signal received [SIGINT]. starting graceful shutdown')
-
   gracefulShutdown()
 })
-
 // triggered by docker, tiny etc.
 process.on('SIGTERM', async () => {
   log.info('exit signal received [SIGTERM]. starting graceful shutdown')
-
   gracefulShutdown()
 })
 
 const ExchangeRepository = new InMemoryExchangesApi()
-
 const httpApi = new TbdexHttpServer({
   exchangesApi: ExchangeRepository,
   offeringsApi: OfferingRepository,
   pfiDid: config.pfiDid.uri,
 })
-
 
 function snooper() {
   return function(req: Request, res: Response, next: NextFunction) {
@@ -55,7 +47,6 @@ function snooper() {
   }
 }
 httpApi.api.use(snooper())
-
 // TODO: Remove this when spec clarified if should post to /exchanges... or exchanges.../rfq
 function redirectPostToRfq() {
   return function(req, res, next) {
@@ -69,20 +60,15 @@ function redirectPostToRfq() {
     return next()
   }
 }
-
 httpApi.api.use(redirectPostToRfq())
-
-
 
 // provide the quote
 httpApi.onCreateExchange(async (ctx, rfq: Rfq) => {
-
   console.log('RFQ', JSON.stringify(rfq, null, 2))
   await ExchangeRepository.addMessage(rfq)
   const offering = await OfferingRepository.getOffering({
     id: rfq.data.offeringId,
   })
-
   // rfq.payinSubunits is USD - but as a string, convert this to a decimal and multiple but our terrible exchange rate
   // convert to a string, with 2 decimal places
   const terribleExchangeRate = 1.1
@@ -104,26 +90,27 @@ httpApi.onCreateExchange(async (ctx, rfq: Rfq) => {
       },
       data: {
         expiresAt: new Date(2028, 4, 1).toISOString(),
+        payoutUnitsPerPayinUnit: terribleExchangeRate.toString(),
         payin: {
           currencyCode: 'USD',
-          amount: rfq.data.payin.amount,
+          subtotal: rfq.data.payin.amount,
+          total: rfq.data.payin.amount
         },
         payout: {
           currencyCode: 'AUD',
-          amount: payout,
+          subtotal: payout,
+          total: payout
         },
       },
-    })
+    });
     await quote.sign(config.pfiDid)
     await ExchangeRepository.addMessage(quote)
   }
 })
-
 // When the customer accepts the order
 httpApi.onSubmitOrder(async (ctx, order: Order) => {
   console.log('order requested')
   await ExchangeRepository.addMessage(order)
-
   // first we will charge the card
   // then we will send the money to the bank account
 
@@ -135,10 +122,7 @@ httpApi.onSubmitOrder(async (ctx, order: Order) => {
   })
 
   const payinAmount =
-    '' + Math.round(parseFloat(quote.data.payin.amount) * 100)
-
-
-
+    '' + Math.round(parseFloat(quote.data.payin.subtotal) * 100)
 
   let response = await fetch('https://test-api.pinpayments.com/1/charges', {
     method: 'POST',
@@ -165,10 +149,8 @@ httpApi.onSubmitOrder(async (ctx, order: Order) => {
       'metadata[CustomerName]': 'Roland Robot',
     }),
   })
-
   let data = await response.json()
-  await updateOrderStatus(rfq, 'IN_PROGRESS')
-
+  await updateOrderStatus(rfq, OrderStatusEnum.PayinPending)
   if (response.ok) {
     console.log('Charge created successfully. Token:', data.response.token)
   } else {
@@ -197,7 +179,6 @@ httpApi.onSubmitOrder(async (ctx, order: Order) => {
   })
 
   data = await response.json()
-
   if (data.response && data.response.token) {
     console.log('Recipient created successfully. Token:', data.response.token)
   } else {
@@ -210,14 +191,13 @@ httpApi.onSubmitOrder(async (ctx, order: Order) => {
   const recipientToken = data.response.token
   console.log('recipient token:', recipientToken)
 
-  await updateOrderStatus(rfq, 'TRANSFERING_FUNDS')
-
+  await updateOrderStatus(rfq, OrderStatusEnum.PayoutPending)
   // multiply payout by 100 for API and make it an integer
   // payout is in AUD cents
   //
-  // convert quote.data.payout.amount to a decimal
+  // convert quote.data.payout.total to a decimal
   const payoutAmount =
-    '' + Math.round(parseFloat(quote.data.payout.amount) * 100)
+    '' + Math.round(parseFloat(quote.data.payout.total) * 100)
 
   response = await fetch('https://test-api.pinpayments.com/1/transfers', {
     method: 'POST',
@@ -233,40 +213,32 @@ httpApi.onSubmitOrder(async (ctx, order: Order) => {
       recipient: recipientToken,
     }),
   })
-
   data = await response.json()
-
   if (data.response && data.response.status == 'succeeded') {
     console.log('------>Transfer succeeded!!')
-    await updateOrderStatus(rfq, 'SUCCESS')
+    await updateOrderStatus(rfq, OrderStatusEnum.PayoutSettled)
     await close(rfq, 'SUCCESS')
   } else {
-    await updateOrderStatus(rfq, 'FAILED')
+    await updateOrderStatus(rfq, OrderStatusEnum.PayoutFailed)
     await close(rfq, 'Failed to create transfer.')
   }
-
   console.log('all DONE')
 })
-
 httpApi.onSubmitClose(async (ctx, close) => {
   await ExchangeRepository.addMessage(close)
 })
-
 const server = httpApi.listen(config.port, () => {
   log.info(`Mock PFI listening on port ${config.port}`)
 })
-
 httpApi.api.get('/', (req, res) => {
   res.send(
     'Please use the tbdex protocol to communicate with this server or a suitable library: https://github.com/TBD54566975/tbdex-protocol',
   )
 })
-
 // This is just for example convenience. In the real world this would be discovered by other means.
 httpApi.api.get('/did', (req, res) => {
   res.send(config.pfiDid.uri)
 })
-
 // A very low fi implementation of a credential issuer - will just check they are not sanctioned.
 // In the real world this would be done via OIDC4VC or similar.
 // In this case a check could be done on each transaction so a VC could be optional, but it makes the example richer to have it stored in the client (html) and sent with the RFQ.
@@ -278,17 +250,14 @@ httpApi.api.get('/vc', async (req, res) => {
   )
   res.send(credentials)
 })
-
 const httpServerShutdownHandler = new HttpServerShutdownHandler(server)
-
 function gracefulShutdown() {
   httpServerShutdownHandler.stop(async () => {
     log.info('http server stopped.')
     process.exit(0)
   })
 }
-
-async function updateOrderStatus(rfq: Rfq, status: string) {
+async function updateOrderStatus(rfq: Rfq, status: OrderStatusEnum) {
   console.log(
     '----------->>>>>>>>>                         -------->Updating status',
     status,
@@ -300,16 +269,14 @@ async function updateOrderStatus(rfq: Rfq, status: string) {
       exchangeId: rfq.exchangeId,
     },
     data: {
-      orderStatus: status,
+      status,
     },
   })
   await orderStatus.sign(config.pfiDid)
   await ExchangeRepository.addMessage(orderStatus)
 }
-
 async function close(rfq: Rfq, reason: string) {
   console.log('closing exchange ', reason)
-
   const close = Close.create({
     metadata: {
       from: config.pfiDid.uri,

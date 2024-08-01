@@ -120,6 +120,11 @@ const offering = Offering.create({
         },
       ],
     },
+    cancellation: {
+      enabled: true,
+      terms: 'No cancellation policy',
+      termsUrl: 'https://example.com/cancellation-policy'
+    }
   },
 })
 
@@ -151,4 +156,4 @@ export class HardcodedOfferingRepository implements OfferingsApi {
 }
 
 // Export an instance of the repository
-export const OfferingRepository = new HardcodedOfferingRepository()
+export const OfferingRepository = new HardcodedOfferingRepository();
