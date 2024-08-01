@@ -122,7 +122,7 @@ const offering = Offering.create({
     },
     cancellation: {
       enabled: true,
-      terms: 'No cancellation policy',
+      terms: 'Cancellation can be requested within 30 minutes of the order, given the order has not yet been completed.',
       termsUrl: 'https://example.com/cancellation-policy'
     }
   },
