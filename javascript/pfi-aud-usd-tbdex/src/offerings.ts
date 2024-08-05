@@ -120,6 +120,11 @@ const offering = Offering.create({
         },
       ],
     },
+    cancellation: {
+      enabled: true,
+      terms: 'Cancellation can be requested within 30 minutes of the order, given the order has not yet been completed.',
+      termsUrl: 'https://example.com/cancellation-policy'
+    }
   },
 })
 
@@ -151,4 +156,4 @@ export class HardcodedOfferingRepository implements OfferingsApi {
 }
 
 // Export an instance of the repository
-export const OfferingRepository = new HardcodedOfferingRepository()
+export const OfferingRepository = new HardcodedOfferingRepository();
