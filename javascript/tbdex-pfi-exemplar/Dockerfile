@@ -20,5 +20,5 @@ RUN chmod +x /home/node/app/db/scripts/migrate.sh
 
 EXPOSE 9000
 
-# Command to run the migration script and then start the application
-CMD [ "/bin/bash", "-c", "/home/node/app/db/scripts/migrate.sh && npm run server" ]
+# Command to run the migration script, seed the database, and then start the application
+CMD [ "/bin/bash", "-c", "/home/node/app/db/scripts/migrate.sh && npm run seed-offerings && npm run server" ]
