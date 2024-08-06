@@ -2,6 +2,11 @@
 
 set -e
 
+# This script runs db migrations. environment variables can be found in `common`
+THIS_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+source "$THIS_DIR/common"
+
+
 # Function to reset all tables in the database
 drop_all_tables() {
     echo "Dropping all tables in the database $SEC_DB_NAME"
@@ -11,10 +16,7 @@ drop_all_tables() {
 # Drop all tables
 drop_all_tables
 
-# This script runs db migrations. environment variables can be found in `common`
-THIS_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-source "$THIS_DIR/common"
-
+# Run migrations
 if [ -d "$DBMATE_MIGRATIONS_DIR" ]; then
 	if [ -z "$(command ls -A1 "$DBMATE_MIGRATIONS_DIR")" ]; then
 		info "No migrations found."
