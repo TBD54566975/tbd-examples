@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+set -e
+
+# Function to reset all tables in the database
+drop_all_tables() {
+    echo "Dropping all tables in the database $SEC_DB_NAME"
+    PGPASSWORD=$SEC_DB_PASSWORD psql -h $SEC_DB_HOST -U $SEC_DB_USER -d $SEC_DB_NAME -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
+}
+
+# Drop all tables
+drop_all_tables
+
 # This script runs db migrations. environment variables can be found in `common`
 THIS_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 source "$THIS_DIR/common"

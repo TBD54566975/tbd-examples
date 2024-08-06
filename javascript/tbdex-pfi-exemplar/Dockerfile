@@ -15,5 +15,10 @@ RUN curl -fsSL https://github.com/amacneil/dbmate/releases/download/v1.12.1/dbma
     && chmod +x dbmate \
     && mv dbmate /usr/local/bin
 
+# Make the migration script executable
+RUN chmod +x /home/node/app/db/scripts/migrate.sh
+
 EXPOSE 9000
-CMD [ "npm", "run", "server" ]
+
+# Command to run the migration script and then start the application
+CMD [ "/bin/bash", "-c", "/home/node/app/db/scripts/migrate.sh && npm run server" ]
