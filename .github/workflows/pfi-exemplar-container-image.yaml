@@ -38,6 +38,12 @@ jobs:
         uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81 # v5.5.1
         with:
           images: ghcr.io/tbd54566975/tbd-examples-tbdex-pfi-exemplar
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=sha
 
       - name: Build and push container image
         uses: docker/build-push-action@94f8f8c2eec4bc3f1d78c1755580779804cb87b2 # v6.0.1
