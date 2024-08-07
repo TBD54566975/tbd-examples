@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -euo pipefail
 export DATABASE_URL="postgres://${SEC_DB_USER}:${SEC_DB_PASSWORD}@${SEC_DB_HOST}:${SEC_DB_PORT}/${SEC_DB_NAME}"
 set -x
