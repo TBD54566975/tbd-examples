@@ -1,5 +1,5 @@
 {
-  "name": "TBDex PFI",
+  "name": "tbDEX PFI",
   "tests": {
     "pre": [
       "npm install",
