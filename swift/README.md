@@ -1,6 +1,6 @@
 # TBD Swift Examples
 
-These examples use TBD's Swift libraries ([tbdex-swift](https://github.com/TBD54566975/tbdex-swift) or [web5-swift](https://github.com/TBD54566975/web5-swift)).
+These examples use Swift libraries ([tbdex-swift](https://github.com/TBD54566975/tbdex-swift) or [web5-swift](https://github.com/TBD54566975/web5-swift)).
 
 | Name                   | Libraries Used | Description |
 |------------------------|----------------|-------------|
