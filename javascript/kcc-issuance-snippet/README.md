@@ -26,10 +26,12 @@ const known_customer_credential = await VerifiableCredential.create({
         country: "US" // optional 2 letter country code where IDV was performed
       }
     },
-    credentialSchema: {
-      id: "https://vc.schemas.host/kcc.schema.json", // URL to the schema used
-      type: "JsonSchema", // Format type of the schema used for the KCC
-    },
+    credentialSchema: [
+      {
+        id: "https://vc.schemas.host/kcc.schema.json", // URL to the schema used
+        type: "JsonSchema", // Format type of the schema used for the KCC
+      }
+    ],
     // (optional) Evidence describing the due diligence performed to verify the identity of the known customer
     evidence: [
       {
@@ -68,10 +70,12 @@ const known_customer_credential = await VerifiableCredential.create({
       }
     },
     "expirationDate": "2026-05-19T08:02:04Z",
-    "credentialSchema": {
-      "id": "https://vc.schemas.host/kcc.schema.json",
-      "type": "JsonSchema"
-    },
+    "credentialSchema": [
+      {
+        "id": "https://vc.schemas.host/kcc.schema.json",
+        "type": "JsonSchema"
+      }
+    ],
     "evidence": [
       {
         "kind": "document_verification",
