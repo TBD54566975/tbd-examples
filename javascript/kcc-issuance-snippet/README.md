@@ -15,6 +15,8 @@ This is a snippet to illustrate issuing a [Known Customer Credential](https://gi
 ## Create Verifiable Credential (VC)
 
 ```js
+import { VerifiableCredential } from "@web5/credentials";
+
 const known_customer_credential = await VerifiableCredential.create({
     issuer: issuerBearerDid.uri, // Issuer's DID URI
     subject: customerDidUri, // Customer's DID URI 
