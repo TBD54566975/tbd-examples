@@ -6,11 +6,11 @@ ISSUER_DID_URI=$(cat issuerDid.txt)
 SCRIPT_PATH="./src/example/kcc-wallet/"
 
 # create DID DHT
-echo "Creating DID DHT..."
+echo "Creating did:dht for customer..."
 node "$SCRIPT_PATH/0-create-did-dht.js"
 
 # resolve the did:dht for the IDV service endpoint
-echo "Resolving did:dht..."
+echo "Resolving Issuer's did:dht..."
 IDV_INITIATE_ENDPOINT=$(node "$SCRIPT_PATH/1-resolve-idv-service-endpoint.js" $ISSUER_DID_URI)
 
 # request the SIOPv2 Auth Request (https://openid.github.io/SIOPv2/openid-connect-self-issued-v2-wg-draft.html#name-self-issued-openid-provider-a)
