@@ -13,7 +13,12 @@
     "color": {
       "name": "Your favorite color",
       "type": "select",
-      "options": ["red", "green", "blue", "yellow"]
+      "options": [
+        { "value": "red", "label": "Red" },
+        { "value": "green", "label": "Green" },
+        { "value": "blue", "label": "Blue" },
+        { "value": "yellow", "label": "Yellow" }
+      ]
     }
   }
 }
