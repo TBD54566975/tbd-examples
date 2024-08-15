@@ -11,7 +11,7 @@ app.get('/idv-form', (req, res) => {
 })
 
 app.post('/idv-form', async (req, res) => {
-  const r = await fetch('http://localhost:3001/idv/result', {
+  const r = await fetch('https://issuer-pfiexemplar.tbddev.org/idv/result', {
     method: 'POST',
     headers: {'content-type': 'application/json'},
     body: JSON.stringify({applicantDid: req.body.didUri})

@@ -70,7 +70,7 @@ app.post('/siopv2/auth-response', async (req, res) => {
 
   const idvRequest = {
     credential_offer: credentialOffer,
-    url: 'http://localhost:3002/idv-form' // the url for the idv-vendor/ project
+    url: 'https://idv-pfiexemplar.tbddev.org/idv-form' // the url for the idv-vendor/ project
   }
   res.status(201).json(idvRequest)
 })

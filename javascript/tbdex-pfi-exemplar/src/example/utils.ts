@@ -30,7 +30,7 @@ export async function createOrLoadDid(filename: string, serviceEndpoint: string 
         services.push({
           id: 'identity-verification-1',
           type: 'IDV',
-          serviceEndpoint: 'http://localhost:3001/siopv2/auth-request',
+          serviceEndpoint: 'https://issuer-pfiexemplar.tbddev.org/siopv2/auth-request',
         })
       }
 
