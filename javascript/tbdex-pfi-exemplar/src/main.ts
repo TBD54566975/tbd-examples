@@ -16,6 +16,8 @@ import { DidDht } from '@web5/dids'
 import { BearerDid } from '@web5/dids'
 import { createOrLoadDid } from './example/utils.js'
 import { VerifiableCredential } from '@web5/credentials'
+import { startIDVServer, stopIDVServer } from './example/idv-vendor/server.js'
+import { startIssuerServer, stopIssuerServer } from './example/issuer/server.js'
 
 await Postgres.connect()
 
@@ -97,6 +99,9 @@ const server = httpApi.listen(config.port, () => {
   log.info(`Mock PFI listening on port ${config.port}`)
 })
 
+startIDVServer()
+startIssuerServer()
+
 console.log('PFI DID FROM SERVER: ', config.pfiDid.uri)
 
 httpApi.api.get('/', (req, res) => {
@@ -108,6 +113,8 @@ httpApi.api.get('/', (req, res) => {
 const httpServerShutdownHandler = new HttpServerShutdownHandler(server)
 
 function gracefulShutdown() {
+  stopIDVServer()
+  stopIssuerServer()
   httpServerShutdownHandler.stop(async () => {
     log.info('http server stopped.')
 
