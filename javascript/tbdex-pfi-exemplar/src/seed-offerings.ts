@@ -16,10 +16,10 @@ async function main() {
     const issuerDid = await fs.readFile('issuerDid.txt', 'utf8')
 
     const offering1 = Offering.create({
-      metadata: { from: config.pfiDid.uri },
+      metadata: { from: config.pfiDid.uri, protocol: '2.0' },
       data: {
         cancellation: { enabled: false },
-        description: 'fake offering 1',
+        description: 'Exchange USD to KES via MOMO_MPESA',
         payoutUnitsPerPayinUnit: '0.0069', // ex. we send 100 dollars, so that means 14550.00 KES
         payin: {
           currencyCode: 'USD',
@@ -114,7 +114,7 @@ async function main() {
     })
 
     const offering2 = Offering.create({
-      metadata: { from: config.pfiDid.uri },
+      metadata: { from: config.pfiDid.uri, protocol: '2.0' },
       data: {
         cancellation: { enabled: false },
         description: 'USD to USDC wire transfer to stored balance',
@@ -142,7 +142,7 @@ async function main() {
     })
 
     const offering3 = Offering.create({
-      metadata: { from: config.pfiDid.uri },
+      metadata: { from: config.pfiDid.uri, protocol: '2.0' },
       data: {
         cancellation: { enabled: false },
         description: 'USDC to USD wire transfer from stored balance',
@@ -170,7 +170,7 @@ async function main() {
     })
 
     const offering4 = Offering.create({
-      metadata: { from: config.pfiDid.uri },
+      metadata: { from: config.pfiDid.uri, protocol: '2.0' },
       data: {
         cancellation: { enabled: false },
         description: 'Stored balance (in USDC) to MOMO_MPESA',
@@ -224,7 +224,7 @@ async function main() {
                     path: ['$.type[*]'],
                     filter: {
                       type: 'string',
-                      pattern: '^SanctionCredential$',
+                      pattern: '^KnownCustomerCredential$',
                     },
                   },
                   {
