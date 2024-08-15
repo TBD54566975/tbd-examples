@@ -1,6 +1,6 @@
 {
   "name": "Test Template",
-  "template-variables": {
+  "variables": {
     "slug": {
       "type": "text",
       "regex": "^(?:(?:@(?:[a-z0-9-*~][a-z0-9-*._~]*)?/[a-z0-9-._~])|[a-z0-9-~])[a-z0-9-._~]*$"
