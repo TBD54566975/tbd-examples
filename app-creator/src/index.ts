@@ -9,9 +9,27 @@ import {
   isCancel,
 } from "@clack/prompts";
 import * as fs from "fs";
+import { Eta } from "eta";
 import isInvalid from "is-invalid-path";
 import git from "isomorphic-git";
 import http from "isomorphic-git/http/node/index.cjs";
+
+class TemplateConfig {
+  name: string;
+  description?: string;
+  variables?: Map<string, TemplateVariable>;
+}
+
+class TemplateVariable {
+  name: string;
+  type: string;
+  regex?: string;
+  options?: {
+    value: string;
+    label: string;
+    hint?: string;
+  }[];
+}
 
 async function updateCache(gitDir: string) {
   const s = spinner();
@@ -23,6 +41,7 @@ async function updateCache(gitDir: string) {
       url: "https://github.com/TBD54566975/tbd-examples",
       dir: gitDir,
       author: { name: "user", email: "user@host" },
+      singleBranch: true,
     });
     s.stop("updated template library");
   } else {
@@ -32,6 +51,7 @@ async function updateCache(gitDir: string) {
       http: http,
       url: "https://github.com/TBD54566975/tbd-examples",
       dir: gitDir,
+      singleBranch: true,
     });
     s.stop("downloaded template library");
   }
@@ -60,7 +80,7 @@ async function pickLanguage(gitDir: string): Promise<string | symbol> {
 class TemplateData {
   slug: string;
   location: string;
-  config: any;
+  config: TemplateConfig;
 }
 
 async function pickTemplate(
@@ -88,11 +108,14 @@ async function pickTemplate(
       throw e;
     }
 
-    const config = JSON.parse(fs.readFileSync(templateConfig, "utf-8"));
+    const config: TemplateConfig = JSON.parse(
+      fs.readFileSync(templateConfig, "utf-8")
+    );
 
     templates.push({
       value: { slug, location, config },
       label: config.name || slug,
+      hint: config.description,
     });
   }
 
@@ -107,20 +130,20 @@ async function pickTemplate(
   });
 }
 
-async function renderTemplate(src: string, dest: string) {
+async function copyFiles(src: string, dest: string) {
   const s = spinner();
-  s.start("rendering template");
+  s.start("copying project files");
   try {
-    await renderTemplateRecursive(src, dest, s);
+    await copyFilesRecursive(src, dest, s);
   } catch (e) {
-    s.stop("failed to rendered template", 1);
+    s.stop("failed to copy files template", 1);
     throw e;
   } finally {
-    s.stop("rendered template");
+    s.stop("copy files template");
   }
 }
 
-async function renderTemplateRecursive(
+async function copyFilesRecursive(
   src: string,
   dest: string,
   s: { message: (msg?: string) => void }
@@ -147,11 +170,108 @@ async function renderTemplateRecursive(
 
     const stat = fs.statSync(src + "/" + srcFile);
     if (stat.isDirectory()) {
-      await renderTemplateRecursive(srcPath, destPath, s);
+      await copyFilesRecursive(srcPath, destPath, s);
       continue;
     }
 
     fs.copyFileSync(srcPath, destPath);
+  }
+}
+
+async function templateQuestion(question: TemplateVariable): Promise<any> {
+  switch (question.type) {
+    case "text":
+      const re = new RegExp(question.regex || ".*");
+      return await text({
+        message: question.name,
+        validate(value) {
+          if (!re.test(value)) {
+            return "Must match regex: " + question.regex;
+          }
+        },
+      });
+      break;
+    case "select":
+      if (!question.options) {
+        return cancel;
+      }
+
+      return await select({
+        message: question.name,
+        options: question.options,
+      });
+    default:
+      cancel("question of unknown type: " + question.type);
+  }
+}
+
+async function renderTemplate(
+  src: string,
+  dest: string,
+  questions: Map<string, TemplateVariable>
+): Promise<Symbol | undefined> {
+  var answers = {};
+  for (const [name, question] of Object.entries(questions)) {
+    if (!question.name) {
+      question.name = name;
+    }
+
+    const answer = await templateQuestion(question);
+    if (isCancel(answer)) {
+      return answer;
+    }
+
+    answers[name] = answer;
+  }
+
+  const s = spinner();
+  s.start("rendering template");
+  try {
+    await renderTemplateRecursive(src, dest, s, answers);
+  } catch (e) {
+    s.stop("failed to rendered template", 1);
+    throw e;
+  } finally {
+    s.stop("rendered template");
+  }
+}
+
+async function renderTemplateRecursive(
+  src: string,
+  dest: string,
+  s: { message: (msg?: string) => void },
+  answers
+) {
+  try {
+    fs.statSync(dest);
+  } catch (e) {
+    if (e.code == "ENOENT") {
+      fs.mkdirSync(dest);
+    } else {
+      throw e;
+    }
+  }
+
+  const srcFiles = fs.readdirSync(src);
+  for (const srcFile of srcFiles) {
+    if (srcFile == ".tbd-example.json") {
+      continue;
+    }
+
+    const srcPath = src + "/" + srcFile;
+    const destPath = dest + "/" + srcFile;
+    s.message(srcPath + " => " + destPath);
+
+    const stat = fs.statSync(src + "/" + srcFile);
+    if (stat.isDirectory()) {
+      await renderTemplateRecursive(srcPath, destPath, s, answers);
+      continue;
+    }
+
+    fs.writeFileSync(
+      destPath,
+      new Eta({ views: src }).render(srcFile, answers)
+    );
   }
 }
 
@@ -170,7 +290,7 @@ async function main() {
     }
 
     const template = await pickTemplate(gitDir + "/" + language);
-    if (template === null || template instanceof Symbol) {
+    if (isCancel(template) || template instanceof Symbol) {
       outro("cancelled");
       return;
     }
@@ -188,7 +308,19 @@ async function main() {
       return;
     }
 
-    await renderTemplate(template.location, dest);
+    if (template.config && template.config.variables) {
+      const result = await renderTemplate(
+        template.location,
+        dest,
+        template.config.variables
+      );
+      if (isCancel(result)) {
+        cancel("cancelled");
+        return;
+      }
+    } else {
+      await copyFiles(template.location, dest);
+    }
 
     // TODO: customize the post-creation commands by language, allow overriding in the template config
     outro("Done! Now run:\n\n  cd " + dest.toString() + "\n  npm install");
