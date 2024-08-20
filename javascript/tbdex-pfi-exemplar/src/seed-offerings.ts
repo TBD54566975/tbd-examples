@@ -19,7 +19,7 @@ async function main() {
       metadata: { from: config.pfiDid.uri },
       data: {
         cancellation: { enabled: false },
-        description: 'fake offering 1',
+        description: 'Exchange USD to KES via MOMO_MPESA',
         payoutUnitsPerPayinUnit: '0.0069', // ex. we send 100 dollars, so that means 14550.00 KES
         payin: {
           currencyCode: 'USD',
@@ -114,7 +114,7 @@ async function main() {
     })
 
     const offering2 = Offering.create({
-      metadata: { from: config.pfiDid.uri },
+      metadata: { from: config.pfiDid.uri},
       data: {
         cancellation: { enabled: false },
         description: 'USD to USDC wire transfer to stored balance',
@@ -221,11 +221,13 @@ async function main() {
               constraints: {
                 fields: [
                   {
-                    path: ['$.type[*]'],
+                    path: [
+                      '$.credentialSchema[*].id'
+                    ],
                     filter: {
                       type: 'string',
-                      pattern: '^SanctionCredential$',
-                    },
+                      const: 'https://vc.schemas.host/kcc.schema.json'
+                    }
                   },
                   {
                     path: ['$.issuer'],

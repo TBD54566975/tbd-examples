@@ -16,6 +16,8 @@ RUN curl -fsSL https://github.com/amacneil/dbmate/releases/download/v1.12.1/dbma
     && mv dbmate /usr/local/bin
 
 EXPOSE 9000
+EXPOSE 3001
+EXPOSE 3002
 
 # Command to run the migration script, seed the database, and then start the application
 CMD [ "/home/node/app/container-start.sh" ]

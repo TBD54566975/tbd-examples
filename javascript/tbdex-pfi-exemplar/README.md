@@ -2,17 +2,21 @@
 This is a starter kit for building a **Participating Financial Institution (PFI)**
 gateway to provide liquidity services on the
 **[tbDEX](https://developer.tbd.website/projects/tbdex/) network**. You can fork
-this and use it (or use it as inspiration!). Contains mock implementations of
-some features of a PFI, as well as a **Verifiable Credential (VC)** issuer using a
-**Decentralized Identifier (DID)**.
+this and use it (or use it as inspiration!).
 
-Mock TypeScript PFI implementation for example purposes using:
+Contains:
+- mock implementations of some features of a PFI,
+- as well as a **Verifiable Credential (VC)** issuer using a
+**Decentralized Identifier (DID)**.
+- Example mock implementation of a **Known Customer Credential (KCC)** by the issuer using a mock Identity vendor.
+
+## Mock TypeScript PFI implementation for example purposes using:
 
 * [@tbdex/http-server](https://www.npmjs.com/package/@tbdex/http-server)
 * PostgreSQL as underlying DB
 
 
-## Running in codesandbox
+## Running in CodeSandbox
 You can run try this example in codesandbox, or locally.
 
 To run in codesandbox, use the link below and then open a terminal. Then
@@ -93,7 +97,7 @@ npm run example-create-issuer
 Creates a new VC issuer, which will be needed by the PFI.
 
 > [!NOTE]
->`issuer.json` stores the private key info for the issuer, `issuerDid.txt` has the public DID which will be trusted by the PFI. 
+>`issuer.json` stores the private key info for the issuer, `issuerDid.txt` has the public DID which will be trusted by the PFI.
 
 ### Step 3: Configure the PFI database with offerings and VC issuer
 
@@ -128,6 +132,15 @@ Run the server (or restart it) in another terminal window:
 npm run server
 ```
 
+This also runs a mock Identity Vendor (IDV) and Issuer server in the background for KCC.
+
+### Issue a KCC VC to a Wallet user
+Go through an example flow of a wallet Create a DID for a new customer and going through the process of issuing them a Known customer credential.
+
+```bash
+npm run example-wallet-issue-kcc
+```
+
 > [!NOTE]
 > (optional) If you want to run this over a network, please set HOST environment to an appropriate name that clients can connect to, as this will be set in the PFIs did as a `serviceEndpoint` (otherwise it defaults to http://localhost:9000)
 
@@ -146,7 +159,7 @@ a quote, place an order, and finally check for status.
 Each interaction happens in the context of an "Exchange" which is a record of
 the interaction between the customer and the PFI.
 
-This PFI has support for "stored balances", to try this out: 
+This PFI has support for "stored balances", to try this out:
 
 ```bash
 npm run example-stored-balance

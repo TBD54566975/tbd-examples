@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   postgresdb:
     image: postgres:latest
@@ -21,6 +19,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9000:9000"
+      - "3001:3001"
+      - "3002:3002"
     environment:
       NODE_ENV: production
       # environment info
