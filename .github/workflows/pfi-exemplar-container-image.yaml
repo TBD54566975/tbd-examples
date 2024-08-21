@@ -16,7 +16,7 @@ on:
 
 jobs:
   build-image:
-    name: javascript/tbdex-pfi-exemplar
+    name: Build Container Image / javascript/tbdex-pfi-exemplar
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -53,3 +53,19 @@ jobs:
           target: ${{ matrix.target }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Deploy new image
+        if: ${{ github.event_name == 'push' && github.event.ref == 'refs/heads/main' }}
+        run: |
+          set -ex
+          mkdir ~/.ssh
+          echo "${{ secrets.RELEASE_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          git clone git@github.com:tbdeng/tbd-pfi-exemplar-helm
+          cd tbd-pfi-exemplar-helm
+          git config user.email releases@tbd.email
+          git config user.name "tbd deployer"
+          newtag="$(echo "${{ steps.meta.outputs.tags }}" | tail -n1)"
+          sed -i "s#image: ghcr.io/tbd54566975/tbd-examples-tbdex-pfi-exemplar:.*#image: ${newtag}#" values.yaml
+          git commit values.yaml -m "Update image to ${newtag}"
+          git push
