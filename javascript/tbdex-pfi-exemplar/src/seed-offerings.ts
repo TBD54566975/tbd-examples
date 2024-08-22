@@ -92,14 +92,14 @@ async function main() {
               constraints: {
                 fields: [
                   {
-                    path: ['$.type[*]'],
+                    path: ['$.vc.type[*]'],
                     filter: {
                       type: 'string',
                       pattern: '^SanctionCredential$',
                     },
                   },
                   {
-                    path: ['$.issuer'],
+                    path: ['$.vc.issuer'],
                     filter: {
                       type: 'string',
                       const: issuerDid.trim() // Use the read issuer DID here
@@ -222,7 +222,7 @@ async function main() {
                 fields: [
                   {
                     path: [
-                      '$.credentialSchema[*].id'
+                      '$.vc.credentialSchema.id'
                     ],
                     filter: {
                       type: 'string',
@@ -230,7 +230,7 @@ async function main() {
                     }
                   },
                   {
-                    path: ['$.issuer'],
+                    path: ['$.vc.issuer'],
                     filter: {
                       type: 'string',
                       const: issuerDid.trim() // Use the read issuer DID here
