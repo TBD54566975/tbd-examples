@@ -221,9 +221,7 @@ async function main() {
               constraints: {
                 fields: [
                   {
-                    path: [
-                      '$.vc.credentialSchema.id'
-                    ],
+                    path: ['$.type[*]'],
                     filter: {
                       type: 'string',
                       const: 'https://vc.schemas.host/kcc.schema.json'
