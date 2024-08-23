@@ -1,0 +1,22 @@
+{
+  "name": "customer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@web5/api": "^0.10.0",
+    "@web5/dids": "^1.1.0",
+    "@web5/user-agent": "^0.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
+  },
+  "description": ""
+}
