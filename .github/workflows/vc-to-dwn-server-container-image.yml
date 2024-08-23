@@ -62,7 +62,7 @@ jobs:
           echo "${{ secrets.VC_TO_DWN_SERVER_RELEASE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           git clone git@github.com:tbdeng/vc-to-dwn-server-helm
-          cd tbd-vc-to-dwn-server
+          cd vc-to-dwn-server-helm
           git config user.email releases@tbd.email
           git config user.name "tbd deployer"
           newtag="$(echo "${{ steps.meta.outputs.tags }}" | tail -n1)"
