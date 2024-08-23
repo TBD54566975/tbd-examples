@@ -6,13 +6,13 @@ on:
       - main
     paths:
       - 'javascript/vc-to-dwn-server/*'
-      - .github/workflows/vc-to-dwn-server-container-image.yaml
+      - .github/workflows/vc-to-dwn-server-container-image.yml
   pull_request:
     branches:
       - main
     paths:
       - 'javascript/vc-to-dwn-server/*'
-      - .github/workflows/vc-to-dwn-server-container-image.yaml
+      - .github/workflows/vc-to-dwn-server-container-image.yml
 
 jobs:
   build-image:
