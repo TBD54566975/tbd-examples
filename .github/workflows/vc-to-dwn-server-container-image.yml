@@ -1,0 +1,71 @@
+name: VC to DWN Server Container Image Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'javascript/vc-to-dwn-server/*'
+      - .github/workflows/vc-to-dwn-server-container-image.yaml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'javascript/vc-to-dwn-server/*'
+      - .github/workflows/vc-to-dwn-server-container-image.yaml
+
+jobs:
+  build-image:
+    name: Build Container Image / javascript/vc-to-dwn-server
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to the container registry
+        uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446 # v3.2.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Extract metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81 # v5.5.1
+        with:
+          images: ghcr.io/tbd54566975/tbd-examples-vc-to-dwn-server
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=sha
+
+      - name: Build and push container image
+        uses: docker/build-push-action@94f8f8c2eec4bc3f1d78c1755580779804cb87b2 # v6.0.1
+        with:
+          context: javascript/vc-to-dwn-server
+          push: true
+          target: ${{ matrix.target }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Deploy new image
+        if: ${{ github.event_name == 'push' && github.event.ref == 'refs/heads/main' }}
+        run: |
+          set -ex
+          mkdir ~/.ssh
+          echo "${{ secrets.RELEASE_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          git clone git@github.com:tbdeng/vc-to-dwn-server-helm
+          cd tbd-vc-to-dwn-server
+          git config user.email releases@tbd.email
+          git config user.name "tbd deployer"
+          newtag="$(echo "${{ steps.meta.outputs.tags }}" | tail -n1)"
+          sed -i "s#image: ghcr.io/tbd54566975/tbd-examples-vc-to-dwn-server:.*#image: ${newtag}#" values.yaml
+          git commit values.yaml -m "Update image to ${newtag}"
+          git push
