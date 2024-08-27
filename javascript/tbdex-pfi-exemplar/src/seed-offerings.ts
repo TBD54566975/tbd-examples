@@ -92,14 +92,14 @@ async function main() {
               constraints: {
                 fields: [
                   {
-                    path: ['$.type[*]'],
+                    path: ['$.vc.type[*]', '$.type[*]'],
                     filter: {
                       type: 'string',
                       pattern: '^SanctionCredential$',
                     },
                   },
                   {
-                    path: ['$.issuer'],
+                    path: ['$.vc.issuer', '$.issuer'],
                     filter: {
                       type: 'string',
                       const: issuerDid.trim() // Use the read issuer DID here
@@ -221,16 +221,14 @@ async function main() {
               constraints: {
                 fields: [
                   {
-                    path: [
-                      '$.credentialSchema[*].id'
-                    ],
+                    path: ['$.vc.type[*]', '$.type[*]'],
                     filter: {
                       type: 'string',
                       const: 'https://vc.schemas.host/kcc.schema.json'
                     }
                   },
                   {
-                    path: ['$.issuer'],
+                    path: ['$.vc.issuer', '$.issuer'],
                     filter: {
                       type: 'string',
                       const: issuerDid.trim() // Use the read issuer DID here

@@ -182,6 +182,10 @@ app.post('/oid4vci/credential', async (req, res) => {
     data    : {
       something: 'relevant'
     },
+    credentialSchema: {
+      id: 'https://vc.schemas.host/kcc.schema.json',
+      type: 'JsonSchema'
+    },
   })
   const vcJwt = await vc.sign({did: issuerDid})
 

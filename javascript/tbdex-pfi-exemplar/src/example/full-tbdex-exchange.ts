@@ -61,7 +61,7 @@ await rfq.sign(alice)
 try {
   await TbdexHttpClient.createExchange(rfq)
 } catch (error) {
-  console.log('Can\'t create:', error)
+  console.log('Can\'t create:', error.details.errors)
 }
 console.log('sent RFQ: ', JSON.stringify(rfq, null, 2))
 
