@@ -7,7 +7,7 @@ export const useWeb5 = () => {
     throw new Error("useWeb5 must be used within a Web5Provider");
   }
 
-  const { web5Connection, isConnecting, connect } = context;
+  const { web5Connection, isConnecting, connect, previouslyConnected, walletConnect } = context;
 
   const isConnected = web5Connection !== undefined;
 
@@ -18,5 +18,7 @@ export const useWeb5 = () => {
     dwn: web5Connection?.web5.dwn,
     did: web5Connection?.did,
     isConnected,
+    previouslyConnected,
+    walletConnect
   };
 };

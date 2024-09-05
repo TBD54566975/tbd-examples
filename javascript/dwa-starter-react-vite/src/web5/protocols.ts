@@ -1,9 +1,35 @@
 import { DwnApi } from "@web5/api";
 
+
+const tasksProtocolSchema = "https://schema.org/TaskSample";
+const tasksProtocolTypeTaskSchema = "https://schema.org/TaskSample/schemas/name";
+
+
+export const tasksProtocolDefinition = {
+  published: true,
+  protocol: tasksProtocolSchema,
+  types: {
+    task: {
+      dataFormats: ["application/json"],
+      schema: tasksProtocolTypeTaskSchema,
+    }
+  },
+  structure: { task: {} }
+}
+
+export const task = {
+  definition: tasksProtocolDefinition,
+  uri: tasksProtocolSchema,
+  schemas: {
+    task: tasksProtocolTypeTaskSchema,
+  }
+}
+
+
 const protocolSchema = "https://schema.org/ProfileSample";
 const protocolTypeNameSchema = "https://schema.org/ProfileSample/schemas/name";
 
-const profileDefinition = {
+export const profileDefinition = {
   published: true,
   protocol: protocolSchema,
   types: {
@@ -26,6 +52,7 @@ export const profile = {
 
 export const byUri = {
   [profileDefinition.protocol]: profile,
+  [tasksProtocolDefinition.protocol]: task,
 };
 
 export const installProtocols = async (dwn: DwnApi, did: string) => {

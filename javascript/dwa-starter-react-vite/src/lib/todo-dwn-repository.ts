@@ -1,6 +1,5 @@
+import { tasksProtocolDefinition } from "@/web5/protocols";
 import { DwnApi } from "@web5/api";
-
-const TASK_SCHEMA = "https://schema.org/TaskSample";
 
 export interface Task {
   id?: string;
@@ -39,8 +38,10 @@ export class TodoDwnRepository {
     const { status, record } = await this.dwn.records.create({
       data: task,
       message: {
-        schema: TASK_SCHEMA,
-        dataFormat: "application/json",
+        protocol: tasksProtocolDefinition.protocol,
+        protocolPath: "task",
+        schema: tasksProtocolDefinition.types.task.schema,
+        dataFormat: tasksProtocolDefinition.types.task.dataFormats[0],
         published: true,
       },
     });
@@ -85,20 +86,24 @@ export class TodoDwnRepository {
 
   async findTaskRecord(recordId: string) {
     const { record } = await this.dwn.records.read({
+      protocol: tasksProtocolDefinition.protocol,
       message: {
         filter: {
           recordId,
         },
       },
     });
+
     return record.id ? record : undefined;
   }
 
   async listTasksRecords() {
     const { records } = await this.dwn.records.query({
+      protocol: tasksProtocolDefinition.protocol,
       message: {
         filter: {
-          schema: TASK_SCHEMA,
+          protocol: tasksProtocolDefinition.protocol,
+          protocolPath: "task",
           dataFormat: "application/json",
         },
       },
