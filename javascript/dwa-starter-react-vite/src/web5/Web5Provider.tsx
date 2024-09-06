@@ -67,7 +67,7 @@ export const Web5Provider: React.FC<{ children: React.ReactNode }> = ({
   }, [web5Connection, protocolsInitialized]);
 
   const walletConnect = async (walletConnectOptions: ConnectOptions) => {
-    const connection = await Web5.connect({ walletConnectOptions });
+    const connection = await Web5.connect({ walletConnectOptions, sync: '15s' });
     window.web5 = connection;
     localStorage.setItem('previouslyConnected', 'true');
     setWeb5Connection(connection);
@@ -81,8 +81,9 @@ export const Web5Provider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const connectOptions = {
         techPreview: {
-          dwnEndpoints: ["https://dwn.tbddev.org/latest"],
+          dwnEndpoints: ["http://localhost:3000"],
         },
+        sync: '15s',
       };
       const connection = await Web5.connect(connectOptions);
       window.web5 = connection;
