@@ -13,7 +13,7 @@ export const HomePage = () => {
   const { isConnected, previouslyConnected, connect, isConnecting } = useWeb5();
 
   useEffect(() => {
-    if (!isConnecting && !isConnected && previouslyConnected === true) {
+    if (connect && !isConnecting && !isConnected && previouslyConnected === true) {
       connect();
     }
   }, [ previouslyConnected, connect, isConnected, isConnecting ]);

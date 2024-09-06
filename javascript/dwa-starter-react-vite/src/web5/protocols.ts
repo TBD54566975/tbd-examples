@@ -14,7 +14,16 @@ export const tasksProtocolDefinition = {
       schema: tasksProtocolTypeTaskSchema,
     }
   },
-  structure: { task: {} }
+  structure: {
+    task: {
+      $tags: {
+        $requiredTags: ["completed"],
+        completed: {
+          type: "boolean"
+        }
+      }
+    }
+  }
 }
 
 export const task = {

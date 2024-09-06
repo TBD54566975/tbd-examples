@@ -13,8 +13,8 @@ interface Web5ContextProps {
   previouslyConnected: boolean;
   protocolsInitialized: boolean;
   web5Connection?: Web5ConnectResult;
-  connect: () => Promise<Web5ConnectResult>;
-  walletConnect: (walletConnectOptions: ConnectOptions) => Promise<Web5ConnectResult>;
+  connect?: () => Promise<Web5ConnectResult>;
+  walletConnect?: (walletConnectOptions: ConnectOptions) => Promise<Web5ConnectResult>;
   isConnecting: boolean;
 }
 
@@ -22,12 +22,6 @@ export const Web5Context = createContext<Web5ContextProps>({
   previouslyConnected: false,
   isConnecting: false,
   protocolsInitialized: false,
-  walletConnect: async () => {
-    throw new Error("context not initialized");
-  },
-  connect: async () => {
-    throw new Error("context not initialized");
-  },
 });
 
 export const Web5Provider: React.FC<{ children: React.ReactNode }> = ({

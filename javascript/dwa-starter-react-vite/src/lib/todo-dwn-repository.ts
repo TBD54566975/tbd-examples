@@ -43,6 +43,9 @@ export class TodoDwnRepository {
         schema: tasksProtocolDefinition.types.task.schema,
         dataFormat: tasksProtocolDefinition.types.task.dataFormats[0],
         published: true,
+        tags: {
+          completed: task.completed,
+        }
       },
     });
     if (status.code !== 202) {
@@ -68,6 +71,9 @@ export class TodoDwnRepository {
 
     const { status } = await record.update({
       data,
+      tags: {
+        completed: task.completed,
+      }
     });
     if (status.code !== 202) {
       throw Error(status.detail);
