@@ -27,15 +27,27 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.1.0
         version: 1.1.0(@types/react@18.3.3)(react@18.3.1)
+      '@web5/agent':
+        specifier: ^0.7.3
+        version: 0.7.3(ws@8.18.0)
       '@web5/api':
-        specifier: 0.0.0-next-e578e20-20240906213953
-        version: 0.0.0-next-e578e20-20240906213953(ws@8.18.0)
+        specifier: 0.0.0-next-3cfc21d-20240920195338
+        version: 0.0.0-next-3cfc21d-20240920195338(ws@8.18.0)
+      '@web5/browser':
+        specifier: 0.0.0-next-3cfc21d-20240920195338
+        version: 0.0.0-next-3cfc21d-20240920195338
+      '@web5/common':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@web5/credentials':
         specifier: ^1.1.1
         version: 1.1.1
       '@web5/dids':
         specifier: ^1.1.4
         version: 1.1.4
+      '@web5/user-agent':
+        specifier: ^0.6.3
+        version: 0.6.3(ws@8.18.0)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -1528,8 +1540,8 @@ packages:
   '@surma/rollup-plugin-off-main-thread@2.2.3':
     resolution: {integrity: sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ==}
 
-  '@tbd54566975/dwn-sdk-js@0.4.6':
-    resolution: {integrity: sha512-eTd9v2ioT+hYrmob28OgxyLgOPAqJosb8rIAHDpFzEjYlQZSxCEohIZysMrLgWIcSLljyViSFr06mDelRPgGPg==}
+  '@tbd54566975/dwn-sdk-js@0.4.7':
+    resolution: {integrity: sha512-VYaLT4FKdHfVvUPZbicUpF77erkOSi1xBP/EVQIpnp0khPujp2lYcojbRcw4c4JR23CrRvLPy/iWXmEhdP8LqA==}
     engines: {node: '>= 18'}
 
   '@types/babel__core@7.20.5':
@@ -1640,13 +1652,20 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0
 
-  '@web5/agent@0.0.0-next-e578e20-20240906213953':
-    resolution: {integrity: sha512-3aq//mgb9HxVaVqBxJBxbN5/Ud0bMmYX6Epx59+hnXFPy5EdglPz3d2ua+HHnR3rV1ZbgRlZ0vQMr51cnP9P6Q==}
+  '@web5/agent@0.0.0-next-3cfc21d-20240920195338':
+    resolution: {integrity: sha512-DSkRcon3+ju3u9ivVjgKdhC9y9oEO/m7BOD9tKjuywMPvlTKsMAgOFm3aGadSOBhZaUb1HGdqPaqwVYw/KnxNA==}
     engines: {node: '>=18.0.0'}
 
-  '@web5/api@0.0.0-next-e578e20-20240906213953':
-    resolution: {integrity: sha512-wyD4u7gJfxbtKSDSHoRObTG1pPBWf45wdWWpR6wAs4DHJop8eizqiX/0w0uRRSQKDKgmf4/6J4G0Suq/Rtbw2Q==}
+  '@web5/agent@0.7.3':
+    resolution: {integrity: sha512-IrpvQM9Lra8pFgDcZe2J/WGPBcvG6cYR6uSh/u9pvCxY+LmCB6+ULquPnfwvthazHNSJS/ZddhwQ/DM4cA2PZA==}
     engines: {node: '>=18.0.0'}
+
+  '@web5/api@0.0.0-next-3cfc21d-20240920195338':
+    resolution: {integrity: sha512-DU7gsrzyrjD8xvbptita/3w6qtVvfficnZQCd+tdQu2I3zOOPID4/7jXhdj6aQiPL6fmsmtTN/i9U/zLeEapsA==}
+    engines: {node: '>=18.0.0'}
+
+  '@web5/browser@0.0.0-next-3cfc21d-20240920195338':
+    resolution: {integrity: sha512-gSVrsQTm/i2780vlB1iCk3w6USPCdSpaovys+N3wwB3oAxv2+KHQxBd3Wn4nENM8S4K65mlYyd/Y0p/pqcgGsA==}
 
   '@web5/common@1.0.0':
     resolution: {integrity: sha512-3JHF6X5o0h+3oAVQeBC4XpMoZeEYZYdEmQdgpOfKv/rnSru2yHQSAM+0wbIvEFcSCmelBT3u7rUAcpJjelLB0w==}
@@ -1656,8 +1675,16 @@ packages:
     resolution: {integrity: sha512-dxczXqzWt6HCwuNyOVBeakg6GgOpP74tVEVxBeKkb+D3XcSP96mYaDtky5ZnjY4iBYb16SaCgwje+sgevOL51A==}
     engines: {node: '>=18.0.0'}
 
+  '@web5/common@1.0.2':
+    resolution: {integrity: sha512-SerGdrxZF47yidvhrRa8sGLEOunIlDHppxrtWYCuKMVgtQKgheEmaS4+xchGAc/mZggJX4LlwJbRuniIiSaXrw==}
+    engines: {node: '>=18.0.0'}
+
   '@web5/credentials@1.1.1':
     resolution: {integrity: sha512-SlTpW4rg+HJ6ipLV4uzQ0Sg4HmSeuwWnWa6JOIG+cBWAOgCwgY/PL0F57wI3p4b8qcx/ey2R2yZyKkpN0sr8UQ==}
+    engines: {node: '>=18.0.0'}
+
+  '@web5/crypto@0.0.0-next-3cfc21d-20240920195338':
+    resolution: {integrity: sha512-jnBU6tB/9NTPqdlhNEFOWFftGNOgUJ/E0EX8m6ekM438PLmYO+wDU4kSTdq97sqnPMq+PMwEc4LpC3e8sB93Qg==}
     engines: {node: '>=18.0.0'}
 
   '@web5/crypto@1.0.0':
@@ -1666,6 +1693,10 @@ packages:
 
   '@web5/crypto@1.0.4':
     resolution: {integrity: sha512-XjYkwQG28zo6UXusl5djca9/Qv74H259fjofrUY87qeb1Y/lPrgtpVTSNaqdLu4RB1gwyzFZwOGRaphWNjK1Ug==}
+    engines: {node: '>=18.0.0'}
+
+  '@web5/dids@0.0.0-next-3cfc21d-20240920195338':
+    resolution: {integrity: sha512-z+492AmJBviZ6SvUNtz4hgZyq3ikgmyVBXn1Ym6lMWxFOHHwv3e/gILzhhPXXW6JZu5kNYe1f5RiWs8M/ZRqhQ==}
     engines: {node: '>=18.0.0'}
 
   '@web5/dids@1.1.0':
@@ -1680,8 +1711,12 @@ packages:
     resolution: {integrity: sha512-RdRWRMrZlcbnLkMO14ObWsL//efmSl/Mzvmbodbi3kMXvCaoLYgYyz5AkdrpskdjolWLkgOjjdMw+bX5uxp0mQ==}
     engines: {node: '>=18.0.0'}
 
-  '@web5/user-agent@0.0.0-next-e578e20-20240906213953':
-    resolution: {integrity: sha512-fPJUc5DTFnwr7Cz3rvo+3bg4sBre0+5tQLncq3fXpz5kY/z7DFEDi7NynRLIpHDIhRmibv59+rtukxc/iHFvaQ==}
+  '@web5/user-agent@0.0.0-next-3cfc21d-20240920195338':
+    resolution: {integrity: sha512-YfSF9g6w2dwezhWtQm6tjuHDvVZYbZeiMZarwEtfstM6glV3gNCtYoVnc00rRwU8X6iilfKmp3lcwEJLqG+tJQ==}
+    engines: {node: '>=18.0.0'}
+
+  '@web5/user-agent@0.6.3':
+    resolution: {integrity: sha512-lULqSQ7KaGVGzCZmYb6aYbG7lP/xvaR3JrCyK1PEHFm9V3Y67R4N45XbBOmPQ2cfuU1+i0f+mcL2a92DhfSf1w==}
     engines: {node: '>=18.0.0'}
 
   abort-controller@3.0.0:
@@ -5503,7 +5538,7 @@ snapshots:
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.11
 
-  '@tbd54566975/dwn-sdk-js@0.4.6':
+  '@tbd54566975/dwn-sdk-js@0.4.7':
     dependencies:
       '@ipld/dag-cbor': 9.0.3
       '@js-temporal/polyfill': 0.4.4
@@ -5683,11 +5718,31 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@web5/agent@0.0.0-next-e578e20-20240906213953(ws@8.18.0)':
+  '@web5/agent@0.0.0-next-3cfc21d-20240920195338(ws@8.18.0)':
     dependencies:
       '@noble/ciphers': 0.5.3
       '@scure/bip39': 1.2.2
-      '@tbd54566975/dwn-sdk-js': 0.4.6
+      '@tbd54566975/dwn-sdk-js': 0.4.7
+      '@web5/common': 1.0.2
+      '@web5/crypto': 0.0.0-next-3cfc21d-20240920195338
+      '@web5/dids': 0.0.0-next-3cfc21d-20240920195338
+      abstract-level: 1.0.4
+      ed25519-keygen: 0.4.11
+      isomorphic-ws: 5.0.0(ws@8.18.0)
+      level: 8.0.0
+      ms: 2.1.3
+      readable-web-to-node-stream: 3.0.2
+      ulidx: 2.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+      - ws
+
+  '@web5/agent@0.7.3(ws@8.18.0)':
+    dependencies:
+      '@noble/ciphers': 0.5.3
+      '@scure/bip39': 1.2.2
+      '@tbd54566975/dwn-sdk-js': 0.4.7
       '@web5/common': 1.0.0
       '@web5/crypto': 1.0.4
       '@web5/dids': 1.1.4
@@ -5703,17 +5758,21 @@ snapshots:
       - supports-color
       - ws
 
-  '@web5/api@0.0.0-next-e578e20-20240906213953(ws@8.18.0)':
+  '@web5/api@0.0.0-next-3cfc21d-20240920195338(ws@8.18.0)':
     dependencies:
-      '@web5/agent': 0.0.0-next-e578e20-20240906213953(ws@8.18.0)
-      '@web5/common': 1.0.0
-      '@web5/crypto': 1.0.4
-      '@web5/dids': 1.1.0
-      '@web5/user-agent': 0.0.0-next-e578e20-20240906213953(ws@8.18.0)
+      '@web5/agent': 0.0.0-next-3cfc21d-20240920195338(ws@8.18.0)
+      '@web5/common': 1.0.2
+      '@web5/crypto': 0.0.0-next-3cfc21d-20240920195338
+      '@web5/dids': 0.0.0-next-3cfc21d-20240920195338
+      '@web5/user-agent': 0.0.0-next-3cfc21d-20240920195338(ws@8.18.0)
     transitivePeerDependencies:
       - encoding
       - supports-color
       - ws
+
+  '@web5/browser@0.0.0-next-3cfc21d-20240920195338':
+    dependencies:
+      '@web5/dids': 0.0.0-next-3cfc21d-20240920195338
 
   '@web5/common@1.0.0':
     dependencies:
@@ -5729,6 +5788,13 @@ snapshots:
       multiformats: 13.1.0
       readable-stream: 4.4.2
 
+  '@web5/common@1.0.2':
+    dependencies:
+      '@isaacs/ttlcache': 1.4.1
+      level: 8.0.1
+      multiformats: 13.1.0
+      readable-stream: 4.5.2
+
   '@web5/credentials@1.1.1':
     dependencies:
       '@sphereon/pex': 3.3.3
@@ -5737,6 +5803,13 @@ snapshots:
       '@web5/dids': 1.1.1
       jsonschema: 1.4.1
       pako: 2.1.0
+
+  '@web5/crypto@0.0.0-next-3cfc21d-20240920195338':
+    dependencies:
+      '@noble/ciphers': 0.5.3
+      '@noble/curves': 1.3.0
+      '@noble/hashes': 1.4.0
+      '@web5/common': 1.0.2
 
   '@web5/crypto@1.0.0':
     dependencies:
@@ -5751,6 +5824,18 @@ snapshots:
       '@noble/curves': 1.3.0
       '@noble/hashes': 1.4.0
       '@web5/common': 1.0.1
+
+  '@web5/dids@0.0.0-next-3cfc21d-20240920195338':
+    dependencies:
+      '@decentralized-identity/ion-sdk': 1.0.4
+      '@dnsquery/dns-packet': 6.1.1
+      '@web5/common': 1.0.2
+      '@web5/crypto': 0.0.0-next-3cfc21d-20240920195338
+      abstract-level: 1.0.4
+      bencode: 4.0.0
+      buffer: 6.0.3
+      level: 8.0.1
+      ms: 2.1.3
 
   '@web5/dids@1.1.0':
     dependencies:
@@ -5788,9 +5873,20 @@ snapshots:
       level: 8.0.1
       ms: 2.1.3
 
-  '@web5/user-agent@0.0.0-next-e578e20-20240906213953(ws@8.18.0)':
+  '@web5/user-agent@0.0.0-next-3cfc21d-20240920195338(ws@8.18.0)':
     dependencies:
-      '@web5/agent': 0.0.0-next-e578e20-20240906213953(ws@8.18.0)
+      '@web5/agent': 0.0.0-next-3cfc21d-20240920195338(ws@8.18.0)
+      '@web5/common': 1.0.2
+      '@web5/crypto': 0.0.0-next-3cfc21d-20240920195338
+      '@web5/dids': 0.0.0-next-3cfc21d-20240920195338
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+      - ws
+
+  '@web5/user-agent@0.6.3(ws@8.18.0)':
+    dependencies:
+      '@web5/agent': 0.7.3(ws@8.18.0)
       '@web5/common': 1.0.0
       '@web5/crypto': 1.0.4
       '@web5/dids': 1.1.0
