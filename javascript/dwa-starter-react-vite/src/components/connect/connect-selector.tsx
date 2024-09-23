@@ -4,7 +4,7 @@ import { Typography } from "../ui/typography"
 import { useWeb5 } from "@/web5";
 import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
-import { ConnectOptions, Web5, Web5ConnectResult } from "@web5/api";
+import { ConnectOptions, Web5ConnectResult } from "@web5/api";
 import { DwnDataEncodedRecordsWriteMessage, WalletConnect } from "@web5/agent";
 import ConnectQR from "./connect-qr";
 import ConnectPin from "./connect-pin";
@@ -236,6 +236,7 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
     srcdoc?: string,
     appendTo?: HTMLElement,
     onLoad?: (e: HTMLIFrameElement) => void
+    onError?: (e: HTMLIFrameElement) => void
   } = {}) => {
     const iframe = document.createElement('iframe');
     iframe.style.position = 'fixed';
@@ -244,9 +245,15 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
     iframe.style.width = '1px'; 
     iframe.style.height = '1px';
     iframe.style.zIndex = '-1000';
+
     if (options.onLoad !== undefined) {
       iframe.addEventListener('load', () => options.onLoad!(iframe), { once: true });
     }
+
+    if (options.onError !== undefined) {
+      iframe.addEventListener('error', () => options.onError!(iframe), { once: true });
+    }
+
     if (options.src) iframe.src = options.src;
     else if (options.srcdoc) iframe.srcdoc = options.srcdoc;
     if (options.appendTo) options.appendTo.append(iframe);
@@ -281,9 +288,13 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
         const connectDataJson = await connectData.json();
         const wallets = connectDataJson?.webWallets as string[];
         if (!wallets?.length) return;
+        // const walletDomain = new URL(wallets[0]).origin;
         const walletDomain = await Promise.race(wallets.map((domain) => {
           return new Promise((resolve, reject) => {
             const url = new URL(domain);
+            if (!url.protocol.match('http')) {
+              reject();
+            }
             createHiddenFrame({
               appendTo: document.body,
               src: url.origin + '/dweb-connect',
@@ -295,11 +306,16 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
                   }
                 });
 
-                iframe.contentWindow?.postMessage({ type: 'dweb-connect-support-request', did }, url.origin);
                 setTimeout(() => {
                   iframe.remove();
                   reject();
                 }, 6000);
+
+                iframe.contentWindow!.postMessage({ type: 'dweb-connect-support-request', did }, url.origin);
+              },
+              onError: iframe => {
+                iframe.remove();
+                reject();
               }
             });
           });
@@ -307,8 +323,9 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
         if (!walletDomain) {
           // set error message somewhere
           popup?.close();
+          return;
         }
-        if (!walletDomain) return;
+
         const messageListener = (event: MessageEvent<{ type: string, grants?: DwnDataEncodedRecordsWriteMessage[], delegateDid?: PortableDid}>) => {
           const { type, grants, delegateDid } = event.data;
           if (event.origin === walletDomain){
@@ -327,6 +344,7 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
             }
           }
         }
+
         window.addEventListener('message', messageListener);
         const checkClosed = setInterval(() => {
           if (popup?.closed) {
