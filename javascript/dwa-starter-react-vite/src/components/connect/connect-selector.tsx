@@ -196,7 +196,13 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
   setState,
 }) => {
   const { processDelegateIdentity } = useWeb5();
+
+  const [ isLoading, setIsloading ] = useState<boolean>(false);
+  const [ selectingWallet, setSelectingWallet ] = useState<boolean>(false);
   const [ didInputValue, setDidInputValue ] = useState<string>('');
+  const [ popup, setPopup ] = useState<Window | null>(null);
+  const [ did, setDid ] = useState<string>('');
+  const [ wallets, setWallets ] = useState<string[]>([]);
 
   const displayWalletLinkQR = async () => {
     setState('loading');
@@ -231,35 +237,6 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
     }
   }
 
-  const createHiddenFrame = (options: {
-    src?: string,
-    srcdoc?: string,
-    appendTo?: HTMLElement,
-    onLoad?: (e: HTMLIFrameElement) => void
-    onError?: (e: HTMLIFrameElement) => void
-  } = {}) => {
-    const iframe = document.createElement('iframe');
-    iframe.style.position = 'fixed';
-    iframe.style.bottom = '0';
-    iframe.style.left = '0';
-    iframe.style.width = '1px'; 
-    iframe.style.height = '1px';
-    iframe.style.zIndex = '-1000';
-
-    if (options.onLoad !== undefined) {
-      iframe.addEventListener('load', () => options.onLoad!(iframe), { once: true });
-    }
-
-    if (options.onError !== undefined) {
-      iframe.addEventListener('error', () => options.onError!(iframe), { once: true });
-    }
-
-    if (options.src) iframe.src = options.src;
-    else if (options.srcdoc) iframe.srcdoc = options.srcdoc;
-    if (options.appendTo) options.appendTo.append(iframe);
-    return iframe;
-  }
-
   const requiredPermissions = () => {
     const request = [tasksProtocolDefinition, profileDefinition];
     return request.map(definition => WalletConnect.createPermissionRequestForProtocol({ definition, permissions: [
@@ -267,11 +244,9 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
     ] }));
   }
 
-  const didInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const didInputRegex = /(?:[^@]*@)?(did:[a-z0-9]+:[a-zA-Z0-9-]+)/;
-    setDidInputValue(e.target.value);
-    const didMatch = e.target.value.match(didInputRegex);
-    if (e.isTrusted && didMatch) {
+  const selectWallet = async (walletDomain: string) => {
+    setSelectingWallet(true);
+    try {
       const width = 500;
       const height = 600;
       const left = (screen.width - width) / 2;
@@ -279,8 +254,68 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
 
       const popup = window.open('', '_blank', `popup=true,width=${width},height=${height},left=${left},top=${top}`);
       popup?.document.write(popupContent);
+      setPopup(popup);
 
+      const messageListener = (event: MessageEvent<{ type: string, grants?: DwnDataEncodedRecordsWriteMessage[], delegateDid?: PortableDid}>) => {
+        const { type, grants, delegateDid } = event.data;
+        if (event.origin === walletDomain){
+          if (type === 'dweb-connect-loaded') {
+            popup?.postMessage({
+              type: 'dweb-connect-authorization-request',
+              did,
+              permissions: requiredPermissions()
+            }, walletDomain);
+          } else if (type === 'dweb-connect-authorization-response') {
+            window.removeEventListener('message', messageListener);
+            if (processDelegateIdentity) {
+              processDelegateIdentity(did, delegateDid!, grants!);
+              setState('done');
+            }
+          }
+        }
+      }
+
+      window.addEventListener('message', messageListener);
+      const checkClosed = setInterval(() => {
+        if (popup?.closed) {
+          clearInterval(checkClosed);
+          window.removeEventListener('message', messageListener);
+        }
+      }, 500);
+      popup!.location.href = walletDomain + '/dweb-connect#origin=' + location.origin;
+    } catch(error) {
+      // Set error message somewhere
+      setTimeout(() => popup?.close(), 500);
+
+      setDid('');
+      setPopup(null);
+      setWallets([]);
+    } finally {
+      setSelectingWallet(false);
+      setWallets([]);
+      setIsloading(false);
+    }
+  }
+
+  const didInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const didInputRegex = /(?:[^@]*@)?(did:[a-z0-9]+:[a-zA-Z0-9-]+)/;
+    const httpInputRegex = /https?:\/\/[a-zA-Z0-9\-.]+/;
+
+    setDidInputValue(e.target.value);
+    const didMatch = e.target.value.match(didInputRegex);
+    const httpMatch = e.target.value.match(httpInputRegex);
+
+    if (e.isTrusted && httpMatch) {
+      setIsloading(true);
+      const domain = httpMatch[0];
+      return selectWallet(domain);
+    }
+
+    if (e.isTrusted && didMatch) {
+      setIsloading(true);
       const did = didMatch[1];
+      setDid(did);
+
       try {
         const connectData = await fetch(
           `https://dweb/${did}/read/protocols/${Convert.string('https://areweweb5yet.com/protocols/profile').toBase64Url()}/connect`
@@ -288,81 +323,35 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({
         const connectDataJson = await connectData.json();
         const wallets = connectDataJson?.webWallets as string[];
         if (!wallets?.length) return;
-        // const walletDomain = new URL(wallets[0]).origin;
-        const walletDomain = await Promise.race(wallets.map((domain) => {
-          return new Promise((resolve, reject) => {
-            const url = new URL(domain);
-            if (!url.protocol.match('http')) {
-              reject();
-            }
-            createHiddenFrame({
-              appendTo: document.body,
-              src: url.origin + '/dweb-connect',
-              onLoad: iframe => {
-                window.addEventListener('message', e => {
-                  if (e.origin === url.origin && e.data.type === 'dweb-connect-support-response') {
-                    iframe.remove();
-                    e.data.supported ? resolve(url.origin) : reject();
-                  }
-                });
-
-                setTimeout(() => {
-                  iframe.remove();
-                  reject();
-                }, 6000);
-
-                iframe.contentWindow!.postMessage({ type: 'dweb-connect-support-request', did }, url.origin);
-              },
-              onError: iframe => {
-                iframe.remove();
-                reject();
-              }
-            });
-          });
-        }));
-        if (!walletDomain) {
-          // set error message somewhere
-          popup?.close();
-          return;
+        if (wallets.length === 1) {
+          return selectWallet(wallets[0]);
         }
 
-        const messageListener = (event: MessageEvent<{ type: string, grants?: DwnDataEncodedRecordsWriteMessage[], delegateDid?: PortableDid}>) => {
-          const { type, grants, delegateDid } = event.data;
-          if (event.origin === walletDomain){
-            if (type === 'dweb-connect-loaded') {
-              popup?.postMessage({
-                type: 'dweb-connect-authorization-request',
-                did,
-                permissions: requiredPermissions()
-              }, walletDomain);
-            } else if (type === 'dweb-connect-authorization-response') {
-              window.removeEventListener('message', messageListener);
-              if (processDelegateIdentity) {
-                processDelegateIdentity(did, delegateDid!, grants!);
-                setState('done');
-              }
-            }
-          }
-        }
+        setWallets(wallets);
 
-        window.addEventListener('message', messageListener);
-        const checkClosed = setInterval(() => {
-          if (popup?.closed) {
-            clearInterval(checkClosed);
-            window.removeEventListener('message', messageListener);
-          }
-        }, 500);
-        popup!.location.href = walletDomain + '/dweb-connect#origin=' + location.origin;
       } catch(error) {
-        // Set error message somewhere
-        setTimeout(() => popup?.close(), 500);
+        setDid('');
+        setWallets([]);
+        setIsloading(false);
       }
     }
   }
 
-  return (<div className="flex flex-col justify-between">
-    <Input value={didInputValue} onChange={didInput} name="email" placeholder="Enter DID Address" />
-    <Button onClick={displayWalletLinkQR} className="mt-4">QR Code</Button>
+  return (isLoading && <div>
+    <Loader2Icon className="animate-spin h-12 w-12 text-primary" />
+  </div> || <div className="flex flex-col justify-between">
+    {wallets.length > 0 && <div className="flex flex-col">
+      {wallets.map(wallet => <div key={wallet}>
+        <Button disabled={selectingWallet} onClick={() => selectWallet(wallet)}>
+          {wallet}
+        </Button>
+      </div>)}
+    </div>}
+    {wallets.length === 0 && <div className="flex flex-col justify-between">
+      <Input value={didInputValue} onChange={didInput} name="email" placeholder="DID or Wallet URL" />
+      <Typography className="mt-1">-or-</Typography>
+      <Button onClick={displayWalletLinkQR} className="mt-4">QR Code</Button>
+    </div>}
   </div>)
 }
 

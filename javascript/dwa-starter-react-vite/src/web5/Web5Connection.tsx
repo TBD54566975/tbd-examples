@@ -15,8 +15,25 @@ export const Web5Connection = ({
   const { did, isConnecting } = useWeb5();
   const [isOpen, setIsOpen] = useState(false);
 
+  const clearStorage = () => {
+    // Clear localStorage
+    localStorage.clear();
+
+    // Clear IndexedDB
+    indexedDB.databases().then(dbs => {
+      dbs.forEach(db => {
+        indexedDB.deleteDatabase(db.name!);
+      });
+    });
+
+    window.location.reload();
+  }
+
   if (did) {
-    return <div>Hi, {did.substring(0, 16)}...!</div>;
+    return <div>
+      <div>Hi, {did.substring(0, 16)}...!</div>
+      <Button variant="outline" onClick={clearStorage}>Disconnect</Button>
+    </div>;
   } else {
     return (
       <>
