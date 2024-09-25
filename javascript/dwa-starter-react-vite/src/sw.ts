@@ -1,14 +1,12 @@
 /// <reference lib="webworker" />
+import { activatePolyfills } from "@web5/browser";
+
 import {
   cleanupOutdatedCaches,
   createHandlerBoundToURL,
   precacheAndRoute,
 } from "workbox-precaching";
 import { NavigationRoute, registerRoute } from "workbox-routing";
-
-// TODO: review @web5/api process issue
-import { activatePolyfills } from "./web-features";
-// import { activatePolyfills } from "@web5/api";
 
 declare let self: ServiceWorkerGlobalScope;
 
