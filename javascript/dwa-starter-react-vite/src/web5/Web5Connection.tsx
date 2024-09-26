@@ -85,10 +85,11 @@ const ConnectionOption = ({ setIsOpen }: { setIsOpen: (isOpen:boolean) => void})
       setIsLoading(true);
       try {
         await walletConnect({
-          walletUri: "web5://connect",
-          connectServerUrl: "http://localhost:3000/connect",
+          walletUri: 'web5://connect',
+          connectServerUrl: 'https://dwn.tbddev.org/beta/connect',
           permissionRequests: [{ protocolDefinition: profileDefinition }, { protocolDefinition: tasksProtocolDefinition }],
           onWalletUriReady: (text: string) => {
+            console.log('QR Code Text: ', text);
             setQrCodeText(text);
             setIsLoading(false);
           },

@@ -75,7 +75,7 @@ export const Web5Provider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const connectOptions = {
         techPreview: {
-          dwnEndpoints: ["http://localhost:3000"],
+          dwnEndpoints: ['https://dwn.tbddev.org/beta'],
         },
         sync: '15s',
       };
