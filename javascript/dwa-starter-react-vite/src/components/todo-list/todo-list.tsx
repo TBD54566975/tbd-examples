@@ -17,7 +17,6 @@ export const TodoList = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const todoDwnRepository = useMemo(() => {
-    console.info("todoDwnRepository useMemo set dwn", { dwn });
     if (!dwn) {
       return undefined;
     }
@@ -39,7 +38,6 @@ export const TodoList = () => {
   }, [todoDwnRepository]);
 
   useEffect(() => {
-    console.info("todoDwnRepository loadTasks effect");
     if (todoDwnRepository) {
       loadTasks();
     }
