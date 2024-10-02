@@ -1,0 +1,15 @@
+{
+  "name": "DWA Starter Vue",
+  "tests": {
+    "pre": [
+      "npm install -g pnpm", 
+      "pnpm install", 
+      "pnpm run build",  
+      "npx playwright install --with-deps"
+    ],
+    "commands": [
+      "pnpm run test:unit", 
+      "pnpm run test:e2e"
+    ]
+  }
+}
