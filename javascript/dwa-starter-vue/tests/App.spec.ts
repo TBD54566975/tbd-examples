@@ -6,6 +6,6 @@ import HelloWorld from '../src/App.vue'
 describe('HelloWorld', () => {
   it('renders properly', () => {
     const wrapper = mount(HelloWorld)
-    expect(wrapper.text()).toContain('Hello World')
+    expect(wrapper.text()).toContain('Hello World!')
   })
 })
