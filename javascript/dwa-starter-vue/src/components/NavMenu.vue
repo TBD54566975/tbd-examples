@@ -27,7 +27,7 @@ const navList: { title: string; href: string }[] = [
   <NavigationMenu>
     <NavigationMenuList>
       <NavigationMenuItem v-for="item in navList" :key="item.title">
-        <RouterLink :to="item.href">
+        <RouterLink :to="item.href" class="nav-link" active-class="active">
           <NavigationMenuLink :class="navigationMenuTriggerStyle()">
             {{ item.title }}
           </NavigationMenuLink>
@@ -36,3 +36,9 @@ const navList: { title: string; href: string }[] = [
     </NavigationMenuList>
   </NavigationMenu>
 </template>
+
+<style scoped>
+.nav-link.active {
+  @apply underline;
+}
+</style>
