@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import NavMenu from '@/components/NavMenu.vue'
+</script>
+
 <template>
-  <h1 class="text-7xl font-bold underline">Hello World!</h1>
+  <header class="flex justify-center items-center">
+    <NavMenu />
+  </header>
+
+  <main class="min-h-screen flex justify-center items-center">
+    <RouterView />
+  </main>
 </template>
+
+<style lang="css">
+h1 {
+  @apply text-5xl font-bold;
+}
+</style>
