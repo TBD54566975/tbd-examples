@@ -5,7 +5,7 @@
   "dependencies": {
     "@tbdex/http-server": "2.0.0",
     "@web5/credentials": "1.0.3",
-    "@web5/dids": "1.1.1",
+    "@web5/dids": "1.1.5",
     "ajv": "8.12.0",
     "cborg": "^3.0.0",
     "dotenv": "16.3.1",
