@@ -3,16 +3,19 @@ import NavMenu from '@/components/NavMenu.vue'
 </script>
 
 <template>
-  <header class="flex justify-center items-center">
-    <NavMenu />
-  </header>
+  <div class="min-h-screen flex p-4 gap-4">
+    <!-- Header section -->
+    <header>
+      <NavMenu />
+    </header>
 
-  <main class="min-h-screen flex justify-center items-center">
-    <RouterView />
-  </main>
+    <main class="flex flex-col items-center">
+      <RouterView />
+    </main>
+  </div>
 </template>
 
-<style lang="css">
+<style>
 h1 {
   @apply text-5xl font-bold;
 }
