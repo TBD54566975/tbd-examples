@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from '../src/App.vue'
@@ -7,6 +7,22 @@ import AboutView from '../src/views/AboutView.vue'
 import SettingsView from '../src/views/SettingsView.vue'
 import NotFoundView from '../src/views/NotFoundView.vue'
 import NavMenu from '../src/components/NavMenu.vue'
+
+// Mock local storage
+const mockLocalStorage = (() => {
+  let store = {}
+  return {
+    getItem: (key) => store[key] || null,
+    setItem: (key, value) => {
+      store[key] = value
+    },
+    clear: () => (store = {})
+  }
+})()
+
+Object.defineProperty(window, 'localStorage', {
+  value: mockLocalStorage
+})
 
 // Create a router for testing
 const routes = [
@@ -81,5 +97,106 @@ describe('App', () => {
     await wrapper.vm.$nextTick() // Wait for the next DOM update
 
     expect(wrapper.text()).toContain('404 - Page Not Found') // Check if the 404 page is rendered
+  })
+
+  // Dark mode
+  it('toggles between dark, light, and system modes via the dropdown menu', async () => {
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    // Find the dropdown trigger
+    const dropdownTrigger = wrapper.find('[data-testid="dropdown-trigger"]') // Adjust the selector as necessary
+    console.log(dropdownTrigger)
+    expect(dropdownTrigger.exists()).toBe(true)
+
+    // Trigger the dropdown
+    await dropdownTrigger.trigger('click')
+
+    // Now check if the dropdown items exist
+    const lightModeOption = wrapper.find('[data-testid="light-mode-option"]') // Use a proper selector
+    expect(lightModeOption.exists()).toBe(true)
+
+    // Change to light mode
+    await lightModeOption.trigger('click')
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    expect(localStorage.getItem('vueuse-color-scheme')).toBe('light')
+  })
+
+  it('saves the theme preference in local storage when changed', async () => {
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    const dropdownTrigger = wrapper.find('button[aria-label="Toggle theme"]')
+    await dropdownTrigger.trigger('click')
+
+    const dropdownItems = wrapper.findAllComponents({ name: 'DropdownMenuItem' })
+
+    // Select "Dark" mode and ensure it's stored
+    await dropdownItems[1].trigger('click')
+    expect(localStorage.getItem('vueuse-color-scheme')).toBe('dark')
+
+    // Select "Light" mode and ensure it's stored
+    await dropdownTrigger.trigger('click')
+    await dropdownItems[0].trigger('click')
+    expect(localStorage.getItem('vueuse-color-scheme')).toBe('light')
+  })
+
+  it('applies system preference if no user preference is stored', async () => {
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    // Simulate system preference
+    vi.stubGlobal('matchMedia', (query) => {
+      return {
+        matches: query === '(prefers-color-scheme: dark)',
+        addListener: vi.fn(),
+        removeListener: vi.fn()
+      }
+    })
+
+    await wrapper.vm.$nextTick()
+
+    // Check if dark mode is applied by default from system preference
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+  })
+
+  it('persists the theme across different routes', async () => {
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    const dropdownTrigger = wrapper.find('button[aria-label="Toggle theme"]')
+    await dropdownTrigger.trigger('click')
+
+    const dropdownItems = wrapper.findAllComponents({ name: 'DropdownMenuItem' })
+
+    // Select "Dark" mode
+    await dropdownItems[1].trigger('click')
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+
+    // Navigate to another route and ensure dark mode is still applied
+    await router.push('/about')
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.text()).toContain('This is the about page')
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+
+    // Navigate to settings page
+    await router.push('/settings')
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.text()).toContain('This is the settings page')
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
   })
 })
