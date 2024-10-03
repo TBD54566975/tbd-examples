@@ -3,13 +3,12 @@ import NavMenu from '@/components/NavMenu.vue'
 </script>
 
 <template>
-  <div class="min-h-screen flex p-4 gap-4">
-    <!-- Header section -->
-    <header>
+  <div class="flex gap-4">
+    <header class="p-4 h-screen sticky top-0">
       <NavMenu />
     </header>
 
-    <main class="flex flex-col items-center">
+    <main class="p-4 overflow-y-auto">
       <RouterView />
     </main>
   </div>
