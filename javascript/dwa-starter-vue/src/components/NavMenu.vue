@@ -15,10 +15,12 @@ const closeDrawer = () => {
 </script>
 
 <template>
-  <div class="lg:hidden border-b">
-    <Button @click="toggleDrawer" variant="ghost">
-      <TextAlignLeftIcon class="w-6 h-6" />
-    </Button>
+  <div class="lg:hidden">
+    <div class="border-b py-2 backdrop-blur-lg">
+      <Button @click="toggleDrawer" variant="ghost">
+        <TextAlignLeftIcon class="w-6 h-6" />
+      </Button>
+    </div>
 
     <div v-if="isOpen" @click="closeDrawer" class="fixed inset-0 bg-black bg-opacity-80 z-10"></div>
 
@@ -32,7 +34,7 @@ const closeDrawer = () => {
     </div>
   </div>
 
-  <div class="hidden lg:block h-full">
+  <div class="hidden lg:block h-full p-4">
     <NavList />
   </div>
 </template>

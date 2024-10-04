@@ -15,7 +15,7 @@ const emit = defineEmits(['itemClicked'])
 </script>
 
 <template>
-  <nav class="flex flex-col gap-4 w-full h-full">
+  <nav class="flex flex-col gap-4 h-full">
     <h2 class="text-lg">My DWA</h2>
 
     <div class="flex flex-col gap-2">

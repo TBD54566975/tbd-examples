@@ -4,7 +4,7 @@ import NavMenu from '@/components/NavMenu.vue'
 
 <template>
   <div class="flex lg:flex-row flex-col">
-    <header class="lg:h-screen sticky top-0 lg:p-4 py-2">
+    <header class="sticky top-0 lg:h-screen">
       <NavMenu />
     </header>
 
