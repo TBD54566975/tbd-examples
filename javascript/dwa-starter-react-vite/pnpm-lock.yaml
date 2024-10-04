@@ -33,7 +33,7 @@ importers:
         version: 0.0.0-next-e578e20-20240906213953(ws@8.18.0)
       '@web5/credentials':
         specifier: ^1.1.1
-        version: 1.1.1
+        version: 1.1.2
       '@web5/dids':
         specifier: ^1.1.4
         version: 1.1.4
@@ -1160,6 +1160,10 @@ packages:
     resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
     engines: {node: '>= 16'}
 
+  '@noble/hashes@1.5.0':
+    resolution: {integrity: sha512-1j6kQFb7QRru7eKN3ZDvRcP13rugwdxZqCjbiAVZfIJwgj2A65UmT4TgARXGlXgnRkORLTDTrO19ZErt7+QXgA==}
+    engines: {node: ^14.21.3 || >=16}
+
   '@noble/secp256k1@2.0.0':
     resolution: {integrity: sha512-rUGBd95e2a45rlmFTqQJYEFA4/gdIARFfuTuTqLglz0PZ6AKyzyXsEZZq7UZn8hZsvaBgpCzKKBJizT2cJERXw==}
 
@@ -1677,8 +1681,8 @@ packages:
     resolution: {integrity: sha512-1NHZ//+GecGQJb+gSdDicnrHG0DvACUk9jTnXA5yLZhlRjgkjyfJLNsCZesYeCyVp/SiyvIC9B+JwoY4kI0TwQ==}
     engines: {node: '>=16'}
 
-  '@sphereon/pex-models@2.2.4':
-    resolution: {integrity: sha512-pGlp+wplneE1+Lk3U48/2htYKTbONMeG5/x7vhO6AnPUOsnOXeJdftPrBYWVSzz/JH5GJptAc6+pAyYE1zMu4Q==}
+  '@sphereon/pex-models@2.3.1':
+    resolution: {integrity: sha512-SByU4cJ0XYA6VZQ/L6lsSiRcFtBPHbFioCeQ4GP7/W/jQ+PSBD7uK2oTnKQ9/0iEiMK/6JYqhKgLs4a9UX3UTQ==}
 
   '@sphereon/pex@3.3.3':
     resolution: {integrity: sha512-CXwdEcMTUh2z/5AriBn3OuShEG06l2tgiIr7qDJthnkez8DQ3sZo2vr4NEQWKKAL+DeAWAI4FryQGO4KuK7yfg==}
@@ -1916,8 +1920,12 @@ packages:
     resolution: {integrity: sha512-dxczXqzWt6HCwuNyOVBeakg6GgOpP74tVEVxBeKkb+D3XcSP96mYaDtky5ZnjY4iBYb16SaCgwje+sgevOL51A==}
     engines: {node: '>=18.0.0'}
 
-  '@web5/credentials@1.1.1':
-    resolution: {integrity: sha512-SlTpW4rg+HJ6ipLV4uzQ0Sg4HmSeuwWnWa6JOIG+cBWAOgCwgY/PL0F57wI3p4b8qcx/ey2R2yZyKkpN0sr8UQ==}
+  '@web5/common@1.0.2':
+    resolution: {integrity: sha512-SerGdrxZF47yidvhrRa8sGLEOunIlDHppxrtWYCuKMVgtQKgheEmaS4+xchGAc/mZggJX4LlwJbRuniIiSaXrw==}
+    engines: {node: '>=18.0.0'}
+
+  '@web5/credentials@1.1.2':
+    resolution: {integrity: sha512-tR+mUsXhLZCdJcLsHo28w4ft2b+ETv/YPl3V5RLrhE3t3dBo6On7C8y4edho4iBZFNvDk96Pu6/P7OKDhUHErg==}
     engines: {node: '>=18.0.0'}
 
   '@web5/crypto@1.0.0':
@@ -1928,16 +1936,20 @@ packages:
     resolution: {integrity: sha512-XjYkwQG28zo6UXusl5djca9/Qv74H259fjofrUY87qeb1Y/lPrgtpVTSNaqdLu4RB1gwyzFZwOGRaphWNjK1Ug==}
     engines: {node: '>=18.0.0'}
 
+  '@web5/crypto@1.0.5':
+    resolution: {integrity: sha512-btVYrv6G29VQgdLVtqH4IbaH6DvvEA2UWgF3y0AMv/wAmT4EKSdwVUHhEWt16gtpN05UT5qEYmnKLZUOxk1zzw==}
+    engines: {node: '>=18.0.0'}
+
   '@web5/dids@1.1.0':
     resolution: {integrity: sha512-d9pKf/DW+ziUiV5g3McC71utyAhQyT1tYGPbQSYWt2ji6FHGNC6tffHMfLXXK/W+vbwV3eNTn06JqTXRaYhxBA==}
     engines: {node: '>=18.0.0'}
 
-  '@web5/dids@1.1.1':
-    resolution: {integrity: sha512-LKc6Okl2iz78QGJCsd8QKQq3LdtmfQ9cfiRKu1BU4ITWteWsg4JD089hKmslNDd2KKnEf9LE72TqEYWxr/e8JA==}
-    engines: {node: '>=18.0.0'}
-
   '@web5/dids@1.1.4':
     resolution: {integrity: sha512-RdRWRMrZlcbnLkMO14ObWsL//efmSl/Mzvmbodbi3kMXvCaoLYgYyz5AkdrpskdjolWLkgOjjdMw+bX5uxp0mQ==}
+    engines: {node: '>=18.0.0'}
+
+  '@web5/dids@1.1.5':
+    resolution: {integrity: sha512-vGRWeSZkNX7Whz2fZelpnhYmuQ3FMxgkdCP08lSpfN9mz9Tk0TbVlZx3vD6Lh8oUyHi/v//0nhr/NdzGqb8jgQ==}
     engines: {node: '>=18.0.0'}
 
   '@web5/user-agent@0.0.0-next-e578e20-20240906213953':
@@ -2706,8 +2718,8 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fast-uri@3.0.1:
-    resolution: {integrity: sha512-MWipKbbYiYI0UC7cl8m/i/IWTqfC8YXsqjzybjddLsFjStroQzsHXkc73JutMvBiXmOvapk+axIl79ig5t55Bw==}
+  fast-uri@3.0.2:
+    resolution: {integrity: sha512-GR6f0hD7XXyNJa25Tb9BuIdN0tdr+0BMi6/CJPH3wJO1JjNG3n/VsSw38AwRdKZABm8lGbPfakLRkYzx2V9row==}
 
   fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
@@ -3440,8 +3452,8 @@ packages:
   multiformats@13.1.0:
     resolution: {integrity: sha512-HzdtdBwxsIkzpeXzhQ5mAhhuxcHbjEHH+JQoxt7hG/2HGFjjwyolLo7hbaexcnhoEuV4e0TNJ8kkpMjiEYY4VQ==}
 
-  multiformats@13.1.3:
-    resolution: {integrity: sha512-CZPi9lFZCM/+7oRolWYsvalsyWQGFo+GpdaTmjxXXomC+nP/W1Rnxb9sUgjvmNmRZ5bOPqRAl4nuK+Ydw/4tGw==}
+  multiformats@13.3.0:
+    resolution: {integrity: sha512-CBiqvsufgmpo01VT5ze94O+uc+Pbf6f/sThlvWss0sBZmAOu6GQn5usrYV2sf2mr17FWYc0rO8c/CNe2T90QAA==}
 
   multiformats@9.9.0:
     resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
@@ -3912,8 +3924,8 @@ packages:
   regenerator-transform@0.15.2:
     resolution: {integrity: sha512-hfMp2BoF0qOk3uc5V20ALGDS2ddjQaLrdl7xrGXvAIow7qeWRM2VA2HuCHkUKk9slq3VwEwLNK3DFBqDfPGYtg==}
 
-  regexp.prototype.flags@1.5.2:
-    resolution: {integrity: sha512-NcDiDkTLuPR+++OCKB0nWafEmhg/Da8aUPLPMQbK+bxKKCm1/S5he+AqYa4PlMCVBalb4/yxIRub6qkEx5yJbw==}
+  regexp.prototype.flags@1.5.3:
+    resolution: {integrity: sha512-vqlC04+RQoFalODCbCumG2xIOvapzVMHwsyIGM/SIE8fRhFFsXeH8/QQ+s0T0kDAhKc4k30s73/0ydkHQz6HlQ==}
     engines: {node: '>= 0.4'}
 
   regexpu-core@6.1.1:
@@ -5877,7 +5889,7 @@ snapshots:
 
   '@ipld/dag-pb@4.1.2':
     dependencies:
-      multiformats: 13.1.3
+      multiformats: 13.3.0
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -5931,7 +5943,7 @@ snapshots:
 
   '@multiformats/murmur3@2.1.8':
     dependencies:
-      multiformats: 13.1.3
+      multiformats: 13.3.0
       murmurhash3js-revisited: 3.0.0
 
   '@noble/ciphers@0.3.0': {}
@@ -5955,6 +5967,8 @@ snapshots:
   '@noble/hashes@1.3.3': {}
 
   '@noble/hashes@1.4.0': {}
+
+  '@noble/hashes@1.5.0': {}
 
   '@noble/secp256k1@2.0.0': {}
 
@@ -6414,7 +6428,7 @@ snapshots:
       '@sd-jwt/types': 0.6.1
       js-base64: 3.7.7
 
-  '@sphereon/pex-models@2.2.4': {}
+  '@sphereon/pex-models@2.3.1': {}
 
   '@sphereon/pex@3.3.3':
     dependencies:
@@ -6422,7 +6436,7 @@ snapshots:
       '@sd-jwt/decode': 0.6.1
       '@sd-jwt/present': 0.6.1
       '@sd-jwt/types': 0.6.1
-      '@sphereon/pex-models': 2.2.4
+      '@sphereon/pex-models': 2.3.1
       '@sphereon/ssi-types': 0.22.0
       ajv: 8.17.1
       ajv-formats: 2.1.1(ajv@8.17.1)
@@ -6792,12 +6806,19 @@ snapshots:
       multiformats: 13.1.0
       readable-stream: 4.4.2
 
-  '@web5/credentials@1.1.1':
+  '@web5/common@1.0.2':
+    dependencies:
+      '@isaacs/ttlcache': 1.4.1
+      level: 8.0.1
+      multiformats: 13.1.0
+      readable-stream: 4.5.2
+
+  '@web5/credentials@1.1.2':
     dependencies:
       '@sphereon/pex': 3.3.3
-      '@web5/common': 1.0.1
-      '@web5/crypto': 1.0.4
-      '@web5/dids': 1.1.1
+      '@web5/common': 1.0.2
+      '@web5/crypto': 1.0.5
+      '@web5/dids': 1.1.5
       jsonschema: 1.4.1
       pako: 2.1.0
 
@@ -6815,19 +6836,14 @@ snapshots:
       '@noble/hashes': 1.4.0
       '@web5/common': 1.0.1
 
-  '@web5/dids@1.1.0':
+  '@web5/crypto@1.0.5':
     dependencies:
-      '@decentralized-identity/ion-sdk': 1.0.4
-      '@dnsquery/dns-packet': 6.1.1
-      '@web5/common': 1.0.0
-      '@web5/crypto': 1.0.0
-      abstract-level: 1.0.4
-      bencode: 4.0.0
-      buffer: 6.0.3
-      level: 8.0.1
-      ms: 2.1.3
+      '@noble/ciphers': 0.5.3
+      '@noble/curves': 1.3.0
+      '@noble/hashes': 1.4.0
+      '@web5/common': 1.0.2
 
-  '@web5/dids@1.1.1':
+  '@web5/dids@1.1.0':
     dependencies:
       '@decentralized-identity/ion-sdk': 1.0.4
       '@dnsquery/dns-packet': 6.1.1
@@ -6845,6 +6861,18 @@ snapshots:
       '@dnsquery/dns-packet': 6.1.1
       '@web5/common': 1.0.0
       '@web5/crypto': 1.0.4
+      abstract-level: 1.0.4
+      bencode: 4.0.0
+      buffer: 6.0.3
+      level: 8.0.1
+      ms: 2.1.3
+
+  '@web5/dids@1.1.5':
+    dependencies:
+      '@decentralized-identity/ion-sdk': 1.0.4
+      '@dnsquery/dns-packet': 6.1.1
+      '@web5/common': 1.0.2
+      '@web5/crypto': 1.0.5
       abstract-level: 1.0.4
       bencode: 4.0.0
       buffer: 6.0.3
@@ -6919,7 +6947,7 @@ snapshots:
   ajv@8.17.1:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.0.1
+      fast-uri: 3.0.2
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -7524,7 +7552,7 @@ snapshots:
     dependencies:
       '@noble/ciphers': 0.3.0
       '@noble/curves': 1.4.2
-      '@noble/hashes': 1.4.0
+      '@noble/hashes': 1.5.0
 
   ed25519-keygen@0.4.11:
     dependencies:
@@ -7599,7 +7627,7 @@ snapshots:
       object-inspect: 1.13.2
       object-keys: 1.1.1
       object.assign: 4.1.5
-      regexp.prototype.flags: 1.5.2
+      regexp.prototype.flags: 1.5.3
       safe-array-concat: 1.1.2
       safe-regex-test: 1.0.3
       string.prototype.trim: 1.2.9
@@ -7794,7 +7822,7 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fast-uri@3.0.1: {}
+  fast-uri@3.0.2: {}
 
   fastq@1.17.1:
     dependencies:
@@ -8546,7 +8574,7 @@ snapshots:
 
   multiformats@13.1.0: {}
 
-  multiformats@13.1.3: {}
+  multiformats@13.3.0: {}
 
   multiformats@9.9.0: {}
 
@@ -9030,7 +9058,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.25.7
 
-  regexp.prototype.flags@1.5.2:
+  regexp.prototype.flags@1.5.3:
     dependencies:
       call-bind: 1.0.7
       define-properties: 1.2.1
@@ -9305,7 +9333,7 @@ snapshots:
       gopd: 1.0.1
       has-symbols: 1.0.3
       internal-slot: 1.0.7
-      regexp.prototype.flags: 1.5.2
+      regexp.prototype.flags: 1.5.3
       set-function-name: 2.0.2
       side-channel: 1.0.6
 
@@ -9621,7 +9649,7 @@ snapshots:
 
   uint8arrays@5.1.0:
     dependencies:
-      multiformats: 13.1.3
+      multiformats: 13.3.0
 
   ulidx@2.1.0:
     dependencies:
