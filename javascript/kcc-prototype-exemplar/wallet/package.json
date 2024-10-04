@@ -12,6 +12,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@web5/credentials": "1.0.3",
-    "@web5/dids": "1.1.1"
+    "@web5/dids": "1.1.5"
   }
 }
