@@ -24,6 +24,17 @@ docker compose up -d
 pnpm dev
 ```
 
+### Running Tests
+
+- Unit tests are located alongside the code in the `src` folder, suffixed with `.test.tsx`, ran by `vitest` and `react-testing-library` for components
+- E2E tests are located in the `e2e` folder, ran by `playwright`
+
+```sh
+pnpm test # runs both unit and e2e tests
+pnpm test:unit # runs only the unit tests
+pnpm test:e2e # runs only the e2e tests
+```
+
 ### Building App
 
 ```sh
