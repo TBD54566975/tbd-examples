@@ -8,8 +8,7 @@
             "pnpm playwright install --with-deps"
         ],
         "commands": [
-            "pnpm test:unit",
-            "pnpm test:e2e"
+            "pnpm test"
         ]
     }
 }
