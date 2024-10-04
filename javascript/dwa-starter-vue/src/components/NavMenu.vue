@@ -1,57 +1,38 @@
 <script setup lang="ts">
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle
-} from '@/components/ui/navigation-menu'
 import { Button } from '@/components/ui/button'
-import { HomeIcon, GearIcon, AvatarIcon, Link2Icon } from '@radix-icons/vue'
-import { useRoute } from 'vue-router'
+import { TokensIcon } from '@radix-icons/vue'
+import { ref } from 'vue'
 
-const route = useRoute()
+import NavList from '@/components/NavList.vue'
 
-const navList: { title: string; href: string; icon: any }[] = [
-  {
-    title: 'Home',
-    href: '/',
-    icon: HomeIcon
-  },
-  {
-    title: 'About',
-    href: '/about',
-    icon: AvatarIcon
-  },
-  {
-    title: 'Settings',
-    href: '/settings',
-    icon: GearIcon
-  }
-]
+const isOpen = ref(false)
+const toggleDrawer = () => {
+  isOpen.value = !isOpen.value
+}
+const closeDrawer = () => {
+  isOpen.value = false
+}
 </script>
+
 <template>
-  <nav class="flex flex-col gap-4 w-full h-full">
-    <h2 class="text-lg">My DWA</h2>
-
-    <div class="flex flex-col gap-2">
-      <div v-for="item in navList" :key="item.title">
-        <Button
-          :variant="route.path === item.href ? 'secondary' : 'ghost'"
-          class="w-full justify-start"
-          asChild
-        >
-          <RouterLink :to="item.href">
-            <component :is="item.icon" class="w-4 h-4 mr-2" />
-            {{ item.title }}
-          </RouterLink>
-        </Button>
-      </div>
-    </div>
-
-    <Button variant="ghost" class="w-full mt-auto">
-      <Link2Icon class="w-4 h-4 mr-2" />
-      Connect
+  <div class="lg:hidden border-b">
+    <Button @click="toggleDrawer" variant="ghost">
+      <TokensIcon class="w-6 h-6" />
     </Button>
-  </nav>
+
+    <div v-if="isOpen" @click="closeDrawer" class="fixed inset-0 bg-black bg-opacity-80 z-10"></div>
+
+    <div
+      :class="[
+        'fixed top-0 left-0 z-20 h-full w-64 bg-white shadow-md transition-transform p-4',
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      ]"
+    >
+      <NavList @itemClicked="closeDrawer" />
+    </div>
+  </div>
+
+  <div class="hidden lg:block h-full">
+    <NavList />
+  </div>
 </template>
