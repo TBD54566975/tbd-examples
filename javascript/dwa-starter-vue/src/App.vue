@@ -3,15 +3,36 @@ import NavMenu from '@/components/NavMenu.vue'
 </script>
 
 <template>
-  <NavMenu />
+  <div class="flex min-h-screen lg:flex-row flex-col dark:bg-zinc-950 dark:text-white">
+    <header class="sticky top-0">
+      <NavMenu />
+    </header>
 
-  <main class="min-h-screen flex justify-center items-center dark:bg-zinc-950 dark:text-white">
-    <RouterView />
-  </main>
+    <main class="p-4 lg:h-screen overflow-y-auto">
+      <RouterView />
+    </main>
+  </div>
 </template>
+<style>
+h1,
+h2,
+h3 {
+  @apply scroll-m-20 tracking-tight;
+}
 
-<style lang="css">
 h1 {
-  @apply text-5xl font-bold;
+  @apply text-4xl font-extrabold lg:text-5xl;
+}
+
+h2 {
+  @apply text-3xl font-semibold;
+}
+
+h3 {
+  @apply text-2xl font-semibold;
+}
+
+p {
+  @apply leading-7 [&:not(:first-child)]:my-6;
 }
 </style>
