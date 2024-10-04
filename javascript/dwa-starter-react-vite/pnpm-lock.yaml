@@ -3354,8 +3354,8 @@ packages:
   micro-packed@0.5.3:
     resolution: {integrity: sha512-zWRoH+qUb/ZMp9gVZhexvRGCENDM5HEQF4sflqpdilUHWK2/zKR7/MT8GBctnTwbhNJwy1iuk5q6+TYP7/twYA==}
 
-  micromatch@4.0.7:
-    resolution: {integrity: sha512-LPP/3KorzCwBxfeUuZmaR6bG2kdeHSbe0P2tY3FLRU4vYrjYz5hI4QZwV0njUx3jeuKe67YukQ1LSPZBKDqO/Q==}
+  micromatch@4.0.8:
+    resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
 
   miller-rabin@4.0.1:
@@ -6685,7 +6685,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/browser@2.1.2(@vitest/spy@2.1.2)(playwright@1.47.2)(typescript@5.5.3)(vite@5.4.8(@types/node@20.14.11)(terser@5.34.1))(vitest@2.1.2)':
+  '@vitest/browser@2.1.2(@vitest/spy@2.1.2)(typescript@5.5.3)(vite@5.4.8(@types/node@20.14.11)(terser@5.34.1))(vitest@2.1.2)':
     dependencies:
       '@testing-library/dom': 10.4.0
       '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
@@ -6697,8 +6697,6 @@ snapshots:
       tinyrainbow: 1.2.0
       vitest: 2.1.2(@types/node@20.14.11)(@vitest/browser@2.1.2)(jsdom@25.0.1)(msw@2.4.9(typescript@5.5.3))(terser@5.34.1)
       ws: 8.18.0
-    optionalDependencies:
-      playwright: 1.47.2
     transitivePeerDependencies:
       - '@vitest/spy'
       - bufferutil
@@ -7790,7 +7788,7 @@ snapshots:
       '@nodelib/fs.walk': 1.2.8
       glob-parent: 5.1.2
       merge2: 1.4.1
-      micromatch: 4.0.7
+      micromatch: 4.0.8
 
   fast-json-stable-stringify@2.1.0: {}
 
@@ -8468,7 +8466,7 @@ snapshots:
     dependencies:
       '@scure/base': 1.1.7
 
-  micromatch@4.0.7:
+  micromatch@4.0.8:
     dependencies:
       braces: 3.0.3
       picomatch: 2.3.1
@@ -9402,7 +9400,7 @@ snapshots:
       is-glob: 4.0.3
       jiti: 1.21.6
       lilconfig: 2.1.0
-      micromatch: 4.0.7
+      micromatch: 4.0.8
       normalize-path: 3.0.0
       object-hash: 3.0.0
       picocolors: 1.0.1
@@ -9798,7 +9796,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.14.11
-      '@vitest/browser': 2.1.2(@vitest/spy@2.1.2)(playwright@1.47.2)(typescript@5.5.3)(vite@5.4.8(@types/node@20.14.11)(terser@5.34.1))(vitest@2.1.2)
+      '@vitest/browser': 2.1.2(@vitest/spy@2.1.2)(typescript@5.5.3)(vite@5.4.8(@types/node@20.14.11)(terser@5.34.1))(vitest@2.1.2)
       jsdom: 25.0.1
     transitivePeerDependencies:
       - less
