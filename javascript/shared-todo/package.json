@@ -19,7 +19,7 @@
     "@types/node": "18.16.19",
     "nuxt": "3.12.4",
     "sass": "1.63.6",
-    "sass-loader": "13.3.2",
+    "sass-loader": "13.3.3",
     "start-server-and-test": "^2.0.4"
   },
   "dependencies": {
