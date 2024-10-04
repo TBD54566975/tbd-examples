@@ -40,7 +40,7 @@
     "kysely-codegen": "0.10.1",
     "mocha": "10.2.0",
     "puppeteer": "^22.6.3",
-    "rimraf": "5.0.1",
+    "rimraf": "5.0.10",
     "sinon": "15.2.0",
     "start-server-and-test": "^2.0.4",
     "supertest": "6.3.3",
