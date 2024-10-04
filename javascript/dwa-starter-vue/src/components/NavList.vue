@@ -1,3 +1,31 @@
+<script setup lang="ts">
+import { Button } from '@/components/ui/button'
+import { useRoute } from 'vue-router'
+import { HomeIcon, GearIcon, AvatarIcon, Link2Icon } from '@radix-icons/vue'
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Icon } from '@iconify/vue'
+
+import { useColorMode } from '@vueuse/core'
+
+const route = useRoute()
+
+const navList = [
+  { title: 'Home', href: '/', icon: HomeIcon },
+  { title: 'About', href: '/about', icon: AvatarIcon },
+  { title: 'Settings', href: '/settings', icon: GearIcon }
+]
+
+const emit = defineEmits(['itemClicked'])
+
+const mode = useColorMode()
+</script>
+
 <template>
   <nav class="flex flex-col gap-4 h-full">
     <div class="flex items-center justify-between">
@@ -49,31 +77,3 @@
     </Button>
   </nav>
 </template>
-
-<script setup lang="ts">
-import { Button } from '@/components/ui/button'
-import { useRoute } from 'vue-router'
-import { HomeIcon, GearIcon, AvatarIcon, Link2Icon } from '@radix-icons/vue'
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { Icon } from '@iconify/vue'
-
-import { useColorMode } from '@vueuse/core'
-
-const route = useRoute()
-
-const navList = [
-  { title: 'Home', href: '/', icon: HomeIcon },
-  { title: 'About', href: '/about', icon: AvatarIcon },
-  { title: 'Settings', href: '/settings', icon: GearIcon }
-]
-
-const emit = defineEmits(['itemClicked'])
-
-const mode = useColorMode()
-</script>
