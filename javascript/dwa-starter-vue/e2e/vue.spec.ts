@@ -9,7 +9,9 @@ test('visits the app root url', async ({ page }) => {
 // Test for the about page
 test('visits the about page', async ({ page }) => {
   await page.goto('/about')
-  await expect(page.locator('h1')).toHaveText('This is the about page')
+  await expect(page.locator('p').first()).toHaveText(
+    "Decentralized Web App: it's a Web5 Progressive Web App."
+  )
 })
 
 // Test for the settings page

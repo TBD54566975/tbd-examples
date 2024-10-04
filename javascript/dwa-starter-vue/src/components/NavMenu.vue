@@ -32,7 +32,7 @@ const navList: { title: string; href: string; icon: any }[] = [
 </script>
 <template>
   <nav class="flex flex-col gap-4 w-full h-full">
-    <h2 class="text-xl font-bold">My DWA</h2>
+    <h2>My DWA</h2>
 
     <div class="flex flex-col gap-2">
       <div v-for="item in navList" :key="item.title">

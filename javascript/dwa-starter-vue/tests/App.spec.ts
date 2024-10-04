@@ -54,7 +54,7 @@ describe('App', () => {
     await router.push('/about') // Navigate to about route
     await wrapper.vm.$nextTick() // Wait for the next DOM update
 
-    expect(wrapper.text()).toContain('This is the about page') // Check if AboutView content is rendered
+    expect(wrapper.text()).toContain("Decentralized Web App: it's a Web5 Progressive Web App.") // Check if AboutView content is rendered
   })
 
   it('renders the SettingsView on the settings route', async () => {

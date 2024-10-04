@@ -13,9 +13,26 @@ import NavMenu from '@/components/NavMenu.vue'
     </main>
   </div>
 </template>
-
 <style>
+h1,
+h2,
+h3 {
+  @apply scroll-m-20 tracking-tight;
+}
+
 h1 {
-  @apply text-5xl font-bold;
+  @apply text-4xl font-extrabold lg:text-5xl;
+}
+
+h2 {
+  @apply border-b pb-2 text-3xl font-semibold transition-colors first:mt-0;
+}
+
+h3 {
+  @apply text-2xl font-semibold;
+}
+
+p {
+  @apply leading-7 [&:not(:first-child)]:mt-6;
 }
 </style>
