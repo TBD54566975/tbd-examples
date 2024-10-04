@@ -16,7 +16,7 @@
     "@vueuse/core": "9.6.0",
     "@web5/api": "0.10.0",
     "multiformats": "10.0.3",
-    "uuid": "9.0.0",
+    "uuid": "9.0.1",
     "varint": "6.0.0",
     "vue": "3.2.41",
     "vue-router": "4.2.5",
