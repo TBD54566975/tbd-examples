@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import tailwind from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
+import nodePolyfills from 'vite-plugin-node-stdlib-browser'
 
 export default defineConfig({
   css: {
@@ -13,7 +14,11 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    nodePolyfills(),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
       manifest: {
         name: 'DWA Starter',
         short_name: 'DWA Starter',

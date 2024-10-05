@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ReloadIcon } from '@radix-icons/vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
-import { PersonIcon } from '@radix-icons/vue'
+import { PersonIcon, ReloadIcon } from '@radix-icons/vue'
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
@@ -15,7 +14,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast/use-toast'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useWeb5 } from '@/composables/web5'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -23,35 +23,62 @@ const formSchema = toTypedSchema(
   })
 )
 
+onMounted(() => {
+  findOrUpdateProfile(false)
+})
+
 const name = ref('')
 const profileImage = ref('')
 const fileInputKey = ref(0)
+
+const { findOrUpdateRecord } = useWeb5()
+
+const findOrUpdateProfile = async (upsert = true) => {
+  const profileRecord = await findOrUpdateRecord(
+    { name: name.value, profileImage: profileImage.value },
+    'profile',
+    upsert
+  )
+  name.value = profileRecord?.name || ''
+  profileImage.value = profileRecord?.profileImage || ''
+}
 
 const handleImageUpload = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (file) {
     const reader = new FileReader()
-    reader.onload = () => {
+    reader.onload = async () => {
       profileImage.value = reader.result as string
+      await findOrUpdateProfile()
+      toast({
+        title: 'Success',
+        description: `profile updated`
+      })
     }
     reader.readAsDataURL(file)
   }
 }
 
-const clearImage = () => {
+const clearImage = async () => {
   profileImage.value = ''
   fileInputKey.value++
+  await findOrUpdateProfile()
+  toast({
+    title: 'Success',
+    description: `profile updated`
+  })
 }
 
 const { isFieldDirty, handleSubmit, isSubmitting } = useForm({
   validationSchema: formSchema
 })
 
-const onSubmit = handleSubmit((values) => {
+const onSubmit = handleSubmit(async (values) => {
   name.value = values.name
+  await findOrUpdateProfile()
   toast({
     title: 'Success',
-    description: `Form submitted successfully with name: ${values.name}`
+    description: `profile updated`
   })
 })
 </script>
