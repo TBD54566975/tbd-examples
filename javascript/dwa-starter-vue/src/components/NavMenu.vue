@@ -34,7 +34,7 @@ const closeDrawer = () => {
     </div>
   </div>
 
-  <div class="hidden lg:block h-full p-4">
+  <div class="hidden lg:block h-full p-4 w-64">
     <NavList />
   </div>
 </template>

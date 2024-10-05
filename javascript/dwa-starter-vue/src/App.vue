@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Toaster from '@/components/ui/toast/Toaster.vue'
 import NavMenu from '@/components/NavMenu.vue'
 </script>
 
@@ -8,10 +9,11 @@ import NavMenu from '@/components/NavMenu.vue'
       <NavMenu />
     </header>
 
-    <main class="p-4 lg:h-screen overflow-y-auto">
+    <main class="p-4 lg:h-screen overflow-y-auto flex flex-col w-full">
       <RouterView />
     </main>
   </div>
+  <Toaster />
 </template>
 <style>
 h1,
