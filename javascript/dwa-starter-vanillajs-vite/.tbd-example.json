@@ -1,0 +1,13 @@
+{
+    "name": "DWA Starter Vanilla JS",
+    "tests": {
+      "pre": [
+        "npm install -g pnpm", 
+        "pnpm install", 
+        "pnpm run build"
+      ],
+      "commands": [
+        "pnpm run test"
+      ]
+    }
+  }
