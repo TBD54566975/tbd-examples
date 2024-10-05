@@ -19,7 +19,7 @@
     "papaparse": "^5.4.1"
   },
   "devDependencies": {
-    "@sphereon/pex-models": "2.0.3",
+    "@sphereon/pex-models": "2.3.1",
     "@sphereon/ssi-types": "0.15.1",
     "@types/chai": "4.3.4",
     "@types/chai-as-promised": "7.1.8",
