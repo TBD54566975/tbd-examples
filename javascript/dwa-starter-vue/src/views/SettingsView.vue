@@ -34,13 +34,18 @@ const fileInputKey = ref(0)
 const { findOrUpdateRecord } = useWeb5()
 
 const findOrUpdateProfile = async (upsert = true) => {
-  const profileRecord = await findOrUpdateRecord(
-    { name: name.value, profileImage: profileImage.value },
-    'profile',
-    upsert
-  )
-  name.value = profileRecord?.name || ''
-  profileImage.value = profileRecord?.profileImage || ''
+  try {
+    isSubmitting.value = true
+    const profileRecord = await findOrUpdateRecord(
+      { name: name.value, profileImage: profileImage.value },
+      'profile',
+      upsert
+    )
+    name.value = profileRecord?.name || ''
+    profileImage.value = profileRecord?.profileImage || ''
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 const handleImageUpload = (event: Event) => {
@@ -49,11 +54,6 @@ const handleImageUpload = (event: Event) => {
     const reader = new FileReader()
     reader.onload = async () => {
       profileImage.value = reader.result as string
-      await findOrUpdateProfile()
-      toast({
-        title: 'Success',
-        description: `profile updated`
-      })
     }
     reader.readAsDataURL(file)
   }
@@ -62,11 +62,6 @@ const handleImageUpload = (event: Event) => {
 const clearImage = async () => {
   profileImage.value = ''
   fileInputKey.value++
-  await findOrUpdateProfile()
-  toast({
-    title: 'Success',
-    description: `profile updated`
-  })
 }
 
 const { isFieldDirty, handleSubmit, isSubmitting } = useForm({

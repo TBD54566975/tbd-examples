@@ -7,7 +7,7 @@ export const useWeb5Store = defineStore(
   'web5Store',
   () => {
     const web5 = ref<Web5ConnectResult>()
-    const did = ref('brujjjjj')
+    const did = ref('this should show in the localStorage')
     function setWeb5(_web5Connection: Web5ConnectResult) {
       did.value = _web5Connection.did
       web5.value = _web5Connection
