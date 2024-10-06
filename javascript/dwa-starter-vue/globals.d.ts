@@ -1,3 +1,8 @@
+declare module 'vite-plugin-node-stdlib-browser' {
+  const nodePolyfills: any
+  export default nodePolyfills
+}
+
 declare module 'virtual:pwa-register' {
   export function registerSW(options?: {
     immediate?: boolean
