@@ -101,8 +101,9 @@ export default defineConfig({
      * Use the preview server on CI for more realistic testing.
      * Playwright will re-use the local server if there is already a dev-server running.
      */
-    command: process.env.CI ? 'vite preview --port 5173' : 'vite dev',
-    port: 5173,
-    reuseExistingServer: !process.env.CI
+    command: 'pnpm run dev',
+    url: 'http://localhost:5173', // Adjust this if your dev server uses a different port
+    reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000, // 120 seconds
   }
 })

@@ -4,11 +4,11 @@
       "pre": [
         "npm install -g pnpm", 
         "pnpm install", 
-        "pnpm run build",
-        "pnpm exec playwright install --with-deps"
+        "pnpm run build",  
+        "npx playwright install --with-deps"
       ],
       "commands": [
-        "pnpm run test"
+        "pnpm run dev & sleep 5 && pnpm test"
       ]
     }
   }
