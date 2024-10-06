@@ -8,7 +8,7 @@
         "npx playwright install --with-deps"
       ],
       "commands": [
-        "pnpm run dev & sleep 5 && pnpm test"
+        "pnpm test"
       ]
     }
   }
