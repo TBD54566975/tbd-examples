@@ -4,8 +4,8 @@
       "pre": [
         "npm install -g pnpm", 
         "pnpm install", 
-        "pnpm exec playwright install --with-deps",
-        "pnpm run build"
+        "pnpm run build",
+        "pnpm exec playwright install --with-deps"
       ],
       "commands": [
         "pnpm run test"
