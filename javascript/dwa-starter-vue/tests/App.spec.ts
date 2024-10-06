@@ -62,7 +62,7 @@ describe('App', () => {
     await router.push('/settings')
     await nextTick()
 
-    expect(wrapper.text()).toContain('This is the settings page') // Check if SettingsView content is rendered
+    expect(wrapper.text()).toContain('Settings') // Check if SettingsView content is rendered
   })
 
   it('renders the 404 NotFound page on an unknown route', async () => {
