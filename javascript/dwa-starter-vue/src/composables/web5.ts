@@ -18,8 +18,8 @@ export function useWeb5() {
     protocol,
     published: true,
     types: {
-      tasks: {
-        schema: `${protocol}/schema/tasks.json`,
+      todos: {
+        schema: `${protocol}/schema/todos.json`,
         dataFormats: ['application/json']
       },
       profile: {
@@ -28,11 +28,11 @@ export function useWeb5() {
       }
     },
     structure: {
-      tasks: {
+      todos: {
         $actions: [
           {
             who: 'author',
-            of: 'tasks',
+            of: 'todos',
             can: ['read']
           },
           {
@@ -76,7 +76,7 @@ export function useWeb5() {
 
   const createRecord = async <T>(
     data: T,
-    schema: 'tasks' | 'profile',
+    schema: 'todos' | 'profile',
     parentId?: string,
     recordId?: string
   ) => {
@@ -108,7 +108,7 @@ export function useWeb5() {
     return { ...data, recordId: record?.id }
   }
   const findRecords = async <T>(
-    schema: 'tasks' | 'profile',
+    schema: 'todos' | 'profile',
     recordId?: string,
     dateSort = DateSort.CreatedDescending
   ) => {
@@ -138,7 +138,7 @@ export function useWeb5() {
     return loadRecords
   }
 
-  const updateRecord = async (recordId: string, data: any, schema: string) => {
+  const updateRecord = async (recordId: string, data: any) => {
     if (!web5.value) {
       return
     }
@@ -155,7 +155,7 @@ export function useWeb5() {
 
     syncToUserDwn(record)
   }
-  const deleteRecord = async (recordId: string, schema: string) => {
+  const deleteRecord = async (recordId: string) => {
     if (!web5.value) {
       return
     }
@@ -179,7 +179,7 @@ export function useWeb5() {
     await record.send(targetDid || did)
   }
 
-  const findOrUpdateRecord = async <T>(data: T, schema: 'tasks' | 'profile', upsert = true) => {
+  const findOrUpdateRecord = async <T>(data: T, schema: 'todos' | 'profile', upsert = true) => {
     if (!web5.value) {
       return
     }

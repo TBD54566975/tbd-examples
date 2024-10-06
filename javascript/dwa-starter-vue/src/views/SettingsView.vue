@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast/use-toast'
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { useWeb5 } from '@/composables/web5'
 
 const formSchema = toTypedSchema(
@@ -23,7 +23,7 @@ const formSchema = toTypedSchema(
   })
 )
 
-onMounted(() => {
+onBeforeMount(() => {
   findOrUpdateProfile(false)
 })
 
