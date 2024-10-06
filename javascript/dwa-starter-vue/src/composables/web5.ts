@@ -62,13 +62,11 @@ export function useWeb5() {
       return
     }
     const { web5: $web5 } = web5.value
-    const { status: configureStatus, protocol } = await $web5.dwn.protocols.configure({
+    const { protocol } = await $web5.dwn.protocols.configure({
       message: {
         definition: protocolDefinition
       }
     })
-
-    console.log({ configureStatus })
     if (!protocol) {
       return
     }
@@ -130,14 +128,14 @@ export function useWeb5() {
         ...(recordId ? { recordId } : {})
       }
     })
-    const loadRecords = await Promise.all(
-      (records || []).map(async (record: { data: { json: () => any }; id: any }) => {
-        const data = await record.data.json()
+    const loadRecords: Array<{ recordId: string } & T> = await Promise.all(
+      (records || []).map(async (record) => {
+        const data = (await record.data.json()) as T
         return { recordId: record.id, ...data }
       })
     )
 
-    return loadRecords as T
+    return loadRecords
   }
 
   const updateRecord = async (recordId: string, data: any, schema: string) => {
@@ -168,8 +166,9 @@ export function useWeb5() {
         recordId
       }
     })
-
-    return { status, recordId }
+    if (status.code !== 202) {
+      throw Error(status.detail)
+    }
   }
 
   const syncToUserDwn = async (record: Record | Protocol, targetDid?: string) => {
@@ -177,14 +176,7 @@ export function useWeb5() {
       return
     }
     const { did } = web5.value
-    const { status: sendStatus } = await record.send(targetDid || did)
-
-    if (sendStatus.code !== 202) {
-      console.log('Unable to send to target did:', { sendStatus, record })
-      return
-    } else {
-      console.log('record sent to user remote dwn', { sendStatus, record })
-    }
+    await record.send(targetDid || did)
   }
 
   const findOrUpdateRecord = async <T>(data: T, schema: 'tasks' | 'profile', upsert = true) => {
@@ -200,7 +192,6 @@ export function useWeb5() {
         }
       }
     })
-    console.log('findOrUpdateRecord', { status })
     if (!record && upsert) {
       return createRecord<T>(data, schema)
     }
@@ -209,15 +200,15 @@ export function useWeb5() {
       syncToUserDwn(record)
     }
     if (!record || status.code === 404) {
-      return {} as T
+      return
     }
     const dataInRecord = await record.data.json()
 
     return {
       ...data,
       ...dataInRecord,
-      ...(record ? { recordId: record?.id } : {})
-    } as T
+      recordId: record?.id
+    } as T & { recordId: string }
   }
 
   return {

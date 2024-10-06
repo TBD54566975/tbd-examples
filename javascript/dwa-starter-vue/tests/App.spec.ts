@@ -3,13 +3,14 @@ import { mount } from '@vue/test-utils'
 import { createRouter, createWebHistory } from 'vue-router'
 import { nextTick } from 'vue'
 import { useColorMode } from '@vueuse/core'
+import { createPinia } from 'pinia'
 
 import App from '../src/App.vue'
 import HomeView from '../src/views/HomeView.vue'
 import AboutView from '../src/views/AboutView.vue'
 import SettingsView from '../src/views/SettingsView.vue'
 import NotFoundView from '../src/views/NotFoundView.vue'
-import NavMenu from '../src/components/NavMenu.vue'
+import Sidebar from '../src/components/Sidebar.vue'
 
 // Create a router for testing
 const routes = [
@@ -27,16 +28,20 @@ const router = createRouter({
 describe('App', () => {
   let wrapper
 
+  // inside your describe block
+  let pinia
+
   beforeEach(() => {
+    pinia = createPinia() // Create a Pinia instance
     wrapper = mount(App, {
       global: {
-        plugins: [router]
+        plugins: [pinia, router] // Add Pinia as a global plugin
       }
     })
   })
 
-  it('renders NavMenu component', () => {
-    expect(wrapper.findComponent(NavMenu).exists()).toBe(true) // Check if NavMenu is rendered
+  it('renders Sidebar component', () => {
+    expect(wrapper.findComponent(Sidebar).exists()).toBe(true) // Check if Sidebar is rendered
   })
 
   it('renders the HomeView on the home route', async () => {
