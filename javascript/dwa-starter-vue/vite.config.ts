@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import tailwind from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
+// @ts-ignore
 import nodePolyfills from 'vite-plugin-node-stdlib-browser'
 
 export default defineConfig({
@@ -71,6 +72,10 @@ export default defineConfig({
       workbox: {
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,vue,txt,woff2}']
+      },
+      injectManifest: {
+        // Set the maximum file size for precaching (in bytes)
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024 // 10 MB
       }
     })
   ],
