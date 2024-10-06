@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test": "pnpm test:unit && pnpm test:e2e"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.1",
@@ -32,6 +35,9 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.47.2",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
@@ -43,12 +49,14 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "jsdom": "^25.0.1",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.13",
     "typescript": "^5.2.2",
     "vite": "^5.4.8",
     "vite-plugin-node-stdlib-browser": "^0.2.1",
     "vite-plugin-pwa": "^0.20.5",
+    "vitest": "^2.1.2",
     "workbox-core": "^7.1.0",
     "workbox-precaching": "^7.1.0",
     "workbox-routing": "^7.1.0",
