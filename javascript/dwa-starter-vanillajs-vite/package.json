@@ -7,9 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.47.2",
     "jsdom": "^25.0.1",
     "vite": "^5.4.1",
     "vitest": "^2.1.2"
