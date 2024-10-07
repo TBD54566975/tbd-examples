@@ -12,67 +12,46 @@ export interface Task {
 export function useWeb5() {
   const { web5 } = storeToRefs(useWeb5Store())
 
-  const installProtocols = async () => {
+  const getWeb5Repo = () => {
     if (!web5.value) {
-      throw new Error('web5 not initialiased')
+      throw new Error('Web5 not initialized')
     }
-    const { web5: $web5, did } = web5.value
+    const { web5: $web5 } = web5.value
+    return new TodoDwnRepository($web5.dwn)
+  }
+
+  const installProtocols = async () => {
+    const repo = getWeb5Repo()
+    const { web5: $web5, did } = web5.value!
+
     return await installDWAProtocols($web5.dwn, did)
   }
 
-  const listTasks = async () => {
-    if (!web5.value) {
-      throw new Error('web5 not initialiased')
-    }
-    const { web5: $web5, did } = web5.value
-    const dwmRepo = new TodoDwnRepository($web5.dwn)
-    return await dwmRepo.listTasks()
+  const performTaskAction = async (action: (repo: TodoDwnRepository) => Promise<any>) => {
+    const repo = getWeb5Repo()
+    return await action(repo)
   }
 
-  const createTask = async (task: Task) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialiased')
-    }
-    const { web5: $web5, did } = web5.value
-    const dwmRepo = new TodoDwnRepository($web5.dwn)
-    return await dwmRepo.createTask(task)
-  }
+  const listTasks = () => performTaskAction((repo) => repo.listTasks())
 
-  const updateTask = async (task: Task) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialiased')
-    }
-    const { web5: $web5, did } = web5.value
-    const dwmRepo = new TodoDwnRepository($web5.dwn)
-    return await dwmRepo.updateTask(task)
-  }
+  const createTask = (task: Task) => performTaskAction((repo) => repo.createTask(task))
 
-  const deleteTask = async (recordId: string) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialiased')
-    }
-    const { web5: $web5, did } = web5.value
-    const dwmRepo = new TodoDwnRepository($web5.dwn)
-    return await dwmRepo.deleteTask(recordId)
-  }
+  const updateTask = (task: Task) => performTaskAction((repo) => repo.updateTask(task))
 
-  const findTaskRecord = async (recordId: string) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialiased')
-    }
-    const { web5: $web5, did } = web5.value
-    const dwmRepo = new TodoDwnRepository($web5.dwn)
-    return await dwmRepo.findTaskRecord(recordId)
-  }
+  const deleteTask = (recordId: string) => performTaskAction((repo) => repo.deleteTask(recordId))
 
-  const listTasksRecords = async () => {
-    if (!web5.value) {
-      throw new Error('web5 not initialiased')
-    }
-    const { web5: $web5, did } = web5.value
-    const dwmRepo = new TodoDwnRepository($web5.dwn)
-    return await dwmRepo.listTasksRecords()
-  }
+  const findTaskRecord = (recordId: string) =>
+    performTaskAction((repo) => repo.findTaskRecord(recordId))
 
-  return { installProtocols }
+  const listTasksRecords = () => performTaskAction((repo) => repo.listTasksRecords())
+
+  return {
+    installProtocols,
+    listTasks,
+    createTask,
+    updateTask,
+    deleteTask,
+    findTaskRecord,
+    listTasksRecords
+  }
 }
