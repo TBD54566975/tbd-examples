@@ -13,7 +13,7 @@
   "devDependencies": {
     "@nuxt/kit": "3.8.2",
     "@nuxt/test-utils": "3.14.3",
-    "@nuxtjs/tailwindcss": "6.8.0",
+    "@nuxtjs/tailwindcss": "6.12.1",
     "@playwright/test": "^1.44.1",
     "@tailwindcss/forms": "0.5.9",
     "@tailwindcss/typography": "0.5.15",
