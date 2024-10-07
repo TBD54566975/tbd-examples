@@ -53,10 +53,6 @@ export function useWeb5Connection() {
   }
 
   const walletConnect = async () => {
-    toast({
-      title: 'Info',
-      description: 'coming soon'
-    })
     const walletConnectOptions = {} as ConnectOptions
     await connectToWeb5(
       {
