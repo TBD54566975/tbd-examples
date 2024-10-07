@@ -16,7 +16,7 @@ const closeDrawer = () => {
 
 <template>
   <div class="lg:hidden">
-    <div class="border-b py-2 backdrop-blur-lg">
+    <div class="border-b py-2 backdrop-blur-lg dark:border-gray-700">
       <Button @click="toggleDrawer" variant="ghost">
         <TextAlignLeftIcon class="w-6 h-6" />
       </Button>
@@ -26,7 +26,7 @@ const closeDrawer = () => {
 
     <div
       :class="[
-        'fixed top-0 left-0 z-20 h-full w-64 bg-white shadow-md transition-transform p-4',
+        'fixed top-0 left-0 z-20 h-full w-64 bg-white dark:bg-zinc-950 shadow-md transition-transform p-4',
         isOpen ? 'translate-x-0' : '-translate-x-full'
       ]"
     >

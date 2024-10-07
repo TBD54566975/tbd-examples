@@ -1,6 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createWebHistory } from 'vue-router'
+import { nextTick } from 'vue'
+import { useColorMode } from '@vueuse/core'
+
 import App from '../src/App.vue'
 import HomeView from '../src/views/HomeView.vue'
 import AboutView from '../src/views/AboutView.vue'
@@ -22,64 +25,70 @@ const router = createRouter({
 })
 
 describe('App', () => {
-  it('renders NavMenu component', () => {
-    const wrapper = mount(App, {
+  let wrapper
+
+  beforeEach(() => {
+    wrapper = mount(App, {
       global: {
         plugins: [router]
       }
     })
+  })
+
+  it('renders NavMenu component', () => {
     expect(wrapper.findComponent(NavMenu).exists()).toBe(true) // Check if NavMenu is rendered
   })
 
   it('renders the HomeView on the home route', async () => {
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router]
-      }
-    })
-
-    await router.push('/') // Navigate to home route
-    await wrapper.vm.$nextTick() // Wait for the next DOM update
+    await router.push('/')
+    await nextTick()
 
     expect(wrapper.text()).toContain('DWA Starter Vue!') // Check if HomeView content is rendered
   })
 
   it('renders the AboutView on the about route', async () => {
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router]
-      }
-    })
-
-    await router.push('/about') // Navigate to about route
-    await wrapper.vm.$nextTick() // Wait for the next DOM update
+    await router.push('/about')
+    await nextTick()
 
     expect(wrapper.text()).toContain("Decentralized Web App: it's a Web5 Progressive Web App.") // Check if AboutView content is rendered
   })
 
   it('renders the SettingsView on the settings route', async () => {
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router]
-      }
-    })
-
-    await router.push('/settings') // Navigate to settings route
-    await wrapper.vm.$nextTick() // Wait for the next DOM update
+    await router.push('/settings')
+    await nextTick()
 
     expect(wrapper.text()).toContain('This is the settings page') // Check if SettingsView content is rendered
   })
 
   it('renders the 404 NotFound page on an unknown route', async () => {
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router]
-      }
-    })
-
-    await router.push('/non-existing-page') // Navigate to an unknown route
-    await wrapper.vm.$nextTick() // Wait for the next DOM update
+    await router.push('/non-existing-page')
+    await nextTick()
 
     expect(wrapper.text()).toContain('404 - Page Not Found') // Check if the 404 page is rendered
+  })
+
+  // Dark mode
+  it('toggles between dark, light, and system modes directly', async () => {
+    const colorMode = useColorMode()
+
+    // Set to light mode and check
+    colorMode.value = 'light'
+    await nextTick()
+
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    expect(localStorage.getItem('vueuse-color-scheme')).toBe('light')
+
+    // Set to dark mode and check
+    colorMode.value = 'dark'
+    await nextTick()
+
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+    expect(localStorage.getItem('vueuse-color-scheme')).toBe('dark')
+
+    // Set to auto mode and check
+    colorMode.value = 'auto'
+    await nextTick()
+
+    expect(localStorage.getItem('vueuse-color-scheme')).toBe('auto')
   })
 })

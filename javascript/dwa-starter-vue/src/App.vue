@@ -3,12 +3,12 @@ import NavMenu from '@/components/NavMenu.vue'
 </script>
 
 <template>
-  <div class="flex lg:flex-row flex-col">
-    <header class="sticky top-0 lg:h-screen">
+  <div class="flex min-h-screen lg:flex-row flex-col dark:bg-zinc-950 dark:text-white">
+    <header class="sticky top-0">
       <NavMenu />
     </header>
 
-    <main class="p-4 overflow-y-auto">
+    <main class="p-4 lg:h-screen overflow-y-auto">
       <RouterView />
     </main>
   </div>
@@ -25,7 +25,7 @@ h1 {
 }
 
 h2 {
-  @apply border-b pb-2 text-3xl font-semibold transition-colors first:mt-0;
+  @apply text-3xl font-semibold;
 }
 
 h3 {
@@ -33,6 +33,6 @@ h3 {
 }
 
 p {
-  @apply leading-7 [&:not(:first-child)]:mt-6;
+  @apply leading-7 [&:not(:first-child)]:my-6;
 }
 </style>
