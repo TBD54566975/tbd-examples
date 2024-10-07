@@ -1,16 +1,20 @@
 import { toast } from '@/components/ui/toast/use-toast'
 import { useWeb5Store } from '@/stores/web5'
 import { Web5, type Web5ConnectOptions, type ConnectOptions } from '@web5/api'
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { useWeb5 } from '@/composables/web5'
 
 export function useWeb5Connection() {
   const { setWeb5 } = useWeb5Store()
-  const isWeb5ConnectionLoading = ref(false)
+  const isWeb5WalletConnectLoading = ref(false)
+  const isWeb5ConnectLoading = ref(false)
 
-  const connectToWeb5 = async (options: Web5ConnectOptions) => {
+  const connectToWeb5 = async (
+    options: Web5ConnectOptions,
+    loadingState: Ref<boolean, boolean>
+  ) => {
     try {
-      isWeb5ConnectionLoading.value = true
+      loadingState.value = true
       const connection = await Web5.connect(options)
       setWeb5(connection)
 
@@ -28,7 +32,7 @@ export function useWeb5Connection() {
         description: `Web5 connection failed: ${error.message || error}`
       })
     } finally {
-      isWeb5ConnectionLoading.value = false
+      loadingState.value = false
     }
   }
 
@@ -45,19 +49,23 @@ export function useWeb5Connection() {
         }
       }
     }
-    await connectToWeb5(connectOptions)
+    await connectToWeb5(connectOptions, isWeb5ConnectLoading)
   }
 
-  const walletConnect = async (walletConnectOptions: ConnectOptions) => {
+  const walletConnect = async () => {
     toast({
       title: 'Info',
       description: 'coming soon'
     })
-    // await connectToWeb5({
-    //   walletConnectOptions,
-    //   sync: '15s'
-    // })
+    const walletConnectOptions = {} as ConnectOptions
+    await connectToWeb5(
+      {
+        walletConnectOptions,
+        sync: '15s'
+      },
+      isWeb5WalletConnectLoading
+    )
   }
 
-  return { connect, walletConnect, isWeb5ConnectionLoading }
+  return { connect, walletConnect, isWeb5WalletConnectLoading, isWeb5ConnectLoading }
 }

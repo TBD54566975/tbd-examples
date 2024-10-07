@@ -19,7 +19,8 @@ import { useWeb5Store } from '@/stores/web5'
 
 const isOpen = ref(false)
 
-const { connect, walletConnect, isWeb5ConnectionLoading } = useWeb5Connection()
+const { connect, walletConnect, isWeb5ConnectLoading, isWeb5WalletConnectLoading } =
+  useWeb5Connection()
 const { web5 } = storeToRefs(useWeb5Store())
 
 const truncateString = (data: string) => `${data.substring(0, 7)}...${data.slice(data.length - 4)}`
@@ -42,11 +43,11 @@ const truncateString = (data: string) => `${data.substring(0, 7)}...${data.slice
       <div class="flex flex-col gap-2 p-4 items-center">
         <Button
           variant="outline"
-          :disabled="isWeb5ConnectionLoading"
+          :disabled="isWeb5ConnectLoading || isWeb5WalletConnectLoading"
           class="lg:w-1/3 w-full dark:bg-zinc-950 dark:text-white"
           @click="connect"
         >
-          <ReloadIcon v-if="isWeb5ConnectionLoading" class="w-4 h-4 mr-2 animate-spin" />
+          <ReloadIcon v-if="isWeb5ConnectLoading" class="w-4 h-4 mr-2 animate-spin" />
           <div v-else class="flex items-center">
             <Link2Icon class="w-4 h-4 mr-2" /> Local Agent Connect
           </div>
@@ -54,11 +55,11 @@ const truncateString = (data: string) => `${data.substring(0, 7)}...${data.slice
 
         <Button
           variant="outline"
-          :disabled="isWeb5ConnectionLoading"
+          :disabled="isWeb5ConnectLoading || isWeb5WalletConnectLoading"
           class="lg:w-1/3 w-full dark:bg-zinc-950 dark:text-white"
           @click="walletConnect"
         >
-          <ReloadIcon v-if="isWeb5ConnectionLoading" class="w-4 h-4 mr-2 animate-spin" />
+          <ReloadIcon v-if="isWeb5WalletConnectLoading" class="w-4 h-4 mr-2 animate-spin" />
           <div v-else class="flex items-center">
             <LinkBreak2Icon class="w-4 h-4 mr-2" /> Wallet Connect
           </div>
