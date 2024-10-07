@@ -17,7 +17,7 @@ test('visits the about page', async ({ page }) => {
 // Test for the settings page
 test('visits the settings page', async ({ page }) => {
   await page.goto('/settings')
-  await expect(page.locator('h1')).toHaveText('This is the settings page')
+  await expect(page.locator('h1')).toHaveText('Settings')
 })
 
 // Test for the 404 page
