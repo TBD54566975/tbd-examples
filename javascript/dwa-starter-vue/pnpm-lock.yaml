@@ -49,7 +49,7 @@ importers:
         version: 8.4.47
       radix-vue:
         specifier: ^1.9.6
-        version: 1.9.6(vue@3.5.11(typescript@5.4.5))
+        version: 1.9.7(vue@3.5.11(typescript@5.4.5))
       tailwind-merge:
         specifier: ^2.5.2
         version: 2.5.3
@@ -61,7 +61,7 @@ importers:
         version: 1.0.7(tailwindcss@3.4.13)
       vaul-vue:
         specifier: ^0.2.0
-        version: 0.2.0(radix-vue@1.9.6(vue@3.5.11(typescript@5.4.5)))(vue@3.5.11(typescript@5.4.5))
+        version: 0.2.0(radix-vue@1.9.7(vue@3.5.11(typescript@5.4.5)))(vue@3.5.11(typescript@5.4.5))
       vee-validate:
         specifier: ^4.13.2
         version: 4.13.2(vue@3.5.11(typescript@5.4.5))
@@ -2089,8 +2089,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.32:
-    resolution: {integrity: sha512-M+7ph0VGBQqqpTT2YrabjNKSQ2fEl9PVx6AK3N558gDH9NO8O6XN9SXXFWRo9u9PbEg/bWq+tjXQr+eXmxubCw==}
+  electron-to-chromium@1.5.33:
+    resolution: {integrity: sha512-+cYTcFB1QqD4j4LegwLfpCNxifb6dDFUAwk6RsLusCwIaZI6or2f+q8rs5tTB2YC53HhOlIbEaqHMAAC8IOIwA==}
 
   elliptic@6.5.7:
     resolution: {integrity: sha512-ESVCtTwiA+XhY3wyh24QqRGBoP3rEdDUl3EDUUo9tft074fi19IrdpH7hLCMMP3CIj7jb3W96rn8lt/BqIlt5Q==}
@@ -2761,8 +2761,8 @@ packages:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
 
-  jiti@2.3.1:
-    resolution: {integrity: sha512-xPZ6pPzUifI8XDBBxIL4OB1w1ZKmBpmNEeKwNt2d0Spn8XisAIZhWrlOHq5seBrFGTxVx9PbrWvEMyrk4IO5bA==}
+  jiti@2.3.3:
+    resolution: {integrity: sha512-EX4oNDwcXSivPrw2qKH2LB5PoFxEvgtv2JgwW0bU858HoLQ+kutSvjLMUqBd0PeJYEinLWhoI9Ol0eYMqj/wNQ==}
     hasBin: true
 
   js-beautify@1.15.1:
@@ -3453,8 +3453,8 @@ packages:
     resolution: {integrity: sha512-uWgQTo7pim1Rnj5TuWcCewRDTf0PEFTSlaUjWP4eY9EbLV9em08v89oCz/WO+wRxpYuO36XEHp4wgYQnAgOHzA==}
     hasBin: true
 
-  radix-vue@1.9.6:
-    resolution: {integrity: sha512-legrn9jHbEpbJS4QYrA0VmIafj1bmc4MSVzN55WZatGiXMJg3oFrQL5QxpiURJciS+OlATbKA2KAGkMuuLA0LA==}
+  radix-vue@1.9.7:
+    resolution: {integrity: sha512-1xleWzWNFPfAMmb81gu/4/MV8dXMvc7j2EIjutBpBcKwxdJfeIcQg4k9De18L2rL1/GZg5wA9KykeKTM4MjWow==}
     peerDependencies:
       vue: '>= 3.2.0'
 
@@ -6335,7 +6335,7 @@ snapshots:
   browserslist@4.24.0:
     dependencies:
       caniuse-lite: 1.0.30001667
-      electron-to-chromium: 1.5.32
+      electron-to-chromium: 1.5.33
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.0)
 
@@ -6714,7 +6714,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.32: {}
+  electron-to-chromium@1.5.33: {}
 
   elliptic@6.5.7:
     dependencies:
@@ -7515,7 +7515,7 @@ snapshots:
 
   jiti@1.21.6: {}
 
-  jiti@2.3.1: {}
+  jiti@2.3.3: {}
 
   js-beautify@1.15.1:
     dependencies:
@@ -8168,7 +8168,7 @@ snapshots:
       - encoding
       - supports-color
 
-  radix-vue@1.9.6(vue@3.5.11(typescript@5.4.5)):
+  radix-vue@1.9.7(vue@3.5.11(typescript@5.4.5)):
     dependencies:
       '@floating-ui/dom': 1.6.11
       '@floating-ui/vue': 1.1.5(vue@3.5.11(typescript@5.4.5))
@@ -8905,7 +8905,7 @@ snapshots:
       '@babel/standalone': 7.25.7
       '@babel/types': 7.25.7
       defu: 6.1.4
-      jiti: 2.3.1
+      jiti: 2.3.3
       mri: 1.2.0
       scule: 1.3.0
     transitivePeerDependencies:
@@ -8949,10 +8949,10 @@ snapshots:
 
   varint@6.0.0: {}
 
-  vaul-vue@0.2.0(radix-vue@1.9.6(vue@3.5.11(typescript@5.4.5)))(vue@3.5.11(typescript@5.4.5)):
+  vaul-vue@0.2.0(radix-vue@1.9.7(vue@3.5.11(typescript@5.4.5)))(vue@3.5.11(typescript@5.4.5)):
     dependencies:
       '@vueuse/core': 10.11.1(vue@3.5.11(typescript@5.4.5))
-      radix-vue: 1.9.6(vue@3.5.11(typescript@5.4.5))
+      radix-vue: 1.9.7(vue@3.5.11(typescript@5.4.5))
       vue: 3.5.11(typescript@5.4.5)
     transitivePeerDependencies:
       - '@vue/composition-api'
