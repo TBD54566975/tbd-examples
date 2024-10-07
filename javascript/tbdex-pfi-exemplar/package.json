@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@sphereon/pex-models": "2.3.1",
-    "@sphereon/ssi-types": "0.15.1",
+    "@sphereon/ssi-types": "0.30.1",
     "@types/chai": "4.3.4",
     "@types/chai-as-promised": "7.1.8",
     "@types/chai-string": "1.4.5",
