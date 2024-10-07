@@ -92,7 +92,7 @@ To build the app for production:
 
 This project uses Playwright for end-to-end (E2E) testing and Vitest for unit testing.
 
-- **End-to-End (E2E) Tests** are managed by Playwright and are located in a dedicated `e2e/` folder.
+- **End-to-End (E2E) Tests** are managed by Playwright and are located in a dedicated `tests/` folder.
 
 #### Running All Tests
 
