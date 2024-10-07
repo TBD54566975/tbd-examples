@@ -1,64 +1,140 @@
-# dwa-starter-vue
+# Vue.js Decentralized Web App (DWA) Starter
 
-This template should help get you started developing with Vue 3 in Vite.
+This repository provides a starter template for building decentralized web apps (DWAs) using Vue.js, leveraging modern tooling like Vite, Vitest, Playwright, and Web5 technologies.
 
-## Recommended IDE Setup
+## 📋 Prerequisites
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Before setting up the project, ensure you have the following installed on your system:
 
-## Type Support for `.vue` Imports in TS
+- [Node.js](https://nodejs.org/) (version 16.x or higher recommended)
+- [pnpm](https://pnpm.io/) (preferred for fast package management)
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+```bash
+npm install -g pnpm
+```
 
-## Customize configuration
+## 🛠️ Project Setup
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### Step 1: Clone the Repository
 
-## Project Setup
+First, clone the repository to your local machine.
 
-```sh
+```bash
+git clone https://github.com/your-username/dwa-starter-vue.git
+```
+
+```bash
+cd dwa-starter-vue
+```
+
+### Step 2: Install Dependencies
+
+Install the required packages with pnpm.
+
+```bash
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+### Step 3: Run the Development Server
 
-```sh
+Start the development server and hot-reload the project.
+
+```bash
 pnpm dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Alternatively, you can run the development server with:
 
-```sh
+```bash
+pnpm run start
+```
+
+### Step 4: Build for Production
+
+To compile and minify the project for production, run:
+
+```bash
 pnpm build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Step 5: Run Unit and End-to-End Tests
 
-```sh
+#### Unit Tests with Vitest
+
+Run the unit tests using Vitest.
+
+```bash
 pnpm test:unit
 ```
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+#### End-to-End Tests with Playwright
 
-```sh
-# Install browsers for the first run
+Ensure Playwright is installed, then run your end-to-end tests.
+
+```bash
 npx playwright install
-
-# When testing on CI, must build the project first
-pnpm build
-
-# Runs the end-to-end tests
-pnpm test:e2e
-# Runs the tests only on Chromium
-pnpm test:e2e --project=chromium
-# Runs the tests of a specific file
-pnpm test:e2e tests/example.spec.ts
-# Runs the tests in debug mode
-pnpm test:e2e --debug
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+```bash
+pnpm test:e2e
+```
 
-```sh
+You can also run tests specific to a browser or test file:
+
+```bash
+pnpm test:e2e --project=chromium
+```
+
+```bash
+pnpm test:e2e tests/example.spec.ts
+```
+
+### Step 6: Linting
+
+Run the linter to catch and fix common issues:
+
+```bash
 pnpm lint
+```
+
+## 📂 Project Structure
+
+Here’s an overview of the key directories and files in this project:
+
+- `src/` : Contains the Vue components, pages, and logic for the DWA.
+- `public/` : Static assets like images and the `index.html` file.
+- `tests/` : Includes unit and end-to-end test files.
+- `vite.config.ts` : Configuration for Vite, optimized for fast builds.
+- `package.json` : Lists dependencies and scripts for managing the project.
+
+## 👥 Contributing
+
+We welcome contributions to this project! To contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and submit a pull request.
+4. Respond to any feedback from the review process.
+
+Please ensure your code follows the established guidelines and is well-documented. Refer to our [contributing guide](CONTRIBUTING.md) for more details.
+
+## 🔧 Troubleshooting Common Issues
+
+1. **Dependencies not installing**: Ensure you're using the correct version of Node.js and have installed pnpm globally.
+2. **Port conflicts**: If the dev server cannot start, check that the default port 3000 is available, or modify it in the `vite.config.ts` file.
+3. **TypeScript errors**: Ensure you have Volar installed in VSCode for proper TypeScript support.
+
+## 📚 Useful Links
+
+- [Vue.js Documentation](https://vuejs.org/guide/introduction.html)
+- [Vite Documentation](https://vitejs.dev/)
+- [Web5 JS SDK Documentation](https://web5.com/sdk)
+- [Playwright Documentation](https://playwright.dev/)
+- [GitHub README Guide](https://github.com)
+
+## 🎉 Getting Started
+
+Want to contribute or get involved? Start by forking the repository, and follow the setup instructions above to get the project running on your local machine. Feel free to reach out if you encounter any issues!
+
+For more information or questions, join our [Discord Community](https://discord.gg/tbd).
 ```
