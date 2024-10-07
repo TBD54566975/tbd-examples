@@ -49,7 +49,7 @@ const truncateString = (data: string) => `${data.substring(0, 7)}...${data.slice
         >
           <ReloadIcon v-if="isWeb5ConnectLoading" class="w-4 h-4 mr-2 animate-spin" />
           <div v-else class="flex items-center">
-            <Link2Icon class="w-4 h-4 mr-2" /> Local Agent Connect
+            <Link2Icon class="w-4 h-4 mr-2" /> Create a new DID
           </div>
         </Button>
 
@@ -61,7 +61,7 @@ const truncateString = (data: string) => `${data.substring(0, 7)}...${data.slice
         >
           <ReloadIcon v-if="isWeb5WalletConnectLoading" class="w-4 h-4 mr-2 animate-spin" />
           <div v-else class="flex items-center">
-            <LinkBreak2Icon class="w-4 h-4 mr-2" /> Wallet Connect
+            <LinkBreak2Icon class="w-4 h-4 mr-2" /> Connect To a Wallet
           </div>
         </Button>
       </div>
