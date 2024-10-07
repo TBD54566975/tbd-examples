@@ -110,12 +110,6 @@ npm run test
 
 #### Running Unit Tests Only
 
-To run only the unit tests:
-
-```bash
-pnpm test:unit
-```
-
 Or, if using npm:
 
 ```bash
