@@ -59,7 +59,7 @@ export function useWeb5() {
 
   const configureProtocol = async () => {
     if (!web5.value) {
-      return
+      throw new Error('web5 not initialised')
     }
     const { web5: $web5 } = web5.value
     const { protocol } = await $web5.dwn.protocols.configure({
@@ -68,7 +68,7 @@ export function useWeb5() {
       }
     })
     if (!protocol) {
-      return
+      throw new Error('protocol not found')
     }
 
     syncToUserDwn(protocol)
@@ -81,7 +81,7 @@ export function useWeb5() {
     recordId?: string
   ) => {
     if (!web5.value) {
-      return
+      throw new Error('web5 not initialised')
     }
     const { web5: $web5 } = web5.value
     const { record, status } = await $web5.dwn.records.write({
@@ -97,23 +97,24 @@ export function useWeb5() {
     })
 
     if (status.code !== 202) {
-      throw Error(status.detail)
+      throw new Error(status.detail)
     }
 
     if (!record) {
-      return
+      throw new Error(status?.detail || 'record not created')
     }
     syncToUserDwn(record)
 
-    return { ...data, recordId: record?.id }
+    return { ...data, recordId: record?.id, createdAt: record.dateCreated }
   }
+
   const findRecords = async <T>(
     schema: 'todos' | 'profile',
     recordId?: string,
     dateSort = DateSort.CreatedDescending
   ) => {
     if (!web5.value) {
-      return
+      throw new Error('web5 not initialised')
     }
     const { web5: $web5, did } = web5.value
     const { records } = await $web5.dwn.records.query({
@@ -131,57 +132,16 @@ export function useWeb5() {
     const loadRecords: Array<{ recordId: string } & T> = await Promise.all(
       (records || []).map(async (record) => {
         const data = (await record.data.json()) as T
-        return { recordId: record.id, ...data }
+        return { recordId: record.id, createdAt: record.dateCreated, ...data }
       })
     )
 
     return loadRecords
   }
 
-  const updateRecord = async (recordId: string, data: any) => {
-    if (!web5.value) {
-      return
-    }
-    const { web5: $web5 } = web5.value
-    const { record, status } = await $web5.dwn.records.read({
-      message: {
-        filter: { recordId }
-      }
-    })
-    if (!record) {
-      return
-    }
-    await record.update({ data })
-
-    syncToUserDwn(record)
-  }
-  const deleteRecord = async (recordId: string) => {
-    if (!web5.value) {
-      return
-    }
-    const { web5: $web5, did } = web5.value
-    const { status } = await $web5.dwn.records.delete({
-      from: did,
-      message: {
-        recordId
-      }
-    })
-    if (status.code !== 202) {
-      throw Error(status.detail)
-    }
-  }
-
-  const syncToUserDwn = async (record: Record | Protocol, targetDid?: string) => {
-    if (!web5.value) {
-      return
-    }
-    const { did } = web5.value
-    await record.send(targetDid || did)
-  }
-
   const findOrUpdateRecord = async <T>(data: T, schema: 'todos' | 'profile', upsert = true) => {
     if (!web5.value) {
-      return
+      throw new Error('web5 not initialised')
     }
     const { web5: $web5 } = web5.value
     const { record, status } = await $web5.dwn.records.read({
@@ -207,8 +167,55 @@ export function useWeb5() {
     return {
       ...data,
       ...dataInRecord,
-      recordId: record?.id
+      recordId: record?.id,
+      createdAt: record?.dateCreated
     } as T & { recordId: string }
+  }
+
+  const updateRecord = async (recordId: string, data: any) => {
+    if (!web5.value) {
+      throw new Error('web5 not initialised')
+    }
+    const { web5: $web5, did } = web5.value
+    const { record, status } = await $web5.dwn.records.read({
+      from: did,
+      message: {
+        filter: { recordId }
+      }
+    })
+    if (!record) {
+      throw new Error(status?.detail || 'record not found')
+    }
+    const { status: updateStatus } = await record.update({ data })
+    if (updateStatus.code !== 202) {
+      throw new Error(status.detail)
+    }
+
+    syncToUserDwn(record)
+  }
+
+  const deleteRecord = async (recordId: string) => {
+    if (!web5.value) {
+      throw new Error('web5 not initialised')
+    }
+    const { web5: $web5, did } = web5.value
+    const { status } = await $web5.dwn.records.delete({
+      from: did,
+      message: {
+        recordId
+      }
+    })
+    if (status.code !== 202) {
+      throw new Error(status.detail)
+    }
+  }
+
+  const syncToUserDwn = async (record: Record | Protocol, targetDid?: string) => {
+    if (!web5.value) {
+      throw new Error('web5 not initialised')
+    }
+    const { did } = web5.value
+    await record.send(targetDid || did)
   }
 
   return {

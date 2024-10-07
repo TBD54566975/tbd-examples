@@ -21,6 +21,7 @@ interface ITodo {
   title: string
   createdAt: string
   recordId: string
+  isEditing?: boolean
 }
 
 const todo = ref('')
@@ -34,7 +35,6 @@ onBeforeMount(() => {
 
 const findTodos = async () => {
   const res = await findRecords<ITodo>('todos')
-
   res?.forEach((i) => {
     todos.value[i.recordId] = i
   })
@@ -66,11 +66,8 @@ async function addTodo() {
     }
     const data = {
       completed: false,
-      title: todo.value,
-      createdAt: new Date().toDateString()
+      title: todo.value
     }
-
-    todo.value = ''
 
     const writeRes = await createRecord(data, 'todos')
     if (writeRes) {
@@ -78,6 +75,8 @@ async function addTodo() {
       toast({
         description: 'Todo added successfully'
       })
+
+      todo.value = ''
     }
   } catch (err: any) {
     toast({
@@ -89,9 +88,9 @@ async function addTodo() {
 
 async function deleteTodo(recordId: string) {
   try {
-    delete todos.value[recordId]
-
     await deleteRecord(recordId)
+
+    delete todos.value[recordId]
     toast({
       description: 'Todo deleted successfully'
     })
@@ -105,9 +104,12 @@ async function deleteTodo(recordId: string) {
 
 async function toggleTodoStatus(recordId: string) {
   try {
+    await updateRecord(recordId, {
+      ...todos.value[recordId],
+      completed: !todos.value[recordId].completed
+    })
     todos.value[recordId].completed = !todos.value[recordId].completed
 
-    await updateRecord(recordId, todos.value[recordId])
     toast({
       description: `Todo status updated to ${todos.value[recordId].completed ? 'completed' : 'incomplete'}`
     })
@@ -118,20 +120,48 @@ async function toggleTodoStatus(recordId: string) {
     })
   }
 }
+
+function startEditing(recordId: string) {
+  todos.value[recordId].isEditing = true
+}
+
+function stopEditing(recordId: string) {
+  todos.value[recordId].isEditing = false
+}
+
+async function updateTodoTitle(recordId: string, newTitle: string) {
+  try {
+    await updateRecord(recordId, {
+      ...todos.value[recordId],
+      title: newTitle
+    })
+
+    todos.value[recordId].title = newTitle
+    toast({
+      description: 'Todo title updated successfully'
+    })
+  } catch (err: any) {
+    toast({
+      description: `Failed to update todo title: ${err.message || 'Unknown error'}`,
+      title: 'Error'
+    })
+  } finally {
+    stopEditing(recordId)
+  }
+}
 </script>
 
 <template>
   <div class="flex flex-col gap-4">
     <h1>Todos</h1>
 
-    <div class="flex items-center gap-2">
+    <div class="lg:w-1/3 flex items-center gap-2">
       <label for="add-todo" class="sr-only">Add a todo</label>
       <Input
         type="text"
         id="add-todo"
         v-model="todo"
         @keydown.enter.exact.prevent="addTodo"
-        class="lg:w-1/3"
         placeholder="what are you working on?"
       />
       <Button type="button" @click="addTodo"> Add </Button>
@@ -155,7 +185,18 @@ async function toggleTodoStatus(recordId: string) {
           <TableCell>
             <Checkbox :checked="todo.completed" @click="toggleTodoStatus(todo.recordId)" />
           </TableCell>
-          <TableCell>{{ todo.title }}</TableCell>
+          <TableCell>
+            <div v-if="todo.isEditing">
+              <Input
+                v-model="todo.title"
+                @keydown.enter="updateTodoTitle(todo.recordId, todo.title)"
+                @blur="updateTodoTitle(todo.recordId, todo.title)"
+              />
+            </div>
+            <div v-else @dblclick="startEditing(todo.recordId)">
+              {{ todo.title }}
+            </div>
+          </TableCell>
           <TableCell> {{ formatDate(todo.createdAt) }}</TableCell>
           <TableCell class="text-right">
             <Button variant="ghost" @click="deleteTodo(todo.recordId)">
