@@ -110,25 +110,6 @@ npm run test
 
 #### Running Unit Tests Only
 
-Or, if using npm:
-
-```bash
-npm run test:unit
-```
-
-#### Running E2E Tests Only
-
-To run only the end-to-end tests:
-
-```bash
-pnpm test:e2e
-```
-
-Or, if using npm:
-
-```bash
-npm run test:e2e
-```
 
 ## Project Structure
 
