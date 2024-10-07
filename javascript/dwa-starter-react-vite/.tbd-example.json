@@ -1,0 +1,14 @@
+{
+    "name": "DWA Starter React Vite",
+    "tests": {
+        "pre": [
+            "npm install -g pnpm",
+            "pnpm install",
+            "pnpm build",
+            "pnpm playwright install --with-deps"
+        ],
+        "commands": [
+            "pnpm test"
+        ]
+    }
+}
