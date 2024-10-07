@@ -4,11 +4,11 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
-if (typeof window !== 'undefined') import('./pwa')
-
-
 import App from '@/App.vue'
 import { router } from '@/router'
+
+if (typeof window !== 'undefined') import('./pwa')
+
 
 const app = createApp(App)
 const pinia = createPinia()

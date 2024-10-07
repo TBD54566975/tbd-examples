@@ -52,14 +52,14 @@ const handleImageUpload = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (file) {
     const reader = new FileReader()
-    reader.onload = async () => {
+    reader.onload = () => {
       profileImage.value = reader.result as string
     }
     reader.readAsDataURL(file)
   }
 }
 
-const clearImage = async () => {
+const clearImage = () => {
   profileImage.value = ''
   fileInputKey.value++
 }
