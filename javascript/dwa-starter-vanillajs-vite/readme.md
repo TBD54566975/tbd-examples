@@ -96,7 +96,7 @@ This project uses Playwright for end-to-end (E2E) testing and Vitest for unit te
 
 #### Running All Tests
 
-To run both unit and E2E tests, execute:
+To run E2E tests, execute:
 
 ```bash
 pnpm test
