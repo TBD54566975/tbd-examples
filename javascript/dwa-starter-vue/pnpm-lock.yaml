@@ -43,7 +43,7 @@ importers:
         version: 1.9.6(vue@3.5.10(typescript@5.4.5))
       tailwind-merge:
         specifier: ^2.5.2
-        version: 2.5.2
+        version: 2.5.3
       tailwindcss:
         specifier: ^3.4.13
         version: 3.4.13
@@ -6789,7 +6789,7 @@ snapshots:
       '@pkgr/core': 0.1.1
       tslib: 2.7.0
 
-  tailwind-merge@2.5.2: {}
+  tailwind-merge@2.5.3: {}
 
   tailwindcss-animate@1.0.7(tailwindcss@3.4.13):
     dependencies:
