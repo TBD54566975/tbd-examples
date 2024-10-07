@@ -137,4 +137,3 @@ Please ensure your code follows the established guidelines and is well-documente
 Want to contribute or get involved? Start by forking the repository, and follow the setup instructions above to get the project running on your local machine. Feel free to reach out if you encounter any issues!
 
 For more information or questions, join our [Discord Community](https://discord.gg/tbd).
-```
