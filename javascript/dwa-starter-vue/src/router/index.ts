@@ -1,6 +1,10 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-import AboutView from '@/views/AboutView.vue'
+import { defineAsyncComponent } from 'vue'
+
+const AboutView = defineAsyncComponent(() =>
+  import('@/views/AboutView.vue')
+)
 import HomeView from '@/views/HomeView.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
