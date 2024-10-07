@@ -14,8 +14,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast/use-toast'
-import { onMounted, ref } from 'vue'
-import { useWeb5 } from '@/composables/web5'
+import { ref } from 'vue'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -23,44 +22,23 @@ const formSchema = toTypedSchema(
   })
 )
 
-onMounted(() => {
-  findOrUpdateProfile(false)
-})
-
 const name = ref('')
-const profileImage = ref('')
+const profileImageBlob = ref<Blob | null>(null)
 const fileInputKey = ref(0)
 
-const { findOrUpdateRecord } = useWeb5()
-
-const findOrUpdateProfile = async (upsert = true) => {
-  try {
-    isSubmitting.value = true
-    const profileRecord = await findOrUpdateRecord(
-      { name: name.value, profileImage: profileImage.value },
-      'profile',
-      upsert
-    )
-    name.value = profileRecord?.name || ''
-    profileImage.value = profileRecord?.profileImage || ''
-  } finally {
-    isSubmitting.value = false
-  }
-}
+const profileImageSrc = ref('')
 
 const handleImageUpload = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (file) {
-    const reader = new FileReader()
-    reader.onload = () => {
-      profileImage.value = reader.result as string
-    }
-    reader.readAsDataURL(file)
+    profileImageBlob.value = file
+    profileImageSrc.value = URL.createObjectURL(file)
   }
 }
 
-const clearImage = () => {
-  profileImage.value = ''
+const clearImage = async () => {
+  profileImageBlob.value = null
+  profileImageSrc.value = ''
   fileInputKey.value++
 }
 
@@ -70,7 +48,6 @@ const { isFieldDirty, handleSubmit, isSubmitting } = useForm({
 
 const onSubmit = handleSubmit(async (values) => {
   name.value = values.name
-  await findOrUpdateProfile()
   toast({
     title: 'Success',
     description: `profile updated`
@@ -83,8 +60,8 @@ const onSubmit = handleSubmit(async (values) => {
     <h1>Settings</h1>
     <form class="lg:w-1/3 w-full space-y-6" @submit.prevent="onSubmit">
       <img
-        v-if="profileImage"
-        :src="profileImage"
+        v-if="profileImageSrc"
+        :src="profileImageSrc"
         alt="Profile Preview"
         class="w-24 h-24 rounded-xl"
       />
@@ -102,7 +79,9 @@ const onSubmit = handleSubmit(async (values) => {
                 @change="handleImageUpload"
                 :key="fileInputKey"
               />
-              <Button type="button" @click="clearImage" v-if="profileImage"> Clear Image </Button>
+              <Button type="button" @click="clearImage" v-if="profileImageSrc">
+                Clear Image
+              </Button>
             </div>
           </FormControl>
           <FormDescription>Upload your profile image.</FormDescription>

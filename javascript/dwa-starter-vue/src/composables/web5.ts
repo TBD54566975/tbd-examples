@@ -1,222 +1,230 @@
-import { Protocol, Record } from '@web5/api/browser'
-
 import { useWeb5Store } from '@/stores/web5'
 import { storeToRefs } from 'pinia'
 
-export enum DateSort {
-  CreatedAscending = 'createdAscending',
-  CreatedDescending = 'createdDescending',
-  PublishedAscending = 'publishedAscending',
-  PublishedDescending = 'publishedDescending'
+export interface Task {
+  id?: string
+  title: string
+  completed: boolean
 }
 
 export function useWeb5() {
   const { web5 } = storeToRefs(useWeb5Store())
 
-  const protocol = 'https://didcomm.org/dwa-starter-vue'
-  const protocolDefinition = {
-    protocol,
+  const tasksProtocolSchema = 'https://schema.org/TaskSample'
+  const tasksProtocolTypeTaskSchema = 'https://schema.org/TaskSample/schemas/name'
+
+  const tasksProtocolDefinition = {
     published: true,
+    protocol: tasksProtocolSchema,
     types: {
-      tasks: {
-        schema: `${protocol}/schema/tasks.json`,
-        dataFormats: ['application/json']
-      },
-      profile: {
-        schema: `${protocol}/schema/profile.json`,
-        dataFormats: ['application/json']
+      task: {
+        dataFormats: ['application/json'],
+        schema: tasksProtocolTypeTaskSchema
       }
     },
     structure: {
-      tasks: {
-        $actions: [
-          {
-            who: 'author',
-            of: 'tasks',
-            can: ['read']
-          },
-          {
-            who: 'anyone',
-            can: ['create']
+      task: {
+        $tags: {
+          $requiredTags: ['completed'],
+          completed: {
+            type: 'boolean'
           }
-        ]
+        }
+      }
+    }
+  }
+
+  const task = {
+    definition: tasksProtocolDefinition,
+    uri: tasksProtocolSchema,
+    schemas: {
+      task: tasksProtocolTypeTaskSchema
+    }
+  }
+
+  const protocolSchema = 'https://schema.org/ProfileSample'
+  const protocolTypeNameSchema = 'https://schema.org/ProfileSample/schemas/name'
+
+  const profileDefinition = {
+    published: true,
+    protocol: protocolSchema,
+    types: {
+      name: {
+        dataFormats: ['application/json'],
+        schema: protocolTypeNameSchema
       },
-      profile: {
-        $actions: [
-          {
-            who: 'author',
-            of: 'profile',
-            can: ['read']
-          },
-          {
-            who: 'anyone',
-            can: ['create']
-          }
-        ]
-      }
+      avatar: { dataFormats: ['image/gif', 'image/png', 'image/jpeg'] }
+    },
+    structure: { name: {}, avatar: {} }
+  }
+
+  const profile = {
+    definition: profileDefinition,
+    uri: protocolSchema,
+    schemas: {
+      name: protocolTypeNameSchema
     }
   }
 
-  const configureProtocol = async () => {
-    if (!web5.value) {
-      return
-    }
-    const { web5: $web5 } = web5.value
-    const { protocol } = await $web5.dwn.protocols.configure({
-      message: {
-        definition: protocolDefinition
-      }
-    })
-    if (!protocol) {
-      return
-    }
-
-    syncToUserDwn(protocol)
+  const byUri = {
+    [profileDefinition.protocol]: profile,
+    [tasksProtocolDefinition.protocol]: task
   }
 
-  const createRecord = async <T>(
-    data: T,
-    schema: 'tasks' | 'profile',
-    parentId?: string,
-    recordId?: string
-  ) => {
+  const installProtocols = async () => {
     if (!web5.value) {
-      return
-    }
-    const { web5: $web5 } = web5.value
-    const { record, status } = await $web5.dwn.records.write({
-      data,
-      message: {
-        protocol: protocolDefinition.protocol,
-        protocolPath: schema,
-        schema: protocolDefinition.types[schema].schema,
-        dataFormat: protocolDefinition.types[schema].dataFormats?.[0],
-        ...(parentId ? { parentId, contextId: parentId } : {}),
-        ...(recordId ? { recordId } : {})
-      }
-    })
-
-    if (status.code !== 202) {
-      throw Error(status.detail)
-    }
-
-    if (!record) {
-      return
-    }
-    syncToUserDwn(record)
-
-    return { ...data, recordId: record?.id }
-  }
-  const findRecords = async <T>(
-    schema: 'tasks' | 'profile',
-    recordId?: string,
-    dateSort = DateSort.CreatedDescending
-  ) => {
-    if (!web5.value) {
-      return
+      throw new Error('web5 not initialiased')
     }
     const { web5: $web5, did } = web5.value
-    const { records } = await $web5.dwn.records.query({
-      from: did,
-      message: {
-        filter: {
-          protocol: protocolDefinition.protocol,
-          schema: protocolDefinition.types[schema].schema,
-          dataFormat: protocolDefinition.types[schema].dataFormats?.[0]
-        },
-        dateSort,
-        ...(recordId ? { recordId } : {})
+    const installed = await $web5.dwn.protocols.query({ message: {} })
+    const configurationPromises = []
+    console.info(JSON.stringify(profileDefinition), { profile })
+    try {
+      for (const protocolUri in byUri) {
+        const record = installed.protocols.find(
+          (record) => protocolUri === record.definition.protocol
+        )
+        if (!record) {
+          console.info('installing protocol: ' + protocolUri)
+          const definition = byUri[protocolUri].definition
+          configurationPromises.push(
+            $web5.dwn.protocols.configure({
+              message: { definition }
+            })
+          )
+        } else {
+          console.info('protocol already installed: ' + protocolUri)
+        }
       }
-    })
-    const loadRecords: Array<{ recordId: string } & T> = await Promise.all(
-      (records || []).map(async (record) => {
-        const data = (await record.data.json()) as T
-        return { recordId: record.id, ...data }
+
+      const configurationResponses = await Promise.all(configurationPromises)
+      try {
+        await Promise.all(configurationResponses.map(({ protocol }) => protocol?.send(did)))
+      } catch (e) {
+        console.log('remote push of configuration failed', e)
+        return true
+      }
+    } catch (e) {
+      console.log('local install of configuration failed', e)
+      return false
+    }
+    return true
+  }
+
+  const listTasks = async () => {
+    const records = await listTasksRecords()
+    const tasksJson: Task[] = await Promise.all(
+      (records || []).map(async (r) => {
+        const { title, completed } = await r.data.json()
+        return {
+          id: r.id,
+          title,
+          completed
+        }
       })
     )
-
-    return loadRecords
+    return tasksJson.map((r) => ({
+      id: r.id,
+      title: r.title,
+      completed: r.completed
+    }))
   }
 
-  const updateRecord = async (recordId: string, data: any, schema: string) => {
+  const createTask = async (task: Task) => {
     if (!web5.value) {
-      return
-    }
-    const { web5: $web5 } = web5.value
-    const { record, status } = await $web5.dwn.records.read({
-      message: {
-        filter: { recordId }
-      }
-    })
-    if (!record) {
-      return
-    }
-    await record.update({ data })
-
-    syncToUserDwn(record)
-  }
-  const deleteRecord = async (recordId: string, schema: string) => {
-    if (!web5.value) {
-      return
+      throw new Error('web5 not initialiased')
     }
     const { web5: $web5, did } = web5.value
-    const { status } = await $web5.dwn.records.delete({
-      from: did,
+    const { status, record } = await $web5.dwn.records.create({
+      data: task,
       message: {
-        recordId
-      }
-    })
-    if (status.code !== 202) {
-      throw Error(status.detail)
-    }
-  }
-
-  const syncToUserDwn = async (record: Record | Protocol, targetDid?: string) => {
-    if (!web5.value) {
-      return
-    }
-    const { did } = web5.value
-    await record.send(targetDid || did)
-  }
-
-  const findOrUpdateRecord = async <T>(data: T, schema: 'tasks' | 'profile', upsert = true) => {
-    if (!web5.value) {
-      return
-    }
-    const { web5: $web5 } = web5.value
-    const { record, status } = await $web5.dwn.records.read({
-      message: {
-        filter: {
-          protocol: protocolDefinition.protocol,
-          schema: protocolDefinition.types[schema].schema
+        protocol: tasksProtocolDefinition.protocol,
+        protocolPath: 'task',
+        schema: tasksProtocolDefinition.types.task.schema,
+        dataFormat: tasksProtocolDefinition.types.task.dataFormats[0],
+        published: true,
+        tags: {
+          completed: task.completed
         }
       }
     })
-    if (!record && upsert) {
-      return createRecord<T>(data, schema)
+    if (status.code !== 202) {
+      throw Error(status.detail)
     }
-    if (upsert) {
-      await record.update({ data })
-      syncToUserDwn(record)
+    if (record) {
+      await record.send()
     }
-    if (!record || status.code === 404) {
+  }
+
+  const updateTask = async (task: Task) => {
+    if (!task.id) {
+      throw new Error('Task ID is required')
+    }
+
+    const record = await findTaskRecord(task.id)
+    if (!record) {
+      throw new Error('Task not found')
+    }
+
+    const data = { ...task }
+    delete data.id // omits record id from data
+
+    const { status } = await record.update({
+      data,
+      tags: {
+        completed: task.completed
+      }
+    })
+    if (status.code !== 202) {
+      throw Error(status.detail)
+    }
+    await record.send()
+  }
+
+  const deleteTask = async (recordId: string) => {
+    const record = await findTaskRecord(recordId)
+    if (!record) {
+      throw new Error('Task not found')
+    }
+    await record.delete()
+    return record.send()
+  }
+
+  const findTaskRecord = async (recordId: string) => {
+    if (!web5.value) {
+      throw new Error('web5 not initialiased')
+    }
+    const { web5: $web5 } = web5.value
+    const { record } = await $web5.dwn.records.read({
+      protocol: tasksProtocolDefinition.protocol,
+      message: {
+        filter: {
+          recordId
+        }
+      }
+    })
+
+    return record.id ? record : undefined
+  }
+
+  const listTasksRecords = async () => {
+    if (!web5.value) {
       return
     }
-    const dataInRecord = await record.data.json()
+    const { web5: $web5 } = web5.value
+    const { records } = await $web5.dwn.records.query({
+      protocol: tasksProtocolDefinition.protocol,
+      message: {
+        filter: {
+          protocol: tasksProtocolDefinition.protocol,
+          protocolPath: 'task',
+          dataFormat: 'application/json'
+        }
+      }
+    })
 
-    return {
-      ...data,
-      ...dataInRecord,
-      recordId: record?.id
-    } as T & { recordId: string }
+    return records || []
   }
 
-  return {
-    findRecords,
-    updateRecord,
-    deleteRecord,
-    createRecord,
-    configureProtocol,
-    findOrUpdateRecord
-  }
+  return { installProtocols }
 }
