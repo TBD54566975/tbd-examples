@@ -92,7 +92,6 @@ To build the app for production:
 
 This project uses Playwright for end-to-end (E2E) testing and Vitest for unit testing.
 
-- **Unit Tests** are handled by Vitest and can be found within the `src` folder, typically named with a `.test.js` suffix.
 - **End-to-End (E2E) Tests** are managed by Playwright and are located in a dedicated `e2e/` folder.
 
 #### Running All Tests
