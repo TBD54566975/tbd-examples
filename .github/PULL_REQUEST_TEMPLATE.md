@@ -21,7 +21,6 @@
 - [ ] 🐛 Bug Fix
 - [ ] 📝 Documentation Update
 - [ ] 👷 Example Application
-- [ ] 🧑‍💻 Code Snippet
 - [ ] 🎨 Design
 - [ ] 📖 Content
 - [ ] 🧪 Tests
@@ -44,10 +43,6 @@ Resolves #
 ## Mobile & Desktop Screenshots/Recordings
 
 <!-- Visual changes require screenshots -->
-
-## Added code snippets?
-- [ ] 👍 yes
-- [ ] 🙅 no, because they aren't needed
 
 ## Added tests?
 
@@ -77,6 +72,14 @@ If you didn't provide documentation with this PR, please explain here why it's n
 
 
 ## [optional] What gif best describes this PR or how it makes you feel?
+
+<!-- Don't know how to add a GIF? 
+Here's an example below
+![Abbott Elementary GIF](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNml2MXdzMGU4NzVscnFtbjJzOGJwbmhwYzNrNDJoMjNxMmlsc25uOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/rEAdbyhgwUSIYrDf8s/giphy.gif)
+Other resources for adding GIFs:
+- https://docs.google.com/document/d/1pJIVo9NtB5O48t7cKrjhOUACjMacZoAuF38s18QbqnM/edit
+- https://stackoverflow.com/questions/34341808/is-there-a-way-to-add-an-animated-gif-to-a-markdown-file
+-->
 
 
 
