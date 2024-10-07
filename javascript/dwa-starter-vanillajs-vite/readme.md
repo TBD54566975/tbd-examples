@@ -141,15 +141,31 @@ npm run test:e2e
 
 Here’s a brief overview of the project's file structure:
 
-- `src/`: Contains all the source code.
-  - `index.html`: The main HTML file.
-  - `main.js`: The main entry point for the application.
-  - `assets/`: Static assets like images, styles, etc.
-  - `components/`: Any reusable UI components (if applicable).
-  - `web5/`: Web5-specific functionalities like DWN interactions and DRL handling.
-- `dist/`: The production build of the application.
-- `docker-compose.yml`: The Docker configuration for setting up the local DWN server.
-- `package.json`: Contains project metadata, scripts, and dependencies.
+- **`public/`**: Contains public assets that will be served by the web server.
+  - `vite.svg`: Logo or image file related to Vite.
+  
+- **`tests/`**: Contains the test files for the application.
+  - `main.spec.js`: Main test file for running unit or E2E tests.
+
+- **`.gitignore`**: Specifies files and directories that should be ignored by Git.
+
+- **`.tbd-example.json`**: An example configuration file for TBD or related settings.
+
+- **`index.html`**: The main HTML file for the application.
+
+- **`main.js`**: The main JavaScript file where the application logic begins.
+
+- **`package.json`**: Contains project metadata, scripts, and dependencies.
+
+- **`playwright.config.js`**: Configuration file for Playwright E2E testing.
+
+- **`pnpm-lock.yaml`**: Lockfile for pnpm to ensure consistent dependency versions.
+
+- **`readme.md`**: The README file for the project (this file).
+
+- **`style.css`**: Contains the CSS styles for the application.
+
+- **`vite.config.js`**: Configuration file for Vite, the build tool and development server.
 
 ## Contributing
 
