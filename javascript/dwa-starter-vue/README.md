@@ -1,6 +1,12 @@
 # Vue.js Decentralized Web App (DWA) Starter
 
-This repository provides a starter template for building decentralized web apps (DWAs) using Vue.js, leveraging modern tooling like Vite, Vitest, Playwright, and Web5 technologies.
+Decentralized Web App: it's a Web5 Progressive Web App.
+
+## Why PWA?
+
+It's a perfect match with Web5 DWNs since a PWA can work offline and DWN has a synced local storage.
+
+Aside from that, the advanced PWA capabilities such as modifying fetch requests allow us to extract the most such as displaying images with DRLs in the traditional `src` attribute.
 
 ## 📋 Prerequisites
 
