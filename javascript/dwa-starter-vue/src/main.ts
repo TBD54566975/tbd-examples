@@ -6,8 +6,6 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 if (typeof window !== 'undefined') import('./pwa')
 
-if (typeof window !== 'undefined') import('./pwa')
-
 import App from '@/App.vue'
 import { router } from '@/router'
 
