@@ -119,7 +119,7 @@ Here’s a brief overview of the project's file structure:
   - `vite.svg`: Logo or image file related to Vite.
   
 - **`tests/`**: Contains the test files for the application.
-  - `main.spec.js`: Main test file for running unit or E2E tests.
+  - `main.spec.js`: Main test file for running E2E tests.
 
 - **`.gitignore`**: Specifies files and directories that should be ignored by Git.
 
