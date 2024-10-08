@@ -14,6 +14,9 @@ importers:
       jsdom:
         specifier: ^25.0.1
         version: 25.0.1
+      playwright:
+        specifier: ^1.47.2
+        version: 1.47.2
       vite:
         specifier: ^5.4.1
         version: 5.4.8

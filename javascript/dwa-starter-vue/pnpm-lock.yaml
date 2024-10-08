@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@iconify-json/radix-icons':
         specifier: ^1.2.0
-        version: 1.2.0
+        version: 1.2.1
       '@iconify/vue':
         specifier: ^4.1.2
         version: 4.1.2(vue@3.5.11(typescript@5.4.5))
@@ -67,10 +67,10 @@ importers:
         version: 4.13.2(vue@3.5.11(typescript@5.4.5))
       vite-plugin-node-stdlib-browser:
         specifier: ^0.2.1
-        version: 0.2.1(node-stdlib-browser@1.2.1)(rollup@2.79.2)(vite@5.4.8(@types/node@20.16.10)(terser@5.34.1))
+        version: 0.2.1(node-stdlib-browser@1.2.1)(rollup@2.79.2)(vite@5.4.8(@types/node@20.16.11)(terser@5.34.1))
       vite-plugin-pwa:
         specifier: ^0.20.5
-        version: 0.20.5(@vite-pwa/assets-generator@0.2.6)(vite@5.4.8(@types/node@20.16.10)(terser@5.34.1))(workbox-build@7.1.1)(workbox-window@7.1.0)
+        version: 0.20.5(@vite-pwa/assets-generator@0.2.6)(vite@5.4.8(@types/node@20.16.11)(terser@5.34.1))(workbox-build@7.1.1)(workbox-window@7.1.0)
       vue:
         specifier: ^3.4.29
         version: 3.5.11(typescript@5.4.5)
@@ -95,7 +95,7 @@ importers:
     devDependencies:
       '@playwright/test':
         specifier: ^1.44.1
-        version: 1.47.2
+        version: 1.48.0
       '@rushstack/eslint-patch':
         specifier: ^1.8.0
         version: 1.10.4
@@ -107,13 +107,13 @@ importers:
         version: 21.1.7
       '@types/node':
         specifier: ^20.14.5
-        version: 20.16.10
+        version: 20.16.11
       '@vite-pwa/assets-generator':
         specifier: ^0.2.6
         version: 0.2.6
       '@vitejs/plugin-vue':
         specifier: ^5.0.5
-        version: 5.1.4(vite@5.4.8(@types/node@20.16.10)(terser@5.34.1))(vue@3.5.11(typescript@5.4.5))
+        version: 5.1.4(vite@5.4.8(@types/node@20.16.11)(terser@5.34.1))(vue@3.5.11(typescript@5.4.5))
       '@vue/eslint-config-prettier':
         specifier: ^9.0.0
         version: 9.0.0(eslint@8.57.1)(prettier@3.3.3)
@@ -149,10 +149,10 @@ importers:
         version: 5.4.5
       vite:
         specifier: ^5.3.1
-        version: 5.4.8(@types/node@20.16.10)(terser@5.34.1)
+        version: 5.4.8(@types/node@20.16.11)(terser@5.34.1)
       vitest:
         specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.16.10)(jsdom@24.1.3)(terser@5.34.1)
+        version: 1.6.0(@types/node@20.16.11)(jsdom@24.1.3)(terser@5.34.1)
       vue-tsc:
         specifier: ^2.0.21
         version: 2.1.6(typescript@5.4.5)
@@ -943,8 +943,8 @@ packages:
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
 
-  '@iconify-json/radix-icons@1.2.0':
-    resolution: {integrity: sha512-HO2ydGjQG43tLy/X0BGb+4mJZZZ5KBAzTRGnwtPl+2uH48gv1o6Q4iA1PIJHU/8WkZ2cW4nibWzieztDer4nxg==}
+  '@iconify-json/radix-icons@1.2.1':
+    resolution: {integrity: sha512-glzHFq3Sj9QKUQG7u2dnlC+KPJGpGM1GhyUIrFFWhXqr9CZgkUPnF5n/6YlbCkYGMa+feSwdhwroLTfKvaAaVA==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1079,8 +1079,8 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@playwright/test@1.47.2':
-    resolution: {integrity: sha512-jTXRsoSPONAs8Za9QEQdyjFn+0ZQFjCiIztAIF6bi1HqhBzG9Ma7g1WotyiGqFSBRZjIEqMdT8RUlbk1QVhzCQ==}
+  '@playwright/test@1.48.0':
+    resolution: {integrity: sha512-W5lhqPUVPqhtc/ySvZI5Q8X2ztBOUgZ8LbAFy0JQgrXZs2xaILrUcNO3rQjwbLPfGK13+rZsDa1FpG+tqYkT5w==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1273,8 +1273,8 @@ packages:
   '@types/jsdom@21.1.7':
     resolution: {integrity: sha512-yOriVnggzrnQ3a9OKOCxaVuSug3w3/SbOj5i7VwXWZEyUNl3bLF9V3MfxGbZKuwqJOQyRfqXyROBB1CoZLFWzA==}
 
-  '@types/node@20.16.10':
-    resolution: {integrity: sha512-vQUKgWTjEIRFCvK6CyriPH3MZYiYlNy0fKiEYHWbcoWLEgs4opurGGKlebrTLqdSMIbXImH6XExNiIyNUv3WpA==}
+  '@types/node@20.16.11':
+    resolution: {integrity: sha512-y+cTCACu92FyA5fgQSAI8A1H429g7aSK2HsO7K4XYUWc4dY5IUz55JSDIYT6/VsOLfGy8vmvQYC2hfb0iF16Uw==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -3312,16 +3312,16 @@ packages:
     resolution: {integrity: sha512-NPE8TDbzl/3YQYY7CSS228s3g2ollTFnc+Qi3tqmqJp9Vg2ovUpixcJEo2HJScN2Ez+kEaal6y70c0ehqJBJeA==}
     engines: {node: '>=10'}
 
-  pkg-types@1.2.0:
-    resolution: {integrity: sha512-+ifYuSSqOQ8CqP4MbZA5hDpb97n3E8SVWdJe+Wms9kj745lmd3b7EZJiqvmLwAlmRfjrI7Hi5z3kdBJ93lFNPA==}
+  pkg-types@1.2.1:
+    resolution: {integrity: sha512-sQoqa8alT3nHjGuTjuKgOnvjo4cljkufdtLMnO2LBP/wRwuDlo1tkaEdMxCRhyGRPacv/ztlZgDPm2b7FAmEvw==}
 
-  playwright-core@1.47.2:
-    resolution: {integrity: sha512-3JvMfF+9LJfe16l7AbSmU555PaTl2tPyQsVInqm3id16pdDfvZ8TTZ/pyzmkbDrZTQefyzU7AIHlZqQnxpqHVQ==}
+  playwright-core@1.48.0:
+    resolution: {integrity: sha512-RBvzjM9rdpP7UUFrQzRwR8L/xR4HyC1QXMzGYTbf1vjw25/ya9NRAVnXi/0fvFopjebvyPzsmoK58xxeEOaVvA==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.47.2:
-    resolution: {integrity: sha512-nx1cLMmQWqmA3UsnjaaokyoUpdVaaDhJhMoxX2qj3McpjnsqFHs516QAKYhqHAgOP+oCFTEOCOAaD1RgD/RQfA==}
+  playwright@1.48.0:
+    resolution: {integrity: sha512-qPqFaMEHuY/ug8o0uteYJSRfMGFikhUysk8ZvAtfKmUK3kc/6oNl/y3EczF8OFGYIi/Ex2HspMfzYArk6+XQSA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -5298,7 +5298,7 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.3': {}
 
-  '@iconify-json/radix-icons@1.2.0':
+  '@iconify-json/radix-icons@1.2.1':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -5428,7 +5428,7 @@ snapshots:
       knitwork: 1.1.0
       mlly: 1.7.2
       pathe: 1.1.2
-      pkg-types: 1.2.0
+      pkg-types: 1.2.1
       scule: 1.3.0
       semver: 7.6.3
       ufo: 1.5.4
@@ -5448,7 +5448,7 @@ snapshots:
       defu: 6.1.4
       hookable: 5.5.3
       pathe: 1.1.2
-      pkg-types: 1.2.0
+      pkg-types: 1.2.1
       scule: 1.3.0
       std-env: 3.7.0
       ufo: 1.5.4
@@ -5467,9 +5467,9 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@playwright/test@1.47.2':
+  '@playwright/test@1.48.0':
     dependencies:
-      playwright: 1.47.2
+      playwright: 1.48.0
 
   '@radix-icons/vue@1.0.0(vue@3.5.11(typescript@5.4.5))':
     dependencies:
@@ -5651,11 +5651,11 @@ snapshots:
 
   '@types/jsdom@21.1.7':
     dependencies:
-      '@types/node': 20.16.10
+      '@types/node': 20.16.11
       '@types/tough-cookie': 4.0.5
       parse5: 7.1.2
 
-  '@types/node@20.16.10':
+  '@types/node@20.16.11':
     dependencies:
       undici-types: 6.19.8
 
@@ -5767,9 +5767,9 @@ snapshots:
       sharp-ico: 0.1.5
       unconfig: 0.3.13
 
-  '@vitejs/plugin-vue@5.1.4(vite@5.4.8(@types/node@20.16.10)(terser@5.34.1))(vue@3.5.11(typescript@5.4.5))':
+  '@vitejs/plugin-vue@5.1.4(vite@5.4.8(@types/node@20.16.11)(terser@5.34.1))(vue@3.5.11(typescript@5.4.5))':
     dependencies:
-      vite: 5.4.8(@types/node@20.16.10)(terser@5.34.1)
+      vite: 5.4.8(@types/node@20.16.11)(terser@5.34.1)
       vue: 3.5.11(typescript@5.4.5)
 
   '@vitest/expect@1.6.0':
@@ -6367,7 +6367,7 @@ snapshots:
       ohash: 1.1.4
       pathe: 1.1.2
       perfect-debounce: 1.0.0
-      pkg-types: 1.2.0
+      pkg-types: 1.2.1
       rc9: 2.1.2
 
   cac@6.7.14: {}
@@ -7633,7 +7633,7 @@ snapshots:
   local-pkg@0.5.0:
     dependencies:
       mlly: 1.7.2
-      pkg-types: 1.2.0
+      pkg-types: 1.2.1
 
   locate-path@6.0.0:
     dependencies:
@@ -7746,7 +7746,7 @@ snapshots:
     dependencies:
       acorn: 8.12.1
       pathe: 1.1.2
-      pkg-types: 1.2.0
+      pkg-types: 1.2.1
       ufo: 1.5.4
 
   module-error@1.0.2: {}
@@ -7865,7 +7865,7 @@ snapshots:
       consola: 3.2.3
       execa: 8.0.1
       pathe: 1.1.2
-      pkg-types: 1.2.0
+      pkg-types: 1.2.1
       ufo: 1.5.4
 
   object-assign@4.1.1: {}
@@ -8024,17 +8024,17 @@ snapshots:
     dependencies:
       find-up: 5.0.0
 
-  pkg-types@1.2.0:
+  pkg-types@1.2.1:
     dependencies:
       confbox: 0.1.8
       mlly: 1.7.2
       pathe: 1.1.2
 
-  playwright-core@1.47.2: {}
+  playwright-core@1.48.0: {}
 
-  playwright@1.47.2:
+  playwright@1.48.0:
     dependencies:
-      playwright-core: 1.47.2
+      playwright-core: 1.48.0
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -8878,7 +8878,7 @@ snapshots:
       magic-string: 0.30.11
       mlly: 1.7.2
       pathe: 1.1.2
-      pkg-types: 1.2.0
+      pkg-types: 1.2.1
       scule: 1.3.0
       strip-literal: 2.1.0
       unplugin: 1.14.1
@@ -8963,13 +8963,13 @@ snapshots:
       type-fest: 4.26.1
       vue: 3.5.11(typescript@5.4.5)
 
-  vite-node@1.6.0(@types/node@20.16.10)(terser@5.34.1):
+  vite-node@1.6.0(@types/node@20.16.11)(terser@5.34.1):
     dependencies:
       cac: 6.7.14
       debug: 4.3.7
       pathe: 1.1.2
       picocolors: 1.1.0
-      vite: 5.4.8(@types/node@20.16.10)(terser@5.34.1)
+      vite: 5.4.8(@types/node@20.16.11)(terser@5.34.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -8981,20 +8981,20 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-node-stdlib-browser@0.2.1(node-stdlib-browser@1.2.1)(rollup@2.79.2)(vite@5.4.8(@types/node@20.16.10)(terser@5.34.1)):
+  vite-plugin-node-stdlib-browser@0.2.1(node-stdlib-browser@1.2.1)(rollup@2.79.2)(vite@5.4.8(@types/node@20.16.11)(terser@5.34.1)):
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@2.79.2)
       node-stdlib-browser: 1.2.1
-      vite: 5.4.8(@types/node@20.16.10)(terser@5.34.1)
+      vite: 5.4.8(@types/node@20.16.11)(terser@5.34.1)
     transitivePeerDependencies:
       - rollup
 
-  vite-plugin-pwa@0.20.5(@vite-pwa/assets-generator@0.2.6)(vite@5.4.8(@types/node@20.16.10)(terser@5.34.1))(workbox-build@7.1.1)(workbox-window@7.1.0):
+  vite-plugin-pwa@0.20.5(@vite-pwa/assets-generator@0.2.6)(vite@5.4.8(@types/node@20.16.11)(terser@5.34.1))(workbox-build@7.1.1)(workbox-window@7.1.0):
     dependencies:
       debug: 4.3.7
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.9
-      vite: 5.4.8(@types/node@20.16.10)(terser@5.34.1)
+      vite: 5.4.8(@types/node@20.16.11)(terser@5.34.1)
       workbox-build: 7.1.1
       workbox-window: 7.1.0
     optionalDependencies:
@@ -9002,17 +9002,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite@5.4.8(@types/node@20.16.10)(terser@5.34.1):
+  vite@5.4.8(@types/node@20.16.11)(terser@5.34.1):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.47
       rollup: 4.24.0
     optionalDependencies:
-      '@types/node': 20.16.10
+      '@types/node': 20.16.11
       fsevents: 2.3.3
       terser: 5.34.1
 
-  vitest@1.6.0(@types/node@20.16.10)(jsdom@24.1.3)(terser@5.34.1):
+  vitest@1.6.0(@types/node@20.16.11)(jsdom@24.1.3)(terser@5.34.1):
     dependencies:
       '@vitest/expect': 1.6.0
       '@vitest/runner': 1.6.0
@@ -9031,11 +9031,11 @@ snapshots:
       strip-literal: 2.1.0
       tinybench: 2.9.0
       tinypool: 0.8.4
-      vite: 5.4.8(@types/node@20.16.10)(terser@5.34.1)
-      vite-node: 1.6.0(@types/node@20.16.10)(terser@5.34.1)
+      vite: 5.4.8(@types/node@20.16.11)(terser@5.34.1)
+      vite-node: 1.6.0(@types/node@20.16.11)(terser@5.34.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 20.16.10
+      '@types/node': 20.16.11
       jsdom: 24.1.3
     transitivePeerDependencies:
       - less
