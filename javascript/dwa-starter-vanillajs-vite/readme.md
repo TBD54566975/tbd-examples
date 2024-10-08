@@ -108,9 +108,6 @@ Or, if using npm:
 npm run test
 ```
 
-#### Running Unit Tests Only
-
-
 ## Project Structure
 
 Here’s a brief overview of the project's file structure:
