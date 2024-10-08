@@ -94,3 +94,40 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+/* style.css */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: #333;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  margin: 0;
+}
+
+nav a {
+  color: white;
+  padding: 14px 20px;
+  display: block;
+  text-decoration: none;
+}
+
+nav a:hover {
+  background-color: #575757;
+}
+
+#app {
+  padding: 20px;
+}
