@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useWeb5 } from '@/composables/web5'
+import { useWeb5, type Task } from '@/composables/web5'
 import { onBeforeMount, ref } from 'vue'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -16,68 +16,35 @@ import {
 import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from '@/components/ui/toast/use-toast'
 
-interface ITodo {
-  completed: boolean
-  title: string
-  createdAt: string
-  recordId: string
-  isEditing?: boolean
-}
+const task = ref('')
+const tasks = ref<Task[]>([])
 
-const todo = ref('')
-const todos = ref<{ [recordId: string]: ITodo }>({})
-
-const { createRecord, deleteRecord, updateRecord, findRecords } = useWeb5()
+const { listTasks, createTask, updateTask, deleteTask } = useWeb5()
 
 onBeforeMount(() => {
-  findTodos()
+  findTasks()
 })
 
-const findTodos = async () => {
-  const res = await findRecords<ITodo>('todos')
-  res?.forEach((i) => {
-    todos.value[i.recordId] = i
-  })
-}
-
-const formatDate = (date: string) => {
-  const parsedDate = new Date(date)
-
-  if (isNaN(parsedDate.getTime())) {
-    return 'Invalid Date'
-  }
-
-  return new Intl.DateTimeFormat('en-US', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    hour12: true
-  }).format(parsedDate)
+const findTasks = async () => {
+  tasks.value = await listTasks()
 }
 
 async function addTodo() {
   try {
-    if (!todo.value) {
+    if (!task.value) {
       return
     }
     const data = {
       completed: false,
-      title: todo.value
+      title: task.value
     }
 
-    const writeRes = await createRecord(data, 'todos')
-    if (writeRes) {
-      todos.value[writeRes.recordId] = writeRes
-      toast({
-        description: 'Todo added successfully'
-      })
-
-      todo.value = ''
-    }
+    await createTask(data)
+    toast({
+      description: 'Todo added successfully'
+    })
+    await findTasks()
+    task.value = ''
   } catch (err: any) {
     toast({
       description: `Failed to add todo: ${err.message || 'Unknown error'}`,
@@ -86,11 +53,11 @@ async function addTodo() {
   }
 }
 
-async function deleteTodo(recordId: string) {
+async function deleteTodo(id: string) {
   try {
-    await deleteRecord(recordId)
+    await deleteTask(id)
 
-    delete todos.value[recordId]
+    await findTasks()
     toast({
       description: 'Todo deleted successfully'
     })
@@ -102,16 +69,13 @@ async function deleteTodo(recordId: string) {
   }
 }
 
-async function toggleTodoStatus(recordId: string) {
+async function toggleTodoStatus(task: Task) {
   try {
-    await updateRecord(recordId, {
-      ...todos.value[recordId],
-      completed: !todos.value[recordId].completed
-    })
-    todos.value[recordId].completed = !todos.value[recordId].completed
+    await updateTask(task)
+    await findTasks()
 
     toast({
-      description: `Todo status updated to ${todos.value[recordId].completed ? 'completed' : 'incomplete'}`
+      description: `Todo status updated to ${task.completed ? 'completed' : 'incomplete'}`
     })
   } catch (err: any) {
     toast({
@@ -121,22 +85,21 @@ async function toggleTodoStatus(recordId: string) {
   }
 }
 
-function startEditing(recordId: string) {
-  todos.value[recordId].isEditing = true
+function startEditing(id?: string) {
+  const task = tasks.value.find((i) => i.id === id)
+  if (task) task.isEditing = true
 }
 
-function stopEditing(recordId: string) {
-  todos.value[recordId].isEditing = false
+function stopEditing(id?: string) {
+  const task = tasks.value.find((i) => i.id === id)
+  if (task) task.isEditing = false
 }
 
-async function updateTodoTitle(recordId: string, newTitle: string) {
+async function updateTodoTitle(task: Task) {
   try {
-    await updateRecord(recordId, {
-      ...todos.value[recordId],
-      title: newTitle
-    })
+    await updateTask(task)
+    await findTasks()
 
-    todos.value[recordId].title = newTitle
     toast({
       description: 'Todo title updated successfully'
     })
@@ -146,7 +109,7 @@ async function updateTodoTitle(recordId: string, newTitle: string) {
       title: 'Error'
     })
   } finally {
-    stopEditing(recordId)
+    stopEditing(task.id)
   }
 }
 </script>
@@ -160,13 +123,13 @@ async function updateTodoTitle(recordId: string, newTitle: string) {
       <Input
         type="text"
         id="add-todo"
-        v-model="todo"
+        v-model="task"
         @keydown.enter.exact.prevent="addTodo"
         placeholder="what are you working on?"
       />
       <Button type="button" @click="addTodo"> Add </Button>
     </div>
-    <div v-if="!Object.values(todos).length">
+    <div v-if="!tasks.length">
       <h2>no todos created yet</h2>
     </div>
 
@@ -176,30 +139,31 @@ async function updateTodoTitle(recordId: string, newTitle: string) {
         <TableRow>
           <TableHead class="w-[100px]"> Completed? </TableHead>
           <TableHead>Title</TableHead>
-          <TableHead>Date</TableHead>
           <TableHead class="text-right"> </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-for="todo in todos" :key="todo.recordId">
+        <TableRow v-for="todo in tasks" :key="todo.id">
           <TableCell>
-            <Checkbox :checked="todo.completed" @click="toggleTodoStatus(todo.recordId)" />
+            <Checkbox
+              :checked="todo.completed"
+              @click="toggleTodoStatus({ ...todo, completed: !todo.completed })"
+            />
           </TableCell>
           <TableCell>
             <div v-if="todo.isEditing">
               <Input
                 v-model="todo.title"
-                @keydown.enter="updateTodoTitle(todo.recordId, todo.title)"
-                @blur="updateTodoTitle(todo.recordId, todo.title)"
+                @keydown.enter="updateTodoTitle(todo)"
+                @blur="updateTodoTitle(todo)"
               />
             </div>
-            <div v-else @dblclick="startEditing(todo.recordId)">
+            <div v-else @dblclick="startEditing(todo.id)">
               {{ todo.title }}
             </div>
           </TableCell>
-          <TableCell> {{ formatDate(todo.createdAt) }}</TableCell>
           <TableCell class="text-right">
-            <Button variant="ghost" @click="deleteTodo(todo.recordId)">
+            <Button variant="ghost" @click="deleteTodo(todo.id as string)">
               <TrashIcon class="w-4 h-4" />
             </Button>
           </TableCell>

@@ -1,229 +1,79 @@
-import { Protocol, Record } from '@web5/api/browser'
-
+import { installProtocols as installDWAProtocols } from '@/lib/protocols'
+import { TodoDwnRepository } from '@/lib/todo-dwn-repository'
 import { useWeb5Store } from '@/stores/web5'
 import { storeToRefs } from 'pinia'
 
-export enum DateSort {
-  CreatedAscending = 'createdAscending',
-  CreatedDescending = 'createdDescending',
-  PublishedAscending = 'publishedAscending',
-  PublishedDescending = 'publishedDescending'
+export interface Task {
+  id?: string
+  title: string
+  completed: boolean
+  isEditing?: boolean
 }
 
 export function useWeb5() {
   const { web5 } = storeToRefs(useWeb5Store())
 
-  const protocol = 'https://didcomm.org/dwa-starter-vue'
-  const protocolDefinition = {
-    protocol,
-    published: true,
-    types: {
-      todos: {
-        schema: `${protocol}/schema/todos.json`,
-        dataFormats: ['application/json']
-      },
-      profile: {
-        schema: `${protocol}/schema/profile.json`,
-        dataFormats: ['application/json']
-      }
-    },
-    structure: {
-      todos: {
-        $actions: [
-          {
-            who: 'author',
-            of: 'todos',
-            can: ['read']
-          },
-          {
-            who: 'anyone',
-            can: ['create']
-          }
-        ]
-      },
-      profile: {
-        $actions: [
-          {
-            who: 'author',
-            of: 'profile',
-            can: ['read']
-          },
-          {
-            who: 'anyone',
-            can: ['create']
-          }
-        ]
-      }
+  const ensureWeb5Initialized = () => {
+    if (!web5.value || !web5.value.web5) {
+      throw new Error('web5 not initialised')
     }
   }
 
-  const configureProtocol = async () => {
-    if (!web5.value) {
-      throw new Error('web5 not initialised')
-    }
-    const { web5: $web5 } = web5.value
-    const { protocol } = await $web5.dwn.protocols.configure({
-      message: {
-        definition: protocolDefinition
-      }
-    })
-    if (!protocol) {
-      throw new Error('protocol not found')
-    }
-
-    syncToUserDwn(protocol)
+  const installProtocols = async () => {
+    ensureWeb5Initialized()
+    const { web5: $web5, did } = web5.value!
+    return await installDWAProtocols($web5.dwn, did)
   }
 
-  const createRecord = async <T>(
-    data: T,
-    schema: 'todos' | 'profile',
-    parentId?: string,
-    recordId?: string
-  ) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialised')
-    }
-    const { web5: $web5 } = web5.value
-    const { record, status } = await $web5.dwn.records.write({
-      data,
-      message: {
-        protocol: protocolDefinition.protocol,
-        protocolPath: schema,
-        schema: protocolDefinition.types[schema].schema,
-        dataFormat: protocolDefinition.types[schema].dataFormats?.[0],
-        ...(parentId ? { parentId, contextId: parentId } : {}),
-        ...(recordId ? { recordId } : {})
-      }
-    })
-
-    if (status.code !== 202) {
-      throw new Error(status.detail)
-    }
-
-    if (!record) {
-      throw new Error(status?.detail || 'record not created')
-    }
-    syncToUserDwn(record)
-
-    return { ...data, recordId: record?.id, createdAt: record.dateCreated }
+  const listTasks = async () => {
+    ensureWeb5Initialized()
+    const { web5: $web5 } = web5.value!
+    const dwmRepo = new TodoDwnRepository($web5.dwn)
+    return await dwmRepo.listTasks()
   }
 
-  const findRecords = async <T>(
-    schema: 'todos' | 'profile',
-    recordId?: string,
-    dateSort = DateSort.CreatedDescending
-  ) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialised')
-    }
-    const { web5: $web5, did } = web5.value
-    const { records } = await $web5.dwn.records.query({
-      from: did,
-      message: {
-        filter: {
-          protocol: protocolDefinition.protocol,
-          schema: protocolDefinition.types[schema].schema,
-          dataFormat: protocolDefinition.types[schema].dataFormats?.[0]
-        },
-        dateSort,
-        ...(recordId ? { recordId } : {})
-      }
-    })
-    const loadRecords: Array<{ recordId: string } & T> = await Promise.all(
-      (records || []).map(async (record) => {
-        const data = (await record.data.json()) as T
-        return { recordId: record.id, createdAt: record.dateCreated, ...data }
-      })
-    )
-
-    return loadRecords
+  const createTask = async (task: Task) => {
+    ensureWeb5Initialized()
+    const { web5: $web5 } = web5.value!
+    const dwmRepo = new TodoDwnRepository($web5.dwn)
+    return await dwmRepo.createTask(task)
   }
 
-  const findOrUpdateRecord = async <T>(data: T, schema: 'todos' | 'profile', upsert = true) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialised')
-    }
-    const { web5: $web5 } = web5.value
-    const { record, status } = await $web5.dwn.records.read({
-      message: {
-        filter: {
-          protocol: protocolDefinition.protocol,
-          schema: protocolDefinition.types[schema].schema
-        }
-      }
-    })
-    if (!record && upsert) {
-      return createRecord<T>(data, schema)
-    }
-    if (upsert) {
-      await record.update({ data })
-      syncToUserDwn(record)
-    }
-    if (!record || status.code === 404) {
-      return
-    }
-    const dataInRecord = await record.data.json()
-
-    return {
-      ...data,
-      ...dataInRecord,
-      recordId: record?.id,
-      createdAt: record?.dateCreated
-    } as T & { recordId: string }
+  const updateTask = async (task: Task) => {
+    ensureWeb5Initialized()
+    const { web5: $web5 } = web5.value!
+    const dwmRepo = new TodoDwnRepository($web5.dwn)
+    return await dwmRepo.updateTask(task)
   }
 
-  const updateRecord = async (recordId: string, data: any) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialised')
-    }
-    const { web5: $web5, did } = web5.value
-    const { record, status } = await $web5.dwn.records.read({
-      from: did,
-      message: {
-        filter: { recordId }
-      }
-    })
-    if (!record) {
-      throw new Error(status?.detail || 'record not found')
-    }
-    const { status: updateStatus } = await record.update({ data })
-    if (updateStatus.code !== 202) {
-      throw new Error(status.detail)
-    }
-
-    syncToUserDwn(record)
+  const deleteTask = async (recordId: string) => {
+    ensureWeb5Initialized()
+    const { web5: $web5 } = web5.value!
+    const dwmRepo = new TodoDwnRepository($web5.dwn)
+    return await dwmRepo.deleteTask(recordId)
   }
 
-  const deleteRecord = async (recordId: string) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialised')
-    }
-    const { web5: $web5, did } = web5.value
-    const { status } = await $web5.dwn.records.delete({
-      from: did,
-      message: {
-        recordId
-      }
-    })
-    if (status.code !== 202) {
-      throw new Error(status.detail)
-    }
+  const findTaskRecord = async (recordId: string) => {
+    ensureWeb5Initialized()
+    const { web5: $web5 } = web5.value!
+    const dwmRepo = new TodoDwnRepository($web5.dwn)
+    return await dwmRepo.findTaskRecord(recordId)
   }
 
-  const syncToUserDwn = async (record: Record | Protocol, targetDid?: string) => {
-    if (!web5.value) {
-      throw new Error('web5 not initialised')
-    }
-    const { did } = web5.value
-    await record.send(targetDid || did)
+  const listTasksRecords = async () => {
+    ensureWeb5Initialized()
+    const { web5: $web5 } = web5.value!
+    const dwmRepo = new TodoDwnRepository($web5.dwn)
+    return await dwmRepo.listTasksRecords()
   }
 
   return {
-    findRecords,
-    updateRecord,
-    deleteRecord,
-    createRecord,
-    configureProtocol,
-    findOrUpdateRecord
+    installProtocols,
+    listTasks,
+    createTask,
+    updateTask,
+    deleteTask,
+    findTaskRecord,
+    listTasksRecords
   }
 }

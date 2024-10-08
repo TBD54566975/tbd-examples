@@ -18,8 +18,8 @@ export function useWeb5Connection() {
       const connection = await Web5.connect(options)
       setWeb5(connection)
 
-      const { configureProtocol } = useWeb5()
-      await configureProtocol()
+      const { installProtocols } = useWeb5()
+      await installProtocols()
 
       toast({
         title: 'Success',
