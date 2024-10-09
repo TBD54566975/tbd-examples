@@ -37,7 +37,7 @@
     "chai-as-promised": "7.1.2",
     "chai-string": "1.5.0",
     "eslint": "8.57.1",
-    "kysely-codegen": "0.10.1",
+    "kysely-codegen": "0.16.8",
     "mocha": "10.2.0",
     "rimraf": "5.0.10",
     "sinon": "15.2.0",
