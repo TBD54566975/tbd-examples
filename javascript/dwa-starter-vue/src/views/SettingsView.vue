@@ -81,9 +81,7 @@ const onSubmit = handleSubmit(async (values) => {
                 @change="handleImageUpload"
                 :key="fileInputKey"
               />
-              <Button type="button" @click="clearImage" v-if="profileImageSrc">
-                Clear Image
-              </Button>
+              <Button type="button" @click="clearImage" v-if="profileImageSrc">Clear Image</Button>
             </div>
           </FormControl>
           <FormDescription>Upload your profile image.</FormDescription>
