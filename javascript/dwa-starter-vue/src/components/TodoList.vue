@@ -32,6 +32,10 @@ const findTasks = async () => {
 async function addTodo() {
   try {
     if (!task.value) {
+      toast({
+        title: 'Error',
+        description: 'task cant be null'
+      })
       return
     }
     const data = {
@@ -40,11 +44,11 @@ async function addTodo() {
     }
 
     await createTask(data)
+    await findTasks()
+    task.value = ''
     toast({
       description: 'Todo added successfully'
     })
-    await findTasks()
-    task.value = ''
   } catch (err: any) {
     toast({
       description: `Failed to add todo: ${err.message || 'Unknown error'}`,
@@ -56,7 +60,6 @@ async function addTodo() {
 async function deleteTodo(id: string) {
   try {
     await deleteTask(id)
-
     await findTasks()
     toast({
       description: 'Todo deleted successfully'
@@ -73,7 +76,6 @@ async function toggleTodoStatus(task: Task) {
   try {
     await updateTask(task)
     await findTasks()
-
     toast({
       description: `Todo status updated to ${task.completed ? 'completed' : 'incomplete'}`
     })
@@ -99,7 +101,6 @@ async function updateTodoTitle(task: Task) {
   try {
     await updateTask(task)
     await findTasks()
-
     toast({
       description: 'Todo title updated successfully'
     })
@@ -150,7 +151,7 @@ async function updateTodoTitle(task: Task) {
               @click="toggleTodoStatus({ ...todo, completed: !todo.completed })"
             />
           </TableCell>
-          <TableCell>
+          <TableCell class="cursor-pointer">
             <div v-if="todo.isEditing">
               <Input
                 v-model="todo.title"
@@ -158,7 +159,7 @@ async function updateTodoTitle(task: Task) {
                 @blur="updateTodoTitle(todo)"
               />
             </div>
-            <div v-else @dblclick="startEditing(todo.id)">
+            <div v-else @click="startEditing(todo.id)">
               {{ todo.title }}
             </div>
           </TableCell>
