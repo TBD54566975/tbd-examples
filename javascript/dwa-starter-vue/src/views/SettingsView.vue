@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ReloadIcon } from '@radix-icons/vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
-import { PersonIcon } from '@radix-icons/vue'
+import { PersonIcon, ReloadIcon } from '@radix-icons/vue'
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
@@ -24,22 +23,22 @@ const formSchema = toTypedSchema(
 )
 
 const name = ref('')
-const profileImage = ref('')
+const profileImageBlob = ref<Blob | null>(null)
 const fileInputKey = ref(0)
+
+const profileImageSrc = ref('')
 
 const handleImageUpload = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (file) {
-    const reader = new FileReader()
-    reader.onload = () => {
-      profileImage.value = reader.result as string
-    }
-    reader.readAsDataURL(file)
+    profileImageBlob.value = file
+    profileImageSrc.value = URL.createObjectURL(file)
   }
 }
 
-const clearImage = () => {
-  profileImage.value = ''
+const clearImage = async () => {
+  profileImageBlob.value = null
+  profileImageSrc.value = ''
   fileInputKey.value++
 }
 
@@ -47,11 +46,11 @@ const { isFieldDirty, handleSubmit, isSubmitting } = useForm({
   validationSchema: formSchema
 })
 
-const onSubmit = handleSubmit((values) => {
+const onSubmit = handleSubmit(async (values) => {
   name.value = values.name
   toast({
     title: 'Success',
-    description: `Form submitted successfully with name: ${values.name}`
+    description: `profile updated`
   })
 })
 </script>
@@ -61,8 +60,8 @@ const onSubmit = handleSubmit((values) => {
     <h1>Settings</h1>
     <form class="lg:w-1/3 w-full space-y-6" @submit.prevent="onSubmit">
       <img
-        v-if="profileImage"
-        :src="profileImage"
+        v-if="profileImageSrc"
+        :src="profileImageSrc"
         alt="Profile Preview"
         class="w-24 h-24 rounded-xl"
       />
@@ -80,7 +79,9 @@ const onSubmit = handleSubmit((values) => {
                 @change="handleImageUpload"
                 :key="fileInputKey"
               />
-              <Button type="button" @click="clearImage" v-if="profileImage"> Clear Image </Button>
+              <Button type="button" @click="clearImage" v-if="profileImageSrc">
+                Clear Image
+              </Button>
             </div>
           </FormControl>
           <FormDescription>Upload your profile image.</FormDescription>
@@ -100,7 +101,9 @@ const onSubmit = handleSubmit((values) => {
       </FormField>
 
       <Button type="submit" :disabled="isSubmitting">
-        <ReloadIcon v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" /> Save
+        <ReloadIcon v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" /><span v-else>
+          Save
+        </span>
       </Button>
     </form>
   </div>

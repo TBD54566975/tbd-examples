@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { TextAlignLeftIcon } from '@radix-icons/vue'
 import { ref } from 'vue'
 
-import NavList from '@/components/NavList.vue'
+import SidebarList from '@/components/SidebarList.vue'
 
 const isOpen = ref(false)
 const toggleDrawer = () => {
@@ -30,11 +30,11 @@ const closeDrawer = () => {
         isOpen ? 'translate-x-0' : '-translate-x-full'
       ]"
     >
-      <NavList @itemClicked="closeDrawer" />
+      <SidebarList @itemClicked="closeDrawer" />
     </div>
   </div>
 
   <div class="hidden lg:block h-full p-4 w-64">
-    <NavList />
+    <SidebarList />
   </div>
 </template>
