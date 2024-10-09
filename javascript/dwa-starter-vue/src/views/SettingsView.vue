@@ -103,9 +103,8 @@ const onSubmit = handleSubmit(async (values) => {
       </FormField>
 
       <Button type="submit" :disabled="isSubmitting">
-        <ReloadIcon v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" /><span v-else>
-          Save
-        </span>
+        <ReloadIcon v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
+        <span v-else>Save</span>
       </Button>
     </form>
   </div>
