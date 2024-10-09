@@ -9,7 +9,6 @@ import { router } from '@/router'
 
 if (typeof window !== 'undefined') import('./pwa')
 
-
 const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
