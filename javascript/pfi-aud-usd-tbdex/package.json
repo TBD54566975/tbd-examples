@@ -11,7 +11,7 @@
     "dotenv": "16.4.5",
     "express": "4.20.0",
     "fuzzysort": "^2.0.4",
-    "kysely": "0.26.3",
+    "kysely": "0.27.4",
     "loglevel": "1.9.2",
     "loglevel-plugin-prefix": "0.8.4",
     "ms": "2.1.3",
