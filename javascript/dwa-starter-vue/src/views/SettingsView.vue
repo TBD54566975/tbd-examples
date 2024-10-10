@@ -58,6 +58,8 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
   <div class="flex flex-col gap-4">
     <h1>Settings</h1>
+
+    <h2>Profile Settings</h2>
     <form class="lg:w-1/3 w-full space-y-6" @submit.prevent="onSubmit">
       <img
         v-if="profileImageSrc"
@@ -79,9 +81,7 @@ const onSubmit = handleSubmit(async (values) => {
                 @change="handleImageUpload"
                 :key="fileInputKey"
               />
-              <Button type="button" @click="clearImage" v-if="profileImageSrc">
-                Clear Image
-              </Button>
+              <Button type="button" @click="clearImage" v-if="profileImageSrc">Clear Image</Button>
             </div>
           </FormControl>
           <FormDescription>Upload your profile image.</FormDescription>
@@ -101,9 +101,8 @@ const onSubmit = handleSubmit(async (values) => {
       </FormField>
 
       <Button type="submit" :disabled="isSubmitting">
-        <ReloadIcon v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" /><span v-else>
-          Save
-        </span>
+        <ReloadIcon v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
+        <span v-else>Save</span>
       </Button>
     </form>
   </div>
