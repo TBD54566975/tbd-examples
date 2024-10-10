@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-// Define a list of tasks
-const tasks = ref([
-  
-]);
+// Define the Task interface
+interface Task {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+// Explicitly type the tasks array
+const tasks = ref<Task[]>([]);
 
 const newTask = ref('');
 const editingTaskId = ref<number | null>(null);
@@ -15,7 +20,7 @@ const addTask = () => {
     tasks.value.push({
       id: Date.now(),
       title: newTask.value,
-      completed: false
+      completed: false,
     });
     newTask.value = ''; // Clear the input after adding
   }
