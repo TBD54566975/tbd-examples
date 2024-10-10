@@ -23,7 +23,7 @@
     "@web5/dids": "^1.1.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.407.0",
+    "lucide-react": "^0.451.0",
     "next-themes": "^0.3.0",
     "node-stdlib-browser": "^1.2.0",
     "qrcode.react": "^4.0.1",
