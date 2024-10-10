@@ -85,8 +85,6 @@ export function useWeb5() {
       }
     })
 
-    console.log('res,name', res.status)
-
     res.record?.send()
   }
 
