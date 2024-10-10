@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Toaster from '@/components/ui/toast/Toaster.vue'
-import NavMenu from '@/components/NavMenu.vue'
+import Sidebar from '@/components/Sidebar.vue'
 </script>
 
 <template>
   <div class="flex min-h-screen lg:flex-row flex-col dark:bg-zinc-950 dark:text-white">
     <header class="sticky top-0">
-      <NavMenu />
+      <Sidebar />
     </header>
 
     <main class="p-4 lg:h-screen overflow-y-auto flex flex-col w-full">
