@@ -11,7 +11,7 @@ test.describe('Vanilla Router', () => {
 
     test('should navigate to About', async ({ page }) => {
         await page.goto('/about');
-        expect(await page.textContent('h1')).toBe('About');
+        expect(await page.textContent('h1')).toBe('DWA Starter Vanilla'); 
     });
 
     test('should navigate to Settings', async ({ page }) => {
