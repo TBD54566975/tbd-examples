@@ -3,7 +3,7 @@ import { useWeb5, type Task } from '@/composables/web5'
 import { onBeforeMount, ref } from 'vue'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { TrashIcon } from '@radix-icons/vue'
+import { TrashIcon, Pencil2Icon } from '@radix-icons/vue'
 import {
   Table,
   TableBody,
@@ -141,6 +141,7 @@ async function updateTodoTitle(task: Task) {
           <TableHead class="w-[100px]"> Completed? </TableHead>
           <TableHead>Title</TableHead>
           <TableHead class="text-right"> </TableHead>
+          <TableHead class="text-right"> </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -162,6 +163,11 @@ async function updateTodoTitle(task: Task) {
             <div v-else @click="startEditing(todo.id)">
               {{ todo.title }}
             </div>
+          </TableCell>
+          <TableCell class="text-right">
+            <Button variant="ghost" @click="startEditing(todo.id)">
+              <Pencil2Icon class="w-4 h-4" />
+            </Button>
           </TableCell>
           <TableCell class="text-right">
             <Button variant="ghost" @click="deleteTodo(todo.id as string)">
