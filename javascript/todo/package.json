@@ -35,7 +35,7 @@
     "postcss": "8.4.47",
     "rollup-plugin-polyfill-node": "0.13.0",
     "start-server-and-test": "^2.0.4",
-    "tailwindcss": "3.2.4",
+    "tailwindcss": "3.4.13",
     "vite": "4.5.5",
     "vite-plugin-node-stdlib-browser": "0.2.1"
   },
