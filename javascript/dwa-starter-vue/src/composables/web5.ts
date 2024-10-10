@@ -1,4 +1,5 @@
-import { installProtocols as installDWAProtocols } from '@/lib/protocols'
+import { drlReadProtocolJson } from '@/lib/drls'
+import { installProtocols as installDWAProtocols, profile } from '@/lib/protocols'
 import { TodoDwnRepository } from '@/lib/todo-dwn-repository'
 import { useWeb5Store } from '@/stores/web5'
 import { storeToRefs } from 'pinia'
@@ -67,6 +68,52 @@ export function useWeb5() {
     return await dwmRepo.listTasksRecords()
   }
 
+  const createDisplayName = async (displayName: string) => {
+    ensureWeb5Initialized()
+    const { web5: $web5, did } = web5.value!
+    const res = await $web5.dwn.records.create({
+      data: {
+        displayName
+      },
+      message: {
+        published: true,
+        recipient: did,
+        schema: profile.schemas.name,
+        dataFormat: 'application/json',
+        protocol: profile.uri,
+        protocolPath: 'name'
+      }
+    })
+
+    console.log('res,name', res.status)
+
+    res.record?.send()
+  }
+
+  const loadDisplayName = async () => {
+    ensureWeb5Initialized()
+    const { web5: $web5, did } = web5.value!
+    const profileRecord = await drlReadProtocolJson(did, profile.uri, 'name')
+    return profileRecord
+  }
+
+  const createAvatarImage = async (blob: Blob) => {
+    ensureWeb5Initialized()
+    const { web5: $web5, did } = web5.value!
+    const { record, status } = await $web5.dwn.records.create({
+      data: blob,
+      message: {
+        published: true,
+        recipient: did,
+        dataFormat: blob.type,
+        protocol: profile.uri,
+        protocolPath: 'avatar'
+      }
+    })
+
+    record?.send()
+  }
+
   return {
     installProtocols,
     listTasks,
@@ -74,6 +121,9 @@ export function useWeb5() {
     updateTask,
     deleteTask,
     findTaskRecord,
-    listTasksRecords
+    listTasksRecords,
+    createDisplayName,
+    loadDisplayName,
+    createAvatarImage
   }
 }

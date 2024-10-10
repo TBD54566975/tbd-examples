@@ -3,6 +3,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { PersonIcon, ReloadIcon } from '@radix-icons/vue'
+import { useWeb5 } from '@/composables/web5'
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
@@ -14,7 +15,17 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast/use-toast'
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
+
+const { createDisplayName, loadDisplayName, createAvatarImage } = useWeb5()
+
+onBeforeMount(() => {
+  loadDisplayNameFromDRL()
+})
+
+const loadDisplayNameFromDRL = async () => {
+  name.value = await loadDisplayName()
+}
 
 const formSchema = toTypedSchema(
   z.object({
@@ -28,11 +39,16 @@ const fileInputKey = ref(0)
 
 const profileImageSrc = ref('')
 
-const handleImageUpload = (event: Event) => {
+const handleImageUpload = async (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (file) {
     profileImageBlob.value = file
     profileImageSrc.value = URL.createObjectURL(file)
+    await createAvatarImage(file)
+    toast({
+      title: 'Success',
+      description: `profile image updated`
+    })
   }
 }
 
@@ -48,6 +64,7 @@ const { isFieldDirty, handleSubmit, isSubmitting } = useForm({
 
 const onSubmit = handleSubmit(async (values) => {
   name.value = values.name
+  await createDisplayName(name.value)
   toast({
     title: 'Success',
     description: `profile updated`
