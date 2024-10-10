@@ -46,7 +46,7 @@ jobs:
             type=sha
 
       - name: Build and push container image
-        uses: docker/build-push-action@94f8f8c2eec4bc3f1d78c1755580779804cb87b2 # v6.0.1
+        uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75 # v6.9.0
         with:
           context: javascript/vc-to-dwn-server
           push: true
