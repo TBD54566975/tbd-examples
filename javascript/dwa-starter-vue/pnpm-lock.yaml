@@ -131,7 +131,7 @@ importers:
         version: 8.57.1
       eslint-plugin-playwright:
         specifier: ^1.6.2
-        version: 1.6.2(eslint@8.57.1)
+        version: 1.7.0(eslint@8.57.1)
       eslint-plugin-vue:
         specifier: ^9.23.0
         version: 9.29.0(eslint@8.57.1)
@@ -2096,8 +2096,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-playwright@1.6.2:
-    resolution: {integrity: sha512-mraN4Em3b5jLt01q7qWPyLg0Q5v3KAWfJSlEWwldyUXoa7DSPrBR4k6B6LROLqipsG8ndkwWMdjl1Ffdh15tag==}
+  eslint-plugin-playwright@1.7.0:
+    resolution: {integrity: sha512-pDp2jFeWbBmlwDfZ39Ypdlz1+IafmRKvFTnnonX0TbS7hAByy4oh7Y6ioZRKvLGE+djd/e2VbqOo9sxgZSY2ow==}
     engines: {node: '>=16.6.0'}
     peerDependencies:
       eslint: '>=8.40.0'
@@ -6720,7 +6720,7 @@ snapshots:
     dependencies:
       eslint: 8.57.1
 
-  eslint-plugin-playwright@1.6.2(eslint@8.57.1):
+  eslint-plugin-playwright@1.7.0(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
       globals: 13.24.0
