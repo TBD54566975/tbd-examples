@@ -56,7 +56,7 @@ dependencies {
         exclude(group = "com.google.crypto.tink", module="tink")
     }
 
-    implementation("xyz.block:tbdex-protocol:1.0.0") {
+    implementation("xyz.block:tbdex-protocol:1.1.0") {
         exclude(group = "com.google.protobuf", module = "protobuf-java")
         exclude(group = "org.bouncycastle", module = "bcprov-jdk18on")
         exclude(group = "com.github.stephenc.jcip", module = "jcip-annotations")
