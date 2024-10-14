@@ -1,4 +1,3 @@
-/* styles.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -37,4 +36,17 @@ nav a:hover {
 
 #app {
   padding: 20px;
+}
+
+/* Dark mode styles */
+.dark nav {
+  background-color: #222;
+}
+
+.dark nav a {
+  color: #bbb;
+}
+
+.dark nav a:hover {
+  background-color: #444;
 }
