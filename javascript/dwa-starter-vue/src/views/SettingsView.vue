@@ -29,7 +29,7 @@ const loadDisplayNameFromDRL = async () => {
 }
 
 const loadAvatarImageFromDRL = async () => {
-  profileImageSrc.valu = await loadAvatarImage()
+  profileImageSrc.value = await loadAvatarImage()
 }
 
 const formSchema = toTypedSchema(
