@@ -17,14 +17,19 @@ import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast/use-toast'
 import { ref, onBeforeMount } from 'vue'
 
-const { createDisplayName, loadDisplayName, createAvatarImage } = useWeb5()
+const { createDisplayName, loadDisplayName, createAvatarImage, loadAvatarImage } = useWeb5()
 
 onBeforeMount(() => {
   loadDisplayNameFromDRL()
+  loadAvatarImageFromDRL()
 })
 
 const loadDisplayNameFromDRL = async () => {
   name.value = await loadDisplayName()
+}
+
+const loadAvatarImageFromDRL = async () => {
+  profileImageSrc.value = await loadAvatarImage()
 }
 
 const formSchema = toTypedSchema(
@@ -40,11 +45,11 @@ const fileInputKey = ref(0)
 const profileImageSrc = ref('')
 
 const handleImageUpload = async (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]
+  const file = new Blob(event.currentTarget.files)
   if (file) {
+    await createAvatarImage(file)
     profileImageBlob.value = file
     profileImageSrc.value = URL.createObjectURL(file)
-    await createAvatarImage(file)
     toast({
       title: 'Success',
       description: `profile image updated`
@@ -63,8 +68,8 @@ const { isFieldDirty, handleSubmit, isSubmitting } = useForm({
 })
 
 const onSubmit = handleSubmit(async (values) => {
+  await createDisplayName(values.name)
   name.value = values.name
-  await createDisplayName(name.value)
   toast({
     title: 'Success',
     description: `profile updated`

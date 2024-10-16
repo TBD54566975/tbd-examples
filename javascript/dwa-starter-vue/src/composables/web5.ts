@@ -1,4 +1,4 @@
-import { drlReadProtocolJson } from '@/lib/drls'
+import { drlReadProtocol, drlReadProtocolJson } from '@/lib/drls'
 import { installProtocols as installDWAProtocols, profile } from '@/lib/protocols'
 import { TodoDwnRepository } from '@/lib/todo-dwn-repository'
 import { useWeb5Store } from '@/stores/web5'
@@ -141,7 +141,7 @@ export function useWeb5() {
     }
     const { web5: $web5, did } = web5.value!
     const profileRecord = await drlReadProtocolJson(did, profile.uri, 'name')
-    return profileRecord
+    return profileRecord.displayName
   }
 
   const createAvatarImage = async (blob: Blob) => {
@@ -167,6 +167,20 @@ export function useWeb5() {
     record?.send()
   }
 
+  const loadAvatarImage = async () => {
+    if (!web5.value || !web5.value.web5) {
+      toast({
+        title: 'Error',
+        description: `web5 not initialised`
+      })
+      return
+    }
+    const { web5: $web5, did } = web5.value!
+    const response = await drlReadProtocol(did, profile.uri, 'avatar')
+    const imageUrl = URL.createObjectURL(await response.blob())
+    return imageUrl
+  }
+
   return {
     installProtocols,
     listTasks,
@@ -177,6 +191,7 @@ export function useWeb5() {
     listTasksRecords,
     createDisplayName,
     loadDisplayName,
-    createAvatarImage
+    createAvatarImage,
+    loadAvatarImage
   }
 }
