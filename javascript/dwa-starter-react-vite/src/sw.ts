@@ -6,9 +6,7 @@ import {
 } from "workbox-precaching";
 import { NavigationRoute, registerRoute } from "workbox-routing";
 
-// TODO: review @web5/api process issue
-import { activatePolyfills } from "./web-features";
-// import { activatePolyfills } from "@web5/api";
+import { activatePolyfills } from "@web5/browser";
 
 declare let self: ServiceWorkerGlobalScope;
 

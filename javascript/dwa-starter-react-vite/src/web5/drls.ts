@@ -1,3 +1,5 @@
+import { Convert } from "@web5/common";
+
 export const drlFetchRecord = async (did: string, recordId: string) => {
   const dwebUrl = `https://dweb/${did}/records/${recordId}`;
   return fetch(dwebUrl);
@@ -9,7 +11,7 @@ export const drlFetchRecordJson = async (did: string, recordId: string) => {
 };
 
 export const drlReadProtocolUrl = (did: string, protocolIdUri: string, subpath: string) => {
-  const encodedProtocolIdUri = encodeURIComponent(`${protocolIdUri}`);
+  const encodedProtocolIdUri = Convert.string(protocolIdUri).toBase64Url();
   return `https://dweb/${did}/read/protocols/${encodedProtocolIdUri}/${subpath}`;
 };
 
@@ -28,7 +30,6 @@ export const drlReadProtocolJson = async (
   subpath: string
 ) => {
   const res = await drlReadProtocol(did, protocolIdUri, subpath);
-  console.info("drlReadProtocolJson", {res}); // TODO: remove
   return handleJsonResponse(res);
 };
 

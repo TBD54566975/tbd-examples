@@ -31,6 +31,12 @@ importers:
       '@web5/api':
         specifier: 0.11.0
         version: 0.11.0(ws@8.18.0)
+      '@web5/browser':
+        specifier: ^0.0.2
+        version: 0.0.2
+      '@web5/common':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@web5/credentials':
         specifier: ^1.1.1
         version: 1.1.2
@@ -1873,6 +1879,9 @@ packages:
   '@web5/api@0.11.0':
     resolution: {integrity: sha512-3cnNL4GqEisAnLoQlT/u5N4HF/Kx4v9q4+laCYCt7ZfATjW7mAu6Yu5u7MbMSQQObZe6AsZJTLZBl/4zh3UKJw==}
     engines: {node: '>=18.0.0'}
+
+  '@web5/browser@0.0.2':
+    resolution: {integrity: sha512-gXQKnUi75dxV4u05oZHBnVBdaT2AlX+4jT4/FdTSCdJcYYIQs5LI1wnhp67ScgPXQkyIpt6NdLMTbhH4u3PUhQ==}
 
   '@web5/common@1.0.2':
     resolution: {integrity: sha512-SerGdrxZF47yidvhrRa8sGLEOunIlDHppxrtWYCuKMVgtQKgheEmaS4+xchGAc/mZggJX4LlwJbRuniIiSaXrw==}
@@ -6230,7 +6239,7 @@ snapshots:
 
   '@types/mute-stream@0.0.4':
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
     optional: true
 
   '@types/node@20.16.11':
@@ -6463,6 +6472,10 @@ snapshots:
       - encoding
       - supports-color
       - ws
+
+  '@web5/browser@0.0.2':
+    dependencies:
+      '@web5/dids': 1.1.5
 
   '@web5/common@1.0.2':
     dependencies:
