@@ -42,7 +42,7 @@ const name = ref('')
 const fileInputKey = ref(0)
 const profileImageSrc = ref('')
 
-const handleImageUpload = async (event: Event) => {
+const handleImageUpload = async (event: any) => {
   try {
     isSubmitting.value = true
     const file = new Blob(event.currentTarget.files)
