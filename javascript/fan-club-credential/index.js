@@ -70,7 +70,7 @@ const presentationDefinition = {
         'fields': [
           {
             'path': [
-              '$.credentialSubject.legit',
+              '$.vc.credentialSubject.legit',
             ]
           }
         ]
