@@ -39,26 +39,27 @@ const formSchema = toTypedSchema(
 )
 
 const name = ref('')
-const profileImageBlob = ref<Blob | null>(null)
 const fileInputKey = ref(0)
-
 const profileImageSrc = ref('')
 
 const handleImageUpload = async (event: Event) => {
-  const file = new Blob(event.currentTarget.files)
-  if (file) {
-    await createAvatarImage(file)
-    profileImageBlob.value = file
-    profileImageSrc.value = URL.createObjectURL(file)
-    toast({
-      title: 'Success',
-      description: `profile image updated`
-    })
+  try {
+    isSubmitting.value = true
+    const file = new Blob(event.currentTarget.files)
+    if (file) {
+      await createAvatarImage(file)
+      profileImageSrc.value = URL.createObjectURL(file)
+      toast({
+        title: 'Success',
+        description: `profile image updated`
+      })
+    }
+  } finally {
+    isSubmitting.value = false
   }
 }
 
-const clearImage = async () => {
-  profileImageBlob.value = null
+const clearImage = () => {
   profileImageSrc.value = ''
   fileInputKey.value++
 }
