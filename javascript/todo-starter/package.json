@@ -13,7 +13,7 @@
     "@headlessui/vue": "1.7.23",
     "@heroicons/vue": "1.0.6",
     "@noble/ed25519": "2.1.0",
-    "@vueuse/core": "9.13.0",
+    "@vueuse/core": "11.1.0",
     "@web5/api": "0.11.0",
     "multiformats": "10.0.3",
     "uuid": "9.0.1",
