@@ -25,11 +25,11 @@ onBeforeMount(() => {
 })
 
 const loadDisplayNameFromDRL = async () => {
-  name.value = await loadDisplayName()
+  name.value = (await loadDisplayName()) || ''
 }
 
 const loadAvatarImageFromDRL = async () => {
-  profileImageSrc.value = await loadAvatarImage()
+  profileImageSrc.value = (await loadAvatarImage()) || ''
 }
 
 const formSchema = toTypedSchema(
