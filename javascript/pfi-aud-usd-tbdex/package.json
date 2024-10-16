@@ -7,7 +7,7 @@
     "@web5/credentials": "1.1.2",
     "@web5/dids": "1.1.5",
     "ajv": "8.17.1",
-    "cborg": "^3.0.0",
+    "cborg": "^4.0.0",
     "dotenv": "16.4.5",
     "express": "4.21.1",
     "fuzzysort": "^2.0.4",
