@@ -1,18 +1,21 @@
 # any files outside of examples, and examples that don't yet have a codeowner
 *                                 @finn-tbd @angiejones @blackgirlbytes @acekyd @EbonyLouis
 
-javascript/book-reviews           @angiejones 
-javascript/dinger                 @blackgirlbytes
-javascript/dinger-starter         @blackgirlbytes
-javascript/fan-club-credential    @nitro-neal @blackgirlbytes @EbonyLouis
-javascript/kcc-prototype-exemplar @KendallWeihe @EbonyLouis @acekyd
-javascript/pfi-aud-usd-tbdex      @michaelneale @acekyd
-javascript/shared-todo            @acekyd
-javascript/shared-todo-starter    @acekyd
-javascript/tbdex-pfi-exemplar     @michaelneale @mistermoe @jiyoontbd @acekyd
-javascript/todo                   @acekyd @blackgirlbytes
-javascript/todo-starter           @acekyd @blackgirlbytes
-javascript/dwa-starter-react-vite @leordev @blackgirlbytes
-javascript/vc-to-dwn-server       @blackgirlbytes
-kotlin/tbdex-example-android      @michaelneale @jiyoontbd @acekyd @angiejones 
-swift/tbdex-example-ios           @acekyd @angiejones 
+javascript/book-reviews               @angiejones 
+javascript/dinger                     @blackgirlbytes
+javascript/dinger-starter             @blackgirlbytes
+javascript/dwa-starter-react-vite     @leordev @blackgirlbytes
+javascript/dwa-starter-vanillajs-vite @leordev @blackgirlbytes
+javascript/dwa-starter-vue            @leordev @blackgirlbytes @acekyd
+javascript/fan-club-credential        @nitro-neal @blackgirlbytes @EbonyLouis
+javascript/kcc-issuance-snippet       @angiejones
+javascript/kcc-prototype-exemplar     @KendallWeihe @EbonyLouis @acekyd
+javascript/pfi-aud-usd-tbdex          @michaelneale @acekyd
+javascript/shared-todo                @acekyd
+javascript/shared-todo-starter        @acekyd
+javascript/tbdex-pfi-exemplar         @michaelneale @mistermoe @jiyoontbd @acekyd
+javascript/todo                       @acekyd @blackgirlbytes
+javascript/todo-starter               @acekyd @blackgirlbytes
+javascript/vc-to-dwn-server           @blackgirlbytes
+kotlin/tbdex-example-android          @michaelneale @jiyoontbd @acekyd @angiejones 
+swift/tbdex-example-ios               @acekyd @angiejones 
