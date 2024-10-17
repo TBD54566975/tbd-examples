@@ -1,40 +1,77 @@
-/* styles.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+/* Base styles */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-nav {
+/* Light theme styles */
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.light-mode nav {
+  background-color: #f0f0f0;
+}
+
+body.light-mode nav a {
+  color: #000000;
+}
+
+body.light-mode nav a:hover {
+  background-color: #cccccc;
+}
+
+body.light-mode .theme-toggle-btn {
+  background-color: #f0f0f0;
+  color: #000000;
+  border: 1px solid #000000;
+}
+
+/* Dark theme styles */
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #f5f5f5;
+}
+
+body.dark-mode nav {
   background-color: #333;
 }
 
-nav ul {
-  list-style: none;
-  display: flex;
-  padding: 0;
-  margin: 0;
+body.dark-mode nav a {
+  color: #f5f5f5;
 }
 
-nav li {
-  margin: 0;
-}
-
-nav a {
-  color: white;
-  padding: 14px 20px;
-  display: block;
-  text-decoration: none;
-}
-
-nav a:hover {
+body.dark-mode nav a:hover {
   background-color: #575757;
 }
 
-#app {
-  padding: 20px;
+body.dark-mode .theme-toggle-btn {
+  background-color: #333;
+  color: #f5f5f5;
+  border: 1px solid #f5f5f5;
+}
+
+/* Theme toggle button styles */
+.theme-toggle-btn {
+  padding: 10px;
+  margin-left: auto;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.theme-toggle-btn:hover {
+  opacity: 0.8;
+}
+body.dark-mode {
+  background-color: #1a1a1a !important;
+  color: #f5f5f5 !important;
+}
+
+body.light-mode {
+  background-color: #ffffff !important;
+  color: #000000 !important;
 }
