@@ -40,7 +40,7 @@
     "kysely-codegen": "0.16.8",
     "mocha": "10.7.3",
     "rimraf": "6.0.1",
-    "sinon": "15.2.0",
+    "sinon": "19.0.2",
     "start-server-and-test": "^2.0.5",
     "supertest": "6.3.3",
     "typescript": "5.2.2"
