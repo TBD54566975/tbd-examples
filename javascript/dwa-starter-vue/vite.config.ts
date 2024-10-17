@@ -20,6 +20,12 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.ts',
+      devOptions: {
+        enabled: true,
+        navigateFallback: 'index.html',
+        suppressWarnings: false,
+        type: 'module'
+      },
       manifest: {
         name: 'DWA Starter',
         short_name: 'DWA Starter',

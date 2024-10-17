@@ -26,7 +26,7 @@ onBeforeMount(() => {
 })
 
 const findTasks = async () => {
-  tasks.value = await listTasks()
+  tasks.value = (await listTasks()) || []
 }
 
 async function addTodo() {
