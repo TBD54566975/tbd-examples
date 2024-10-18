@@ -13,14 +13,14 @@
   "devDependencies": {
     "@nuxt/kit": "3.13.2",
     "@nuxt/test-utils": "3.14.3",
-    "@nuxtjs/tailwindcss": "6.12.1",
+    "@nuxtjs/tailwindcss": "6.12.2",
     "@playwright/test": "^1.44.1",
     "@tailwindcss/forms": "0.5.9",
     "@tailwindcss/typography": "0.5.15",
-    "@types/node": "18.19.55",
+    "@types/node": "20.16.12",
     "nuxt": "3.13.2",
-    "sass": "1.79.5",
-    "sass-loader": "13.3.3",
+    "sass": "1.80.2",
+    "sass-loader": "16.0.2",
     "start-server-and-test": "^2.0.4"
   },
   "dependencies": {
