@@ -19,7 +19,7 @@ importers:
         version: 1.0.0(vue@3.5.12(typescript@5.4.5))
       '@vee-validate/zod':
         specifier: ^4.13.2
-        version: 4.13.2(vue@3.5.12(typescript@5.4.5))
+        version: 4.14.0(vue@3.5.12(typescript@5.4.5))
       '@vueuse/core':
         specifier: ^11.1.0
         version: 11.1.0(vue@3.5.12(typescript@5.4.5))
@@ -1282,8 +1282,8 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  '@vee-validate/zod@4.13.2':
-    resolution: {integrity: sha512-y1aqelutD6btX2ayZk3w8udClAykptphlGLwu0vlCqY2r9mrJqMn1EKqtcwXAvEom+ceTcHJOwGr2FUA7i+ZEg==}
+  '@vee-validate/zod@4.14.0':
+    resolution: {integrity: sha512-ynRua19x73oj7BUkeZ84DklsckfXWViiW7IzCtsEn3yvXFK/fsWb+z9dTzm+gCW9OhmdQ7D7my+KtqHmDT4Zag==}
 
   '@vite-pwa/assets-generator@0.2.6':
     resolution: {integrity: sha512-kK44dXltvoubEo5B+6tCGjUrOWOE1+dA4DForbFpO1rKy2wSkAVGrs8tyfN6DzTig89/QKyV8XYodgmaKyrYng==}
@@ -4005,11 +4005,6 @@ packages:
       radix-vue: ^1.4.0
       vue: ^3.3.0
 
-  vee-validate@4.13.2:
-    resolution: {integrity: sha512-HlpR/6MJ92TW9f135umMZKUqdd/tFQTxLNSf2ImbU4Y/MlLVAUpF1l64VdjTOhbClAqPjCb5p/SqHDxLpUHXrw==}
-    peerDependencies:
-      vue: ^3.4.26
-
   vee-validate@4.14.0:
     resolution: {integrity: sha512-R40SpwOsa/D+v+BJXcT58ZyCPLiE6Q7xeShANLsl+Z0mPtX3gtAljy76A0Q0itZOph/BnbWuBap0aaLsddDepA==}
     peerDependencies:
@@ -5620,10 +5615,10 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vee-validate/zod@4.13.2(vue@3.5.12(typescript@5.4.5))':
+  '@vee-validate/zod@4.14.0(vue@3.5.12(typescript@5.4.5))':
     dependencies:
       type-fest: 4.26.1
-      vee-validate: 4.13.2(vue@3.5.12(typescript@5.4.5))
+      vee-validate: 4.14.0(vue@3.5.12(typescript@5.4.5))
       zod: 3.23.8
     transitivePeerDependencies:
       - vue
@@ -8819,12 +8814,6 @@ snapshots:
       vue: 3.5.12(typescript@5.4.5)
     transitivePeerDependencies:
       - '@vue/composition-api'
-
-  vee-validate@4.13.2(vue@3.5.12(typescript@5.4.5)):
-    dependencies:
-      '@vue/devtools-api': 6.6.4
-      type-fest: 4.26.1
-      vue: 3.5.12(typescript@5.4.5)
 
   vee-validate@4.14.0(vue@3.5.12(typescript@5.4.5)):
     dependencies:
