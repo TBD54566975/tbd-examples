@@ -64,7 +64,7 @@ importers:
         version: 0.2.0(radix-vue@1.9.7(vue@3.5.12(typescript@5.4.5)))(vue@3.5.12(typescript@5.4.5))
       vee-validate:
         specifier: ^4.13.2
-        version: 4.14.0(vue@3.5.12(typescript@5.4.5))
+        version: 4.14.1(vue@3.5.12(typescript@5.4.5))
       vite-plugin-node-stdlib-browser:
         specifier: ^0.2.1
         version: 0.2.1(node-stdlib-browser@1.2.1)(rollup@2.79.2)(vite@5.4.9(@types/node@20.16.12)(terser@5.36.0))
@@ -4007,6 +4007,11 @@ packages:
 
   vee-validate@4.14.0:
     resolution: {integrity: sha512-R40SpwOsa/D+v+BJXcT58ZyCPLiE6Q7xeShANLsl+Z0mPtX3gtAljy76A0Q0itZOph/BnbWuBap0aaLsddDepA==}
+    peerDependencies:
+      vue: ^3.4.26
+
+  vee-validate@4.14.1:
+    resolution: {integrity: sha512-Q6KFgc5SoTuKvGxvE1RERw7640v2cCeAjBEoVS2pAAMaGcdCeS+tn5gFGqLXIWwJ0NwJSj+21LAKNvNc/OSumg==}
     peerDependencies:
       vue: ^3.4.26
 
@@ -8816,6 +8821,12 @@ snapshots:
       - '@vue/composition-api'
 
   vee-validate@4.14.0(vue@3.5.12(typescript@5.4.5)):
+    dependencies:
+      '@vue/devtools-api': 6.6.4
+      type-fest: 4.26.1
+      vue: 3.5.12(typescript@5.4.5)
+
+  vee-validate@4.14.1(vue@3.5.12(typescript@5.4.5)):
     dependencies:
       '@vue/devtools-api': 6.6.4
       type-fest: 4.26.1
