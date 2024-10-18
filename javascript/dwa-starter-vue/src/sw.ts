@@ -5,6 +5,7 @@ import {
   precacheAndRoute
 } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
+
 import { activatePolyfills } from '@web5/browser'
 
 // Declare Service Worker Global Scope

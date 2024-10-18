@@ -45,9 +45,10 @@ const profileImageSrc = ref('')
 const handleImageUpload = async (event: any) => {
   try {
     isSubmitting.value = true
-    const file = new Blob(event.currentTarget.files)
+    const file = event.target.files?.[0]
     if (file) {
-      await createAvatarImage(file)
+      const blob = new Blob([file], { type: file.type })
+      await createAvatarImage(blob)
       profileImageSrc.value = URL.createObjectURL(file)
       toast({
         title: 'Success',

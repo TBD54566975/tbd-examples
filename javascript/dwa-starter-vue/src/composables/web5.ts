@@ -1,4 +1,4 @@
-import { drlReadProtocol, drlReadProtocolJson } from '@/lib/drls'
+import { drlFetchRecord, drlReadProtocol, drlReadProtocolJson } from '@/lib/drls'
 import { installProtocols as installDWAProtocols, profile } from '@/lib/protocols'
 import { TodoDwnRepository } from '@/lib/todo-dwn-repository'
 import { useWeb5Store } from '@/stores/web5'
