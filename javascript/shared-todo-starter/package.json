@@ -19,7 +19,7 @@
     "@tailwindcss/typography": "0.5.15",
     "@types/node": "18.19.56",
     "nuxt": "3.13.2",
-    "sass": "1.80.1",
+    "sass": "1.80.2",
     "sass-loader": "16.0.2",
     "start-server-and-test": "^2.0.4"
   },
