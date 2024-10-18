@@ -1,10 +1,9 @@
-// tests/main.spec.js
 import { test, expect } from '@playwright/test';
 
-test.describe('Vanilla Router with Theme Toggle', () => {
+test.describe('Vanilla Router with Theme Toggle and Accessibility Checks', () => {
   test.beforeEach(async ({ page }) => {
     // Clear localStorage before each test to ensure isolation
-    await page.goto('/'); // Make sure you start from your app's root
+    await page.goto('/'); // Ensure starting from your app's root
     await page.evaluate(() => localStorage.clear());
   });
 
@@ -27,6 +26,27 @@ test.describe('Vanilla Router with Theme Toggle', () => {
     const storedTheme = await page.evaluate(() => localStorage.getItem('theme'));
     expect(storedTheme).toBe(!systemPrefersDark ? 'dark' : 'light');
   });
+
+  test('should check ARIA labels and alt text on Home', async ({ page }) => {
+    await page.goto('/');
+    
+    // Wait for the main container to be present
+    await page.waitForSelector('div[role="main"]');
+
+    // Check ARIA label for the main container
+    const mainLabel = await page.getAttribute('div[role="main"]', 'aria-label');
+    expect(mainLabel).toBe('Home Page');
+
+    // Check ARIA label for navigation
+    const navLabel = await page.getAttribute('nav[role="navigation"]', 'aria-label');
+    expect(navLabel).toBe('Main Navigation');
+
+    // Check alt text of the image
+    const imageAlt = await page.getAttribute('img', 'alt');
+    expect(imageAlt).toBe('A descriptive alt text for the image');
+});
+
+
 
   test('should navigate to About', async ({ page }) => {
     await page.goto('/about');
