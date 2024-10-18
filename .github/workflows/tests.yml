@@ -43,7 +43,7 @@ jobs:
   kotlin:
     name: Kotlin / ${{ matrix.example.name }}
     needs: all
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
