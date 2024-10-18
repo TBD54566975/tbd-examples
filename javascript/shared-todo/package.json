@@ -16,7 +16,7 @@
     "@playwright/test": "^1.44.1",
     "@tailwindcss/forms": "0.5.9",
     "@tailwindcss/typography": "0.5.15",
-    "@types/node": "20.16.12",
+    "@types/node": "18.19.56",
     "nuxt": "3.13.2",
     "sass": "1.80.2",
     "sass-loader": "16.0.2",
