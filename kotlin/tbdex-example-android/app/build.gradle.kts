@@ -49,7 +49,7 @@ dependencies {
 
     /** required to make tbdex and key management work */
     implementation("androidx.security:security-crypto:1.0.0")
-    implementation("xyz.block:tbdex-httpclient:1.1.0") {
+    implementation("xyz.block:tbdex-httpclient:2.0.1") {
         exclude(group = "com.google.protobuf", module = "protobuf-java")
         exclude(group = "org.bouncycastle", module = "bcprov-jdk18on")
         exclude(group = "com.github.stephenc.jcip", module = "jcip-annotations")
