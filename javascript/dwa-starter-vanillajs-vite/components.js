@@ -29,6 +29,7 @@ function AboutPage() {
   export function Home() {
     const homeContainer = document.createElement('div');
     homeContainer.classList.add('min-h-screen', 'p-6', 'bg-green-100', 'dark:bg-green-900', 'text-gray-900', 'dark:text-white', 'transition-colors', 'duration-300');
+<<<<<<< HEAD
     homeContainer.setAttribute('role', 'main'); // ARIA role for the main content
     homeContainer.setAttribute('aria-label', 'Home Page'); // ARIA label for the Home page
 
@@ -93,6 +94,18 @@ function AboutPage() {
     document.getElementById('app').appendChild(homeContainer);
 }
 
+=======
+    
+    const title = document.createElement('h1');
+    title.textContent = 'Home';
+    title.classList.add('text-3xl', 'font-bold', 'mb-4', 'text-green-800', 'dark:text-green-200');
+    
+    homeContainer.appendChild(title);
+    
+    document.getElementById('app').innerHTML = '';
+    document.getElementById('app').appendChild(homeContainer);
+  }
+>>>>>>> bc9da6b0eb7af8bb1bfc744648b064491a500710
   
   export function About() {
     const app = document.getElementById('app');
