@@ -43,7 +43,7 @@
     "rimraf": "6.0.1",
     "sinon": "19.0.2",
     "start-server-and-test": "^2.0.4",
-    "supertest": "6.3.4",
+    "supertest": "7.0.0",
     "typescript": "5.2.2"
   },
   "scripts": {
