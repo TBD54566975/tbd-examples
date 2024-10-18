@@ -29,6 +29,9 @@ importers:
       '@web5/browser':
         specifier: ^0.0.2
         version: 0.0.2
+      '@web5/common':
+        specifier: ^1.0.2
+        version: 1.0.2
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.47)
