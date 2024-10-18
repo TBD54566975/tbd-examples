@@ -27,7 +27,7 @@
     "@types/eslint": "9.6.1",
     "@types/express": "5.0.0",
     "@types/mocha": "10.0.9",
-    "@types/node": "20.3.1",
+    "@types/node": "20.16.12",
     "@types/pg": "8.11.10",
     "@types/sinon": "17.0.3",
     "@types/supertest": "2.0.16",
