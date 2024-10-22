@@ -6,7 +6,7 @@ import { useWeb5 } from '@/composables/web5'
 import { profileDefinition, tasksProtocolDefinition } from '@/lib/protocols'
 
 export function useWeb5Connection() {
-  const { setWeb5 } = useWeb5Store()
+  const { setWeb5, setPreviouslyConnected } = useWeb5Store()
   const isWeb5WalletConnectLoading = ref(false)
   const isWeb5ConnectLoading = ref(false)
 
@@ -18,6 +18,7 @@ export function useWeb5Connection() {
       loadingState.value = true
       const connection = await Web5.connect(options)
       setWeb5(connection)
+      setPreviouslyConnected(true)
 
       const { installProtocols } = useWeb5()
       await installProtocols()

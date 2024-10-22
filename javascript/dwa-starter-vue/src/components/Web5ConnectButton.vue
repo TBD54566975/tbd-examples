@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { Button } from '@/components/ui/button'
 import { useWeb5Connection } from '@/composables/web5Connection'
 import { Link2Icon, ReloadIcon, LinkBreak2Icon, Cross1Icon } from '@radix-icons/vue'
@@ -20,12 +20,23 @@ import {
 import { storeToRefs } from 'pinia'
 import { useWeb5Store } from '@/stores/web5'
 
+const { connect, walletConnect, isWeb5ConnectLoading, isWeb5WalletConnectLoading } =
+  useWeb5Connection()
+
+const { web5, previouslyConnected } = storeToRefs(useWeb5Store())
+
+onBeforeMount(() => {
+  autoConnectToWeb5IfPreviouslyConnected()
+})
+
+const autoConnectToWeb5IfPreviouslyConnected = async () => {
+  if (previouslyConnected.value) {
+    await connect()
+  }
+}
 const truncateString = (data: string) => `${data.substring(0, 7)}...${data.slice(data.length - 4)}`
 
 const isOpen = ref(false)
-const { connect, walletConnect, isWeb5ConnectLoading, isWeb5WalletConnectLoading } =
-  useWeb5Connection()
-const { web5 } = storeToRefs(useWeb5Store())
 
 const pin = ref('')
 const showPinScreen = ref(false)
@@ -55,9 +66,19 @@ const handleWalletConnect = async () => {
   <p v-if="web5">hi, {{ truncateString(web5.did) }}</p>
   <Drawer v-else v-model:open="isOpen">
     <DrawerTrigger as-child>
-      <Button variant="outline" class="w-full dark:bg-zinc-950 dark:text-white">
-        <Link2Icon class="w-4 h-4 mr-2" />
-        Connect
+      <Button
+        variant="outline"
+        :disabled="isWeb5ConnectLoading || isWeb5WalletConnectLoading"
+        class="w-full dark:bg-zinc-950 dark:text-white"
+      >
+        <ReloadIcon
+          v-if="isWeb5ConnectLoading || isWeb5WalletConnectLoading"
+          class="w-4 h-4 mr-2 animate-spin"
+        />
+        <div v-else class="flex items-center">
+          <Link2Icon class="w-4 h-4 mr-2" />
+          Connect
+        </div>
       </Button>
     </DrawerTrigger>
     <DrawerContent class="dark:bg-zinc-950 dark:text-white">
