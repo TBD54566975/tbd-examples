@@ -3,6 +3,7 @@ import { useWeb5Store } from '@/stores/web5'
 import { Web5, type Web5ConnectOptions, type ConnectOptions } from '@web5/api'
 import { ref, type Ref } from 'vue'
 import { useWeb5 } from '@/composables/web5'
+import { profileDefinition, tasksProtocolDefinition } from '@/lib/protocols'
 
 export function useWeb5Connection() {
   const { setWeb5 } = useWeb5Store()
@@ -52,8 +53,35 @@ export function useWeb5Connection() {
     await connectToWeb5(connectOptions, isWeb5ConnectLoading)
   }
 
-  const walletConnect = async () => {
-    const walletConnectOptions = {} as ConnectOptions
+  const walletConnect = async (
+    setQrCodeText: (text: string) => void,
+    setShowPinScreen: (show: boolean) => void
+  ) => {
+    const walletConnectOptions = {
+      walletUri: 'web5://connect',
+      connectServerUrl: 'https://dwn.tbddev.org/beta/connect',
+      permissionRequests: [
+        { protocolDefinition: profileDefinition },
+        { protocolDefinition: tasksProtocolDefinition }
+      ],
+      onWalletUriReady: (text: string) => {
+        console.log('QR Code Text: ', text)
+        setQrCodeText(text)
+      },
+      validatePin: async () => {
+        setShowPinScreen(true)
+        return new Promise((resolve) => {
+          const eventListener = (event: MessageEvent) => {
+            if (event.data.type === 'pinSubmitted') {
+              removeEventListener('message', eventListener)
+              resolve(event.data.pin)
+            }
+          }
+
+          addEventListener('message', eventListener)
+        })
+      }
+    } as ConnectOptions
     await connectToWeb5(
       {
         walletConnectOptions,
