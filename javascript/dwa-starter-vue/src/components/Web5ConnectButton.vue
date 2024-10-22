@@ -20,20 +20,12 @@ import {
 import { storeToRefs } from 'pinia'
 import { useWeb5Store } from '@/stores/web5'
 
-const isOpen = ref(false)
+const truncateString = (data: string) => `${data.substring(0, 7)}...${data.slice(data.length - 4)}`
 
+const isOpen = ref(false)
 const { connect, walletConnect, isWeb5ConnectLoading, isWeb5WalletConnectLoading } =
   useWeb5Connection()
 const { web5 } = storeToRefs(useWeb5Store())
-
-const qrCodeText = ref('')
-const setQrCodeText = (text: string) => {
-  qrCodeText.value = text
-}
-const handleWalletConnect = async () => {
-  await walletConnect(setQrCodeText, setShowPinScreen)
-}
-const truncateString = (data: string) => `${data.substring(0, 7)}...${data.slice(data.length - 4)}`
 
 const pin = ref('')
 const showPinScreen = ref(true)
@@ -41,15 +33,22 @@ const setShowPinScreen = (show: boolean) => {
   showPinScreen.value = show
 }
 const submitPin = () => {
-  if (pin.value.length === 0) {
+  if (pin.value.trim().length === 0) {
     toast({ title: 'Error', description: "pin can't be empty" })
     return
   }
   postMessage({ type: 'pinSubmitted', pin }, window.parent.origin)
 }
 
+const qrCodeText = ref('')
+const setQrCodeText = (text: string) => {
+  qrCodeText.value = text
+}
 const handleCancelBtnClick = () => {
   qrCodeText.value = ''
+}
+const handleWalletConnect = async () => {
+  await walletConnect(setQrCodeText, setShowPinScreen)
 }
 </script>
 
