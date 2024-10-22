@@ -76,6 +76,7 @@ export function useWeb5Connection() {
               removeEventListener('message', eventListener)
               resolve(event.data.pin)
               setShowPinScreen(false)
+              setQrCodeValue('')
             }
           }
 

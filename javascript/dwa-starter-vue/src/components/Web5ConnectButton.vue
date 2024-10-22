@@ -35,7 +35,8 @@ const submitPin = () => {
     toast({ title: 'Error', description: "pin can't be empty" })
     return
   }
-  postMessage({ type: 'pinSubmitted', pin }, window.parent.origin)
+
+  postMessage({ type: 'pinSubmitted', pin: pin.value }, window.parent.origin)
 }
 
 const qrCodeValue = ref('')
@@ -86,8 +87,7 @@ const handleWalletConnect = async () => {
           class="lg:w-1/3 w-full bg-blue-600 text-white dark:bg-blue-600 dark:text-white"
           @click="submitPin"
         >
-          <ReloadIcon v-if="isWeb5WalletConnectLoading" class="w-4 h-4 mr-2 animate-spin" />
-          <span v-else>Submit</span>
+          Submit
         </Button>
       </div>
 
