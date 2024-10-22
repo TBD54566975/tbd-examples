@@ -19,7 +19,7 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@web5/api": "0.11.0",
-    "@web5/browser": "^0.0.2",
+    "@web5/browser": "^0.0.3",
     "@web5/common": "^1.0.2",
     "@web5/credentials": "^1.1.1",
     "@web5/dids": "^1.1.4",
