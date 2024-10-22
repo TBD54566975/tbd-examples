@@ -73,10 +73,10 @@ export function useWeb5Connection() {
         return new Promise((resolve) => {
           const eventListener = (event: MessageEvent) => {
             if (event.data.type === 'pinSubmitted') {
-              removeEventListener('message', eventListener)
-              resolve(event.data.pin)
               setShowPinScreen(false)
               setQrCodeValue('')
+              removeEventListener('message', eventListener)
+              resolve(event.data.pin)
             }
           }
 
