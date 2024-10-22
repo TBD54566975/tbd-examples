@@ -28,10 +28,8 @@ const { connect, walletConnect, isWeb5ConnectLoading, isWeb5WalletConnectLoading
 const { web5 } = storeToRefs(useWeb5Store())
 
 const pin = ref('')
-const showPinScreen = ref(true)
-const setShowPinScreen = (show: boolean) => {
-  showPinScreen.value = show
-}
+const showPinScreen = ref(false)
+
 const submitPin = () => {
   if (pin.value.trim().length === 0) {
     toast({ title: 'Error', description: "pin can't be empty" })
@@ -40,15 +38,15 @@ const submitPin = () => {
   postMessage({ type: 'pinSubmitted', pin }, window.parent.origin)
 }
 
-const qrCodeText = ref('')
-const setQrCodeText = (text: string) => {
-  qrCodeText.value = text
-}
+const qrCodeValue = ref('')
 const handleCancelBtnClick = () => {
-  qrCodeText.value = ''
+  qrCodeValue.value = ''
 }
 const handleWalletConnect = async () => {
-  await walletConnect(setQrCodeText, setShowPinScreen)
+  await walletConnect(
+    (uri) => (qrCodeValue.value = uri),
+    (show) => (showPinScreen.value = show)
+  )
 }
 </script>
 
@@ -67,7 +65,7 @@ const handleWalletConnect = async () => {
         <DrawerDescription>{{
           showPinScreen
             ? 'Please enter the PIN on your wallet'
-            : qrCodeText
+            : qrCodeValue
               ? 'Scan QR code below'
               : "Select how you'd like to connect below."
         }}</DrawerDescription>
@@ -85,7 +83,7 @@ const handleWalletConnect = async () => {
         />
         <Button
           variant="outline"
-          class="lg:w-1/3 w-full dark:bg-zinc-950 dark:text-white"
+          class="lg:w-1/3 w-full bg-blue-600 text-white dark:bg-blue-600 dark:text-white"
           @click="submitPin"
         >
           <ReloadIcon v-if="isWeb5WalletConnectLoading" class="w-4 h-4 mr-2 animate-spin" />
@@ -93,8 +91,8 @@ const handleWalletConnect = async () => {
         </Button>
       </div>
 
-      <div v-else-if="qrCodeText" class="flex flex-col gap-2 p-4 items-center">
-        <qrcode-vue :value="qrCodeText" render-as="canvas" :margin="2" :size="320" />
+      <div v-else-if="qrCodeValue" class="flex flex-col gap-2 p-4 items-center">
+        <qrcode-vue :value="qrCodeValue" render-as="canvas" :margin="2" :size="320" />
       </div>
 
       <div v-else class="flex flex-col gap-2 p-4 items-center">
@@ -127,7 +125,7 @@ const handleWalletConnect = async () => {
           <Button
             variant="outline"
             @click="handleCancelBtnClick"
-            class="lg:w-1/3 w-full place-self-center bg-red-500 text-white dark:bg-red-500 dark:text-white"
+            class="lg:w-1/3 w-full place-self-center bg-red-600 text-white dark:bg-red-600 dark:text-white"
             ><Cross1Icon class="w-4 h-4 mr-2" /> Cancel
           </Button>
         </DrawerClose>

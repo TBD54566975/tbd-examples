@@ -54,7 +54,7 @@ export function useWeb5Connection() {
   }
 
   const walletConnect = async (
-    setQrCodeText: (text: string) => void,
+    setQrCodeValue: (uri: string) => void,
     setShowPinScreen: (show: boolean) => void
   ) => {
     const walletConnectOptions = {
@@ -64,9 +64,9 @@ export function useWeb5Connection() {
         { protocolDefinition: profileDefinition },
         { protocolDefinition: tasksProtocolDefinition }
       ],
-      onWalletUriReady: (text: string) => {
-        console.log('QR Code Text: ', text)
-        setQrCodeText(text)
+      onWalletUriReady: (uri: string) => {
+        console.log('QR Code Value: ', decodeURIComponent(uri))
+        setQrCodeValue(uri)
       },
       validatePin: async () => {
         setShowPinScreen(true)
@@ -75,6 +75,7 @@ export function useWeb5Connection() {
             if (event.data.type === 'pinSubmitted') {
               removeEventListener('message', eventListener)
               resolve(event.data.pin)
+              setShowPinScreen(false)
             }
           }
 
