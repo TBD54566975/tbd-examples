@@ -33,3 +33,5 @@ test-results/
 playwright-report/
 
 *.timestamp-*.mjs
+
+dev-dist

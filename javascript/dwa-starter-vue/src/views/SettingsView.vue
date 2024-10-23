@@ -20,8 +20,7 @@ import { ref, onBeforeMount } from 'vue'
 const { createDisplayName, loadDisplayName, createAvatarImage, loadAvatarImage } = useWeb5()
 
 onBeforeMount(() => {
-  loadDisplayNameFromDRL()
-  loadAvatarImageFromDRL()
+  loadProfileData()
 })
 
 const loadDisplayNameFromDRL = async () => {
@@ -30,6 +29,15 @@ const loadDisplayNameFromDRL = async () => {
 
 const loadAvatarImageFromDRL = async () => {
   profileImageSrc.value = (await loadAvatarImage()) || ''
+}
+
+const loadProfileData = async () => {
+  try {
+    isSubmitting.value = true
+    await Promise.all([loadAvatarImageFromDRL(), loadDisplayNameFromDRL()])
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 const formSchema = toTypedSchema(
