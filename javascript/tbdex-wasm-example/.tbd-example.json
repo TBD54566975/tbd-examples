@@ -1,0 +1,6 @@
+{
+  "name": "tbDex WASM Example",
+  "tests": {
+    "command": "npm test"
+  }
+}
