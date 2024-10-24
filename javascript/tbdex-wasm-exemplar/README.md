@@ -37,8 +37,8 @@ npm run start:pfi
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/TBD54566975/wasm-exemplar
-cd wasm-exemplar
+git clone https://github.com/TBD54566975/tbd-examples.git
+cd  javascript/tbdex-wasm-exemplar/
 ```
 
 2. Install dependencies:
@@ -69,10 +69,3 @@ This project demonstrates:
 - Protocol message flow
 - PFI endpoint interaction
 - VC and DID handling
-
-## Development
-
-
-## Contributing
-
-Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting pull requests.
