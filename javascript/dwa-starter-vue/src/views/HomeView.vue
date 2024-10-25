@@ -10,7 +10,10 @@ const { web5 } = storeToRefs(useWeb5Store())
   <TodoList v-if="web5" />
   <article aria-label="get started" v-else class="self-center text-center">
     <h1>DWA Starter Vue!</h1>
-    <img src="/workplace.svg" class="max-h-72 mx-auto" alt="DWA" />
+    <img 
+      src="/workplace.svg" class="max-h-72 mx-auto" 
+      alt="DWAs faciliate communication, collaboration, and fun all while allowing users to own their data." 
+    />
     <p>Connect your DWA to get started</p>
     <Web5ConnectButton />
   </article>
