@@ -177,7 +177,12 @@ export function useWeb5() {
     }
     const { web5: $web5, did } = web5.value!
     const response = await drlReadProtocol(did, profile.uri, 'avatar')
-    const imageUrl = URL.createObjectURL(await response.blob())
+
+    if (!response.ok) {
+      throw new Error(response.statusText || 'error occured')
+    }
+    const blob = await response.blob()
+    const imageUrl = URL.createObjectURL(blob)
     return imageUrl
   }
 
