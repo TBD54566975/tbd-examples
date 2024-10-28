@@ -1,3 +1,136 @@
+// Main Todo List Page Component
+export function TodoListPage() {
+  const container = document.createElement('div');
+  container.classList.add('min-h-screen', 'p-6', 'bg-gray-100', 'text-gray-900', 'transition-colors', 'duration-300');
+
+  const title = document.createElement('h1');
+  title.textContent = 'Todo List';
+  title.classList.add('text-3xl', 'font-bold', 'mb-4', 'text-blue-800');
+
+  const taskList = TodoList();
+  const taskForm = TaskForm();
+
+  container.appendChild(title);
+  container.appendChild(taskForm);
+  container.appendChild(taskList);
+
+  document.getElementById('app').innerHTML = '';
+  document.getElementById('app').appendChild(container);
+}
+
+// Todo List Component
+function TodoList() {
+  const listContainer = document.createElement('ul');
+  listContainer.classList.add('task-list', 'space-y-4');
+
+  async function loadTasks() {
+      const tasks = await TodoDwnRepository.listTasks();
+      listContainer.innerHTML = ''; // Clear previous tasks
+
+      tasks.forEach(task => {
+          const taskItem = TaskItem(task);
+          listContainer.appendChild(taskItem);
+      });
+  }
+
+  loadTasks(); // Initial load
+  return listContainer;
+}
+
+// Task Item Component
+function TaskItem(task) {
+  const item = document.createElement('li');
+  item.classList.add('task-item', 'flex', 'justify-between', 'bg-white', 'p-4', 'shadow', 'rounded-md');
+
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.checked = task.completed;
+  checkbox.addEventListener('change', () => {
+      task.completed = checkbox.checked;
+      TodoDwnRepository.updateTask(task);
+  });
+
+  const taskText = document.createElement('span');
+  taskText.textContent = task.title;
+  taskText.classList.add(task.completed ? 'line-through' : '');
+
+  const editButton = document.createElement('button');
+  editButton.textContent = 'Edit';
+  editButton.classList.add('text-blue-500', 'mr-2');
+  editButton.addEventListener('click', () => openEditForm(task));
+
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Delete';
+  deleteButton.classList.add('text-red-500');
+  deleteButton.addEventListener('click', () => {
+      TodoDwnRepository.deleteTask(task.id);
+      item.remove();
+  });
+
+  item.append(checkbox, taskText, editButton, deleteButton);
+  return item;
+}
+
+// Task Form Component
+function TaskForm() {
+  const form = document.createElement('form');
+  form.classList.add('task-form', 'mb-4', 'flex', 'space-x-4');
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Add a new task';
+  input.classList.add('p-2', 'border', 'rounded', 'flex-grow');
+
+  const addButton = document.createElement('button');
+  addButton.type = 'submit';
+  addButton.textContent = 'Add Task';
+  addButton.classList.add('bg-blue-500', 'text-white', 'p-2', 'rounded');
+
+  form.append(input, addButton);
+
+  form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const task = { title: input.value, completed: false };
+      TodoDwnRepository.createTask(task).then(() => {
+          TodoListPage();
+      });
+  });
+
+  return form;
+}
+
+// TodoDwnRepository for DWN Operations
+const TodoDwnRepository = {
+  async listTasks() {
+      // Placeholder for listing tasks from DWN
+      return [];
+  },
+  async createTask(task) {
+      // Placeholder for creating a task in DWN
+  },
+  async updateTask(task) {
+      // Placeholder for updating a task in DWN
+  },
+  async deleteTask(recordId) {
+      // Placeholder for deleting a task in DWN
+  }
+};
+
+// Helper function for editing tasks
+function openEditForm(task) {
+  const form = TaskForm();
+  form.querySelector('input').value = task.title;
+  form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      task.title = form.querySelector('input').value;
+      TodoDwnRepository.updateTask(task).then(() => {
+          TodoListPage();
+      });
+  });
+  document.getElementById('app').replaceChild(form, document.querySelector('.task-form'));
+}
+
+
 function AboutPage() {
     const container = document.createElement('div');
     container.classList.add('min-h-screen', 'p-6', 'text-center', 'bg-blue-100', 'dark:bg-blue-900', 'text-gray-900', 'dark:text-white', 'transition-colors', 'duration-300');
@@ -29,72 +162,6 @@ function AboutPage() {
   export function Home() {
     const homeContainer = document.createElement('div');
     homeContainer.classList.add('min-h-screen', 'p-6', 'bg-green-100', 'dark:bg-green-900', 'text-gray-900', 'dark:text-white', 'transition-colors', 'duration-300');
-<<<<<<< HEAD
-    homeContainer.setAttribute('role', 'main'); // ARIA role for the main content
-    homeContainer.setAttribute('aria-label', 'Home Page'); // ARIA label for the Home page
-
-    // Title with ARIA attributes
-    const title = document.createElement('h1');
-    title.textContent = 'Home';
-    title.classList.add('text-3xl', 'font-bold', 'mb-4', 'text-green-800', 'dark:text-green-200');
-    title.setAttribute('aria-label', 'Home Title'); // ARIA label for the title
-    homeContainer.appendChild(title);
-
-    // Navigation Section (only one)
-    const nav = document.createElement('nav');
-    nav.setAttribute('role', 'navigation'); // ARIA role for navigation
-    nav.setAttribute('aria-label', 'Main Navigation'); // ARIA label for navigation
-
-    const homeLink = document.createElement('a');
-    homeLink.textContent = 'Home';
-    homeLink.href = '#';
-    homeLink.setAttribute('aria-label', 'Go to Home Page'); // ARIA label for the Home link
-
-    const aboutLink = document.createElement('a');
-    aboutLink.textContent = 'About';
-    aboutLink.href = '#about';
-    aboutLink.setAttribute('aria-label', 'Go to About Page'); // ARIA label for the About link
-
-    const settingsLink = document.createElement('a');
-    settingsLink.textContent = 'Settings';
-    settingsLink.href = '#settings';
-    settingsLink.setAttribute('aria-label', 'Go to Settings Page'); // ARIA label for the Settings link
-
-    nav.appendChild(homeLink);
-    nav.appendChild(aboutLink);
-    nav.appendChild(settingsLink);
-    homeContainer.appendChild(nav);
-
-    // Image with proper alt text
-    const image = document.createElement('img');
-    image.src = 'vite.svg';
-    image.alt = 'A descriptive alt text for the image'; // Important alt attribute for images
-    homeContainer.appendChild(image);
-
-    // Button with ARIA label and ID for the test case
-    const button = document.createElement('button');
-    button.id = 'theme-toggle';  // Assign an ID for test purposes
-    button.textContent = 'Click Me';
-    button.setAttribute('aria-label', 'Click this button to perform an action'); // ARIA label for the button
-    homeContainer.appendChild(button);
-
-    // Footer Section with role
-    const footer = document.createElement('footer');
-    footer.setAttribute('role', 'contentinfo'); // ARIA role for footer
-    footer.setAttribute('aria-label', 'Footer Information'); // ARIA label for footer
-
-    const footerText = document.createElement('p');
-    footerText.textContent = 'This is the footer section of the home page';
-    footerText.setAttribute('aria-label', 'Footer text'); // ARIA label for footer text
-    footer.appendChild(footerText);
-    homeContainer.appendChild(footer);
-
-    // Appending the container to the root app element
-    document.getElementById('app').innerHTML = '';
-    document.getElementById('app').appendChild(homeContainer);
-}
-
-=======
     
     const title = document.createElement('h1');
     title.textContent = 'Home';
@@ -105,7 +172,6 @@ function AboutPage() {
     document.getElementById('app').innerHTML = '';
     document.getElementById('app').appendChild(homeContainer);
   }
->>>>>>> bc9da6b0eb7af8bb1bfc744648b064491a500710
   
   export function About() {
     const app = document.getElementById('app');

@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import { test, expect } from '@playwright/test';
-
-test.describe('Vanilla Router with Theme Toggle and Accessibility Checks', () => {
-  test.beforeEach(async ({ page }) => {
-    // Clear localStorage before each test to ensure isolation
-    await page.goto('/'); // Ensure starting from your app's root
-=======
 // tests/main.spec.js
 import { test, expect } from '@playwright/test';
 
@@ -13,7 +5,6 @@ test.describe('Vanilla Router with Theme Toggle', () => {
   test.beforeEach(async ({ page }) => {
     // Clear localStorage before each test to ensure isolation
     await page.goto('/'); // Make sure you start from your app's root
->>>>>>> bc9da6b0eb7af8bb1bfc744648b064491a500710
     await page.evaluate(() => localStorage.clear());
   });
 

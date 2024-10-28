@@ -61,13 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Import your components for routing (if necessary)
-import { Home, About, Settings, NotFound } from './components.js';
+import { Home, About, Settings, NotFound, TodoListPage } from './components.js';
 
 // Define routes and their corresponding components (if necessary)
 const routes = {
     '/': Home,
     '/about': About,
     '/settings': Settings,
+    '/todos': TodoListPage,
 };
 
 // Function to handle navigation (if necessary)
