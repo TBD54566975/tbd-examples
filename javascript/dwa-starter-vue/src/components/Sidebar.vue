@@ -15,26 +15,32 @@ const closeDrawer = () => {
 </script>
 
 <template>
-  <div class="lg:hidden">
-    <div class="border-b py-2 backdrop-blur-lg dark:border-gray-700">
-      <Button @click="toggleDrawer" variant="ghost">
+  <!-- Sidebar container for mobile -->
+  <aside class="lg:hidden">
+    <!-- Toggle button with ARIA for expanded state -->
+    <header class="border-b py-2 backdrop-blur-lg dark:border-gray-700">
+      <Button @click="toggleDrawer" variant="ghost" aria-expanded="isOpen" aria-controls="mobile-sidebar" aria-label="Toggle sidebar">
         <TextAlignLeftIcon class="w-6 h-6" />
       </Button>
-    </div>
+    </header>
 
-    <div v-if="isOpen" @click="closeDrawer" class="fixed inset-0 bg-black bg-opacity-80 z-10"></div>
+    <!-- Keyboard accessible with tabindex and Enter key -->
+    <div v-if="isOpen" @click="closeDrawer" class="fixed inset-0 bg-black bg-opacity-80 z-10" role="button" tabindex="0" aria-label="Close sidebar" @keydown.enter="closeDrawer"></div>
 
-    <div
+    <!-- Sidebar drawer for navigation links -->
+    <div id="mobile-sidebar"
       :class="[
         'fixed top-0 left-0 z-20 h-full w-64 bg-white dark:bg-zinc-950 shadow-md transition-transform p-4',
         isOpen ? 'translate-x-0' : '-translate-x-full'
       ]"
+      :aria-hidden="isOpen ? 'false' : 'true'"
     >
       <SidebarList @itemClicked="closeDrawer" />
     </div>
-  </div>
+  </aside>
 
-  <div class="hidden lg:block h-full p-4 w-64">
+  <!-- Sidebar container for desktop -->
+  <aside class="hidden lg:block h-full p-4 w-64">
     <SidebarList />
-  </div>
+  </aside>
 </template>
