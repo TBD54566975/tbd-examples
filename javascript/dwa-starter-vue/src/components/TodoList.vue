@@ -3,7 +3,7 @@ import { useWeb5, type Task } from '@/composables/web5'
 import { onBeforeMount, ref } from 'vue'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { TrashIcon, Pencil2Icon } from '@radix-icons/vue'
+import { TrashIcon, ReloadIcon, Pencil1Icon, CheckIcon } from '@radix-icons/vue'
 import {
   Table,
   TableBody,
@@ -18,99 +18,107 @@ import { toast } from '@/components/ui/toast/use-toast'
 
 const task = ref('')
 const tasks = ref<Task[]>([])
+const isSubmitting = ref({
+  add: false,
+  delete: false,
+  update: false
+})
+const isSubmittingRecordId = ref('')
 
 const { listTasks, createTask, updateTask, deleteTask } = useWeb5()
 
-onBeforeMount(() => {
-  findTasks()
-})
+onBeforeMount(() => findTasks())
 
 const findTasks = async () => {
-  tasks.value = await listTasks()
+  tasks.value = (await listTasks()) || []
 }
 
-async function addTodo() {
-  try {
-    if (!task.value) {
-      toast({
-        title: 'Error',
-        description: 'task cant be null'
-      })
-      return
-    }
-    const data = {
-      completed: false,
-      title: task.value
-    }
+const handleError = (action: string, err: any) => {
+  toast({
+    description: `Failed to ${action}: ${err.message || 'Unknown error'}`,
+    title: 'Error'
+  })
+}
 
-    await createTask(data)
+const resetLoadingState = () => {
+  isSubmitting.value = {
+    add: false,
+    delete: false,
+    update: false
+  }
+  isSubmittingRecordId.value = ''
+}
+
+const addTodo = async () => {
+  if (!task.value.trim()) {
+    toast({ title: 'Error', description: "Task can't be empty" })
+    return
+  }
+
+  isSubmitting.value.add = true
+  try {
+    await createTask({ completed: false, title: task.value.trim() })
     await findTasks()
     task.value = ''
-    toast({
-      description: 'Todo added successfully'
-    })
-  } catch (err: any) {
-    toast({
-      description: `Failed to add todo: ${err.message || 'Unknown error'}`,
-      title: 'Error'
-    })
+    toast({ description: 'Todo added successfully' })
+  } catch (err) {
+    handleError('add todo', err)
+  } finally {
+    resetLoadingState()
   }
 }
 
-async function deleteTodo(id: string) {
+const deleteTodo = async (id: string) => {
+  isSubmitting.value.delete = true
+  isSubmittingRecordId.value = id
   try {
     await deleteTask(id)
     await findTasks()
-    toast({
-      description: 'Todo deleted successfully'
-    })
-  } catch (err: any) {
-    toast({
-      description: `Failed to delete todo: ${err.message || 'Unknown error'}`,
-      title: 'Error'
-    })
+    toast({ description: 'Todo deleted successfully' })
+  } catch (err) {
+    handleError('delete todo', err)
+  } finally {
+    resetLoadingState()
   }
 }
 
-async function toggleTodoStatus(task: Task) {
+const toggleTodoStatus = async (task: Task) => {
+  isSubmitting.value.update = true
+  isSubmittingRecordId.value = task.id || ''
   try {
+    task.completed = !task.completed
     await updateTask(task)
     await findTasks()
-    toast({
-      description: `Todo status updated to ${task.completed ? 'completed' : 'incomplete'}`
-    })
-  } catch (err: any) {
-    toast({
-      description: `Failed to update todo: ${err.message || 'Unknown error'}`,
-      title: 'Error'
-    })
+    toast({ description: `Todo status updated to ${task.completed ? 'completed' : 'incomplete'}` })
+  } catch (err) {
+    handleError('update todo status', err)
+  } finally {
+    resetLoadingState()
   }
 }
 
-function startEditing(id?: string) {
+const startEditing = (id?: string) => {
   const task = tasks.value.find((i) => i.id === id)
   if (task) task.isEditing = true
 }
 
-function stopEditing(id?: string) {
+const stopEditing = (id?: string) => {
   const task = tasks.value.find((i) => i.id === id)
   if (task) task.isEditing = false
 }
 
-async function updateTodoTitle(task: Task) {
+const updateTodoTitle = async (task: Task) => {
+  isSubmitting.value.update = true
+  isSubmittingRecordId.value = task.id || ''
   try {
     await updateTask(task)
     await findTasks()
-    toast({
-      description: 'Todo title updated successfully'
-    })
-  } catch (err: any) {
-    toast({
-      description: `Failed to update todo title: ${err.message || 'Unknown error'}`,
-      title: 'Error'
-    })
+    toast({ description: 'Todo title updated successfully' })
+  } catch (err) {
+    handleError('update todo title', err)
   } finally {
     stopEditing(task.id)
+    resetLoadingState()
   }
 }
 </script>
@@ -125,32 +133,33 @@ async function updateTodoTitle(task: Task) {
         type="text"
         id="add-todo"
         v-model="task"
-        @keydown.enter.exact.prevent="addTodo"
-        placeholder="what are you working on?"
+        @keydown.enter.prevent="addTodo"
+        placeholder="What are you working on?"
       />
-      <Button type="button" @click="addTodo"> Add </Button>
+      <Button type="button" @click="addTodo">
+        <ReloadIcon v-if="isSubmitting.add" class="w-4 h-4 mr-2 animate-spin" />
+        <span v-else>Add</span>
+      </Button>
     </div>
+
     <div v-if="!tasks.length">
-      <h2>no todos created yet</h2>
+      <h3>No todos added yet</h3>
     </div>
 
     <Table v-else class="lg:w-1/3">
       <TableCaption>Todos.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead class="w-[100px]"> Completed? </TableHead>
+          <TableHead>Completed?</TableHead>
           <TableHead>Title</TableHead>
-          <TableHead class="text-right"> </TableHead>
-          <TableHead class="text-right"> </TableHead>
+          <TableHead class="text-right"></TableHead>
+          <TableHead class="text-right"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         <TableRow v-for="todo in tasks" :key="todo.id">
           <TableCell>
-            <Checkbox
-              :checked="todo.completed"
-              @click="toggleTodoStatus({ ...todo, completed: !todo.completed })"
-            />
+            <Checkbox :checked="todo.completed" @click="toggleTodoStatus(todo)" />
           </TableCell>
           <TableCell class="cursor-pointer">
             <div v-if="todo.isEditing">
@@ -165,13 +174,27 @@ async function updateTodoTitle(task: Task) {
             </div>
           </TableCell>
           <TableCell class="text-right">
-            <Button variant="ghost" @click="startEditing(todo.id)">
-              <Pencil2Icon class="w-4 h-4" />
+            <Button
+              variant="ghost"
+              @click="!todo.isEditing ? startEditing(todo.id) : updateTodoTitle(todo)"
+            >
+              <ReloadIcon
+                class="w-4 h-4 mr-2 animate-spin"
+                v-if="isSubmitting.update && isSubmittingRecordId === todo.id"
+              />
+              <div v-else>
+                <Pencil1Icon class="w-5 h-5" v-if="!todo.isEditing" />
+                <CheckIcon class="w-5 h-5" v-else />
+              </div>
             </Button>
           </TableCell>
           <TableCell class="text-right">
             <Button variant="ghost" @click="deleteTodo(todo.id as string)">
-              <TrashIcon class="w-4 h-4" />
+              <ReloadIcon
+                class="w-4 h-4 mr-2 animate-spin"
+                v-if="isSubmitting.delete && isSubmittingRecordId === todo.id"
+              />
+              <TrashIcon class="w-5 h-5" v-else />
             </Button>
           </TableCell>
         </TableRow>

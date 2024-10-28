@@ -20,6 +20,13 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.ts',
+      devOptions: {
+        enabled: true,
+        navigateFallback: 'index.html',
+        suppressWarnings: false,
+        type: 'module'
+      },
+
       manifest: {
         name: 'DWA Starter',
         short_name: 'DWA Starter',
@@ -75,7 +82,11 @@ export default defineConfig({
       },
       injectManifest: {
         // Set the maximum file size for precaching (in bytes)
-        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024 // 10 MB
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024 // 10 MB,
+      },
+      pwaAssets: {
+        disabled: false,
+        config: true
       }
     })
   ],

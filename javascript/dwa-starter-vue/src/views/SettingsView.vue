@@ -3,6 +3,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { PersonIcon, ReloadIcon } from '@radix-icons/vue'
+import { useWeb5 } from '@/composables/web5'
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
@@ -14,7 +15,30 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast/use-toast'
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
+
+const { createDisplayName, loadDisplayName, createAvatarImage, loadAvatarImage } = useWeb5()
+
+onBeforeMount(() => {
+  loadProfileData()
+})
+
+const loadDisplayNameFromDRL = async () => {
+  name.value = (await loadDisplayName()) || ''
+}
+
+const loadAvatarImageFromDRL = async () => {
+  profileImageSrc.value = (await loadAvatarImage()) || ''
+}
+
+const loadProfileData = async () => {
+  try {
+    isSubmitting.value = true
+    await Promise.all([loadAvatarImageFromDRL(), loadDisplayNameFromDRL()])
+  } finally {
+    isSubmitting.value = false
+  }
+}
 
 const formSchema = toTypedSchema(
   z.object({
@@ -23,21 +47,28 @@ const formSchema = toTypedSchema(
 )
 
 const name = ref('')
-const profileImageBlob = ref<Blob | null>(null)
 const fileInputKey = ref(0)
-
 const profileImageSrc = ref('')
 
-const handleImageUpload = (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]
-  if (file) {
-    profileImageBlob.value = file
-    profileImageSrc.value = URL.createObjectURL(file)
+const handleImageUpload = async (event: any) => {
+  try {
+    isSubmitting.value = true
+    const file = event.target.files?.[0]
+    if (file) {
+      const blob = new Blob([file], { type: file.type })
+      await createAvatarImage(blob)
+      profileImageSrc.value = URL.createObjectURL(file)
+      toast({
+        title: 'Success',
+        description: `profile image updated`
+      })
+    }
+  } finally {
+    isSubmitting.value = false
   }
 }
 
-const clearImage = async () => {
-  profileImageBlob.value = null
+const clearImage = () => {
   profileImageSrc.value = ''
   fileInputKey.value++
 }
@@ -47,6 +78,7 @@ const { isFieldDirty, handleSubmit, isSubmitting } = useForm({
 })
 
 const onSubmit = handleSubmit(async (values) => {
+  await createDisplayName(values.name)
   name.value = values.name
   toast({
     title: 'Success',
