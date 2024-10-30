@@ -91,8 +91,8 @@ const onSubmit = handleSubmit(async (values) => {
   <div class="flex flex-col gap-4">
     <h1 id="region-id">Settings</h1>
 
-    <h2>Profile Settings</h2>
-    <form class="lg:w-1/3 w-full space-y-6" @submit.prevent="onSubmit">
+    <h2 id="profile-form-id">Profile Settings</h2>
+    <form class="lg:w-1/3 w-full space-y-6" aria-labelledby="profile-form-id" @submit.prevent="onSubmit">
       <img
         v-if="profileImageSrc"
         :src="profileImageSrc"
