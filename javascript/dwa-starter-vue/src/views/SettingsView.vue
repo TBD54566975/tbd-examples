@@ -89,7 +89,7 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <div class="flex flex-col gap-4">
-    <h1>Settings</h1>
+    <h1 id="region-id">Settings</h1>
 
     <h2>Profile Settings</h2>
     <form class="lg:w-1/3 w-full space-y-6" @submit.prevent="onSubmit">
