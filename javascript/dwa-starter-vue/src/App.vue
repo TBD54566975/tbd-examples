@@ -9,7 +9,7 @@ import Sidebar from '@/components/Sidebar.vue'
       <Sidebar />
     </header>
 
-    <main class="p-4 lg:h-screen overflow-y-auto flex flex-col w-full">
+    <main class="p-4 lg:h-screen overflow-y-auto flex flex-col w-full" aria-labelledby="region-id">
       <RouterView />
     </main>
   </div>

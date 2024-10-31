@@ -89,10 +89,10 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <div class="flex flex-col gap-4">
-    <h1>Settings</h1>
+    <h1 id="region-id">Settings</h1>
 
-    <h2>Profile Settings</h2>
-    <form class="lg:w-1/3 w-full space-y-6" @submit.prevent="onSubmit">
+    <h2 id="profile-form-id">Profile Settings</h2>
+    <form class="lg:w-1/3 w-full space-y-6" aria-labelledby="profile-form-id" @submit.prevent="onSubmit">
       <img
         v-if="profileImageSrc"
         :src="profileImageSrc"
@@ -104,8 +104,8 @@ const onSubmit = handleSubmit(async (values) => {
       <FormField name="profileImage" class="w-full">
         <FormItem>
           <FormLabel>Profile Image</FormLabel>
-          <FormControl>
-            <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2">
+            <FormControl>
               <Input
                 type="file"
                 accept="image/*"
@@ -114,8 +114,8 @@ const onSubmit = handleSubmit(async (values) => {
                 :key="fileInputKey"
               />
               <Button type="button" @click="clearImage" v-if="profileImageSrc">Clear Image</Button>
-            </div>
-          </FormControl>
+            </FormControl>
+          </div>
           <FormDescription>Upload your profile image.</FormDescription>
           <FormMessage />
         </FormItem>
@@ -133,7 +133,8 @@ const onSubmit = handleSubmit(async (values) => {
       </FormField>
 
       <Button type="submit" :disabled="isSubmitting">
-        <ReloadIcon v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
+        <ReloadIcon v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin"  />
+        <span v-if="isSubmitting" class="sr-only">Submitting your changes</span>
         <span v-else>Save</span>
       </Button>
     </form>
