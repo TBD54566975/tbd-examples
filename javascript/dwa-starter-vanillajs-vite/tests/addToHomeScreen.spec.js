@@ -7,6 +7,8 @@ test("Add To Home Screen prompt should appear when eligible", async ({
   await page.goto("http://localhost:5173");
 
   // Check if the manifest is available (this ensures the app is PWA-ready)
+
+  await page.waitForLoadState("networkidle"); // Wait until the page is stable
   const manifest = await page.evaluate(() => {
     return !!document.querySelector('link[rel="manifest"]');
   });

@@ -8,6 +8,7 @@ test("App should load and function offline", async ({ page, context }) => {
 
   // Enable offline mode
   await context.setOffline(true);
+  await page.waitForLoadState("networkidle"); // Wait until the page is stable
 
   // Confirm that offline content is accessible
   const pageContent = await page.evaluate(() => document.body.innerText);
