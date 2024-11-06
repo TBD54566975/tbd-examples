@@ -14,7 +14,7 @@
     "@heroicons/vue": "1.0.6",
     "@noble/ed25519": "2.1.0",
     "@vueuse/core": "11.2.0",
-    "@web5/api": "0.11.0",
+    "@web5/api": "0.12.0",
     "multiformats": "13.3.1",
     "uuid": "10.0.0",
     "varint": "6.0.0",
