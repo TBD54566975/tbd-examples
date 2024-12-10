@@ -10,11 +10,11 @@ importers:
     dependencies:
       '@serwist/next':
         specifier: ^9.0.9
-        version: 9.0.9(next@15.0.2(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+        version: 9.0.9(next@15.0.2(@playwright/test@1.49.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
     devDependencies:
       '@playwright/test':
-        specifier: ^1.47.2
-        version: 1.48.2
+        specifier: ^1.49.1
+        version: 1.49.1
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.47)
@@ -22,8 +22,8 @@ importers:
         specifier: ^25.0.1
         version: 25.0.1
       playwright:
-        specifier: ^1.47.2
-        version: 1.48.2
+        specifier: ^1.49.1
+        version: 1.49.1
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
@@ -381,8 +381,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@playwright/test@1.48.2':
-    resolution: {integrity: sha512-54w1xCWfXuax7dz4W2M9uw0gDyh+ti/0K/MxcCUxChFh37kkdxPdfZDw5QBbuPUJHr1CiHJ1hXgSs+GgeQc5Zw==}
+  '@playwright/test@1.49.1':
+    resolution: {integrity: sha512-Ky+BVzPz8pL6PQxHqNRW1k3mIyv933LML7HktS8uik0bUXNCdPhoS/kLihiO1tMf/egaJb4IutXd7UywvXEW+g==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -623,6 +623,9 @@ packages:
 
   caniuse-lite@1.0.30001667:
     resolution: {integrity: sha512-7LTwJjcRkzKFmtqGsibMeuXmvFDfZq/nzIjnmgCGzKKRVzjD72selLDK1oPF/Oxzmt4fNcPvTDvGqSDG4tCALw==}
+
+  caniuse-lite@1.0.30001687:
+    resolution: {integrity: sha512-0S/FDhf4ZiqrTUiQ39dKeUjYRjkv7lOZU1Dgif2rIqrTzX/1wV2hfKu9TOm1IHkdSijfLswxTFzl/cvir+SLSQ==}
 
   chai@5.1.2:
     resolution: {integrity: sha512-aGtmf24DW6MLHHG5gCx4zaI3uBq3KRtxeVs0DjFH6Z0rDNbsvTxFASFvdj79pxjxZ8/5u3PIiN3IwEIQkiiuPw==}
@@ -932,6 +935,11 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  nanoid@3.3.8:
+    resolution: {integrity: sha512-WNLf5Sd8oZxOm+TzppcYk8gVOgP+l58xNy58D0nbUnOxOWRWvlcCV4kUF7ltmI6PsrLl/BgKEyS4mqsGChFN0w==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
   next@15.0.2:
     resolution: {integrity: sha512-rxIWHcAu4gGSDmwsELXacqAPUk+j8dV/A9cDF5fsiCMpkBDYkO2AEaL1dfD+nNmDiU6QMCFN8Q30VEKapT9UHQ==}
     engines: {node: '>=18.18.0'}
@@ -1017,13 +1025,13 @@ packages:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
     engines: {node: '>= 6'}
 
-  playwright-core@1.48.2:
-    resolution: {integrity: sha512-sjjw+qrLFlriJo64du+EK0kJgZzoQPsabGF4lBvsid+3CNIZIYLgnMj9V6JY5VhM2Peh20DJWIVpVljLLnlawA==}
+  playwright-core@1.49.1:
+    resolution: {integrity: sha512-BzmpVcs4kE2CH15rWfzpjzVGhWERJfmnXmniSyKeRZUs9Ws65m+RGIi7mjJK/euCegfn3i7jvqWeWyHe9y3Vgg==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.48.2:
-    resolution: {integrity: sha512-NjYvYgp4BPmiwfe31j4gHLa3J7bD2WiBz8Lk2RoSsmX38SVIARZ18VYjxLjAcDsAhA+F4iSEXTSGgjua0rrlgQ==}
+  playwright@1.49.1:
+    resolution: {integrity: sha512-VYL8zLoNTBxVOrJBbDuRgDWa3i+mfQgDTrL8Ah9QXZ7ax4Dsj0MSq5bYgytRnDVVe+njoKnfsYkH3HzqVj5UZA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1641,9 +1649,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@playwright/test@1.48.2':
+  '@playwright/test@1.49.1':
     dependencies:
-      playwright: 1.48.2
+      playwright: 1.49.1
 
   '@rollup/rollup-android-arm-eabi@4.24.0':
     optional: true
@@ -1701,14 +1709,14 @@ snapshots:
       source-map: 0.8.0-beta.0
       zod: 3.23.8
 
-  '@serwist/next@9.0.9(next@15.0.2(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
+  '@serwist/next@9.0.9(next@15.0.2(@playwright/test@1.49.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
     dependencies:
       '@serwist/build': 9.0.9
       '@serwist/webpack-plugin': 9.0.9
       '@serwist/window': 9.0.9
       chalk: 5.3.0
       glob: 10.4.5
-      next: 15.0.2(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      next: 15.0.2(@playwright/test@1.49.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       serwist: 9.0.9
       zod: 3.23.8
     transitivePeerDependencies:
@@ -1842,6 +1850,8 @@ snapshots:
   camelcase-css@2.0.1: {}
 
   caniuse-lite@1.0.30001667: {}
+
+  caniuse-lite@1.0.30001687: {}
 
   chai@5.1.2:
     dependencies:
@@ -2167,13 +2177,15 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  next@15.0.2(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  nanoid@3.3.8: {}
+
+  next@15.0.2(@playwright/test@1.49.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@next/env': 15.0.2
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.13
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001667
+      caniuse-lite: 1.0.30001687
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -2187,7 +2199,7 @@ snapshots:
       '@next/swc-linux-x64-musl': 15.0.2
       '@next/swc-win32-arm64-msvc': 15.0.2
       '@next/swc-win32-x64-msvc': 15.0.2
-      '@playwright/test': 1.48.2
+      '@playwright/test': 1.49.1
       sharp: 0.33.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -2234,11 +2246,11 @@ snapshots:
 
   pirates@4.0.6: {}
 
-  playwright-core@1.48.2: {}
+  playwright-core@1.49.1: {}
 
-  playwright@1.48.2:
+  playwright@1.49.1:
     dependencies:
-      playwright-core: 1.48.2
+      playwright-core: 1.49.1
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -2275,7 +2287,7 @@ snapshots:
 
   postcss@8.4.31:
     dependencies:
-      nanoid: 3.3.7
+      nanoid: 3.3.8
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
